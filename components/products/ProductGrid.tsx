@@ -9,36 +9,44 @@ interface ProductGridProps {
   onProductClick: (product: Product) => void;
 }
 
+const SECTION_STYLE: React.CSSProperties = {
+  maxWidth: 1280,
+  margin: '0 auto',
+  paddingLeft: 'clamp(20px, 5vw, 72px)',
+  paddingRight: 'clamp(20px, 5vw, 72px)',
+  paddingTop: 80,
+  paddingBottom: 100,
+};
+
 export default function ProductGrid({ onProductClick }: ProductGridProps) {
   return (
-    <div className="w-full">
-      <section id="catalog" className="max-w-7xl mx-auto px-6 md:px-12 py-20 md:py-28">
+    <div style={{ width: '100%' }}>
+      <section id="catalog" style={SECTION_STYLE}>
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-14 md:mb-20 flex flex-col md:flex-row md:items-end md:justify-between gap-4"
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] }}
+          style={{ marginBottom: 64, display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 32, flexWrap: 'wrap' }}
         >
           <div>
-            <p className="text-[11px] tracking-[0.35em] uppercase mb-3" style={{ color: '#8A8A8A' }}>
+            <p style={{ fontSize: 11, letterSpacing: '0.35em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>
               The Collection
             </p>
-            <h2 className="font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.05]" style={{ color: '#1C1C1C' }}>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(2.2rem, 5vw, 4rem)', color: '#1C1C1C', lineHeight: 1.05 }}>
               Curated Arrangements
             </h2>
           </div>
-          <p className="text-[13px] leading-relaxed max-w-xs md:text-right" style={{ color: '#8A8A8A' }}>
-            Each piece is hand-composed by our master florists using only the finest seasonal blooms
-            sourced from the world&apos;s finest farms.
+          <p style={{ fontSize: 13, color: '#8A8A8A', lineHeight: 1.7, maxWidth: 300, textAlign: 'right' }}>
+            Each piece is hand-composed by our master florists using only the finest seasonal blooms sourced from the world&apos;s finest farms.
           </p>
         </motion.div>
 
         {/* Masonry grid */}
-        <div className="w-full columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:space-y-8">
+        <div style={{ columns: 3, columnGap: 24 }} className="masonry-grid">
           {products.map((product, i) => (
-            <div key={product.id} className="break-inside-avoid">
+            <div key={product.id} style={{ breakInside: 'avoid', marginBottom: 24 }}>
               <ProductCard product={product} index={i} onClick={onProductClick} />
             </div>
           ))}

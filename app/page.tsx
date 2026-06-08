@@ -42,10 +42,21 @@ export default function HomePage() {
       <ProductGrid onProductClick={setSelectedProduct} />
 
       {/* "About" editorial section */}
-      <div className="w-full">
+      <div style={{ width: '100%' }}>
         <section
           id="about"
-          className="max-w-7xl mx-auto px-6 md:px-12 py-20 md:py-32 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center"
+          style={{
+            maxWidth: 1280,
+            margin: '0 auto',
+            paddingLeft: 'clamp(20px, 5vw, 72px)',
+            paddingRight: 'clamp(20px, 5vw, 72px)',
+            paddingTop: 80,
+            paddingBottom: 100,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: 80,
+            alignItems: 'center',
+          }}
         >
           {/* Image */}
           <motion.div

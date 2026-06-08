@@ -1,79 +1,64 @@
+'use client';
+
+const CONTAINER: React.CSSProperties = {
+
+  maxWidth: 1280,
+  margin: '0 auto',
+  paddingLeft: 'clamp(20px, 5vw, 72px)',
+  paddingRight: 'clamp(20px, 5vw, 72px)',
+};
+
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[#E5E5E5] mt-24 md:mt-36">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-6">
+    <footer style={{ borderTop: '1px solid #E5E5E5', marginTop: 80, width: '100%' }}>
+      <div style={{ ...CONTAINER, paddingTop: 72, paddingBottom: 72, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 48 }}>
         {/* Brand */}
-        <div className="flex flex-col gap-4">
-          <div className="leading-none">
-            <p className="font-serif text-xl tracking-[0.14em] text-graphite">MOTHER</p>
-            <p className="text-[10px] tracking-[0.4em] text-muted uppercase mt-[-2px]">of flower</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div style={{ lineHeight: 1 }}>
+            <p style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 20, letterSpacing: '0.14em', color: '#1C1C1C' }}>MOTHER</p>
+            <p style={{ fontSize: 10, letterSpacing: '0.4em', color: '#8A8A8A', textTransform: 'uppercase', marginTop: -2 }}>of flower</p>
           </div>
-          <p className="text-[13px] text-muted leading-relaxed max-w-xs">
+          <p style={{ fontSize: 13, color: '#8A8A8A', lineHeight: 1.7, maxWidth: 280 }}>
             Luxury floral artistry, curated for extraordinary moments. Delivered across the UAE.
           </p>
         </div>
 
         {/* Links */}
-        <div className="flex flex-col gap-3 md:items-center">
-          <p className="text-[11px] tracking-[0.2em] uppercase text-muted mb-2">Explore</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
+          <p style={{ fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 8 }}>Explore</p>
           {['Collections', 'Occasions', 'About Us', 'FAQ', 'Care Guide'].map((item) => (
-            <a
-              key={item}
-              href="#"
-              className="text-[13px] text-graphite/60 hover:text-graphite transition-colors duration-300"
-            >
-              {item}
-            </a>
+            <a key={item} href="#" style={{ fontSize: 13, color: '#8A8A8A', textDecoration: 'none', transition: 'color 0.3s' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#1C1C1C')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#8A8A8A')}
+            >{item}</a>
           ))}
         </div>
 
         {/* Contact */}
-        <div className="flex flex-col gap-3 md:items-end">
-          <p className="text-[11px] tracking-[0.2em] uppercase text-muted mb-2">Get in Touch</p>
-          <a
-            href="mailto:hello@motherofflower.com"
-            className="text-[13px] text-graphite/60 hover:text-graphite transition-colors duration-300"
-          >
-            hello@motherofflower.com
-          </a>
-          <a
-            href="tel:+97145551234"
-            className="text-[13px] text-graphite/60 hover:text-graphite transition-colors duration-300"
-          >
-            +971 4 555 1234
-          </a>
-          <p className="text-[13px] text-graphite/60">Dubai, United Arab Emirates</p>
-
-          <div className="flex gap-4 mt-2">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-end' }}>
+          <p style={{ fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 8 }}>Get in Touch</p>
+          <a href="mailto:hello@motherofflower.com" style={{ fontSize: 13, color: '#8A8A8A', textDecoration: 'none' }}>hello@motherofflower.com</a>
+          <a href="tel:+97145551234" style={{ fontSize: 13, color: '#8A8A8A', textDecoration: 'none' }}>+971 4 555 1234</a>
+          <p style={{ fontSize: 13, color: '#8A8A8A' }}>Dubai, United Arab Emirates</p>
+          <div style={{ display: 'flex', gap: 16, marginTop: 8 }}>
             {['Instagram', 'Pinterest', 'TikTok'].map((s) => (
-              <a
-                key={s}
-                href="#"
-                className="text-[11px] tracking-[0.1em] uppercase text-muted hover:text-graphite transition-colors duration-300"
-              >
-                {s}
-              </a>
+              <a key={s} href="#" style={{ fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8A8A8A', textDecoration: 'none' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#1C1C1C')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#8A8A8A')}
+              >{s}</a>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="border-t border-[#E5E5E5]">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-5 flex flex-col md:flex-row items-center justify-between gap-2">
-          <p className="text-[11px] text-muted tracking-[0.05em]">
-            © {year} MotherOfFlower. All rights reserved.
-          </p>
-          <div className="flex gap-6">
+      <div style={{ borderTop: '1px solid #E5E5E5' }}>
+        <div style={{ ...CONTAINER, paddingTop: 20, paddingBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+          <p style={{ fontSize: 11, color: '#8A8A8A', letterSpacing: '0.05em' }}>© {year} MotherOfFlower. All rights reserved.</p>
+          <div style={{ display: 'flex', gap: 24 }}>
             {['Privacy Policy', 'Terms', 'Shipping & Returns'].map((item) => (
-              <a
-                key={item}
-                href="#"
-                className="text-[11px] text-muted hover:text-graphite transition-colors duration-300"
-              >
-                {item}
-              </a>
+              <a key={item} href="#" style={{ fontSize: 11, color: '#8A8A8A', textDecoration: 'none' }}>{item}</a>
             ))}
           </div>
         </div>
