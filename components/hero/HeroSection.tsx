@@ -67,7 +67,7 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.1 }}
             style={{ fontSize: 11, letterSpacing: '0.35em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 40 }}
           >
-            Custom Floral Artistry · Dubai
+            Custom Floral Artistry · Las Vegas
           </motion.p>
 
           <motion.div
@@ -103,7 +103,7 @@ export default function HeroSection() {
             transition={{ duration: 0.7, delay: 0.9 }}
             style={{ marginTop: 40, fontSize: 14, color: '#8A8A8A', lineHeight: 1.8, maxWidth: 340 }}
           >
-            Seasonal blooms, artfully composed. Delivered to your door across the UAE within hours.
+            Seasonal blooms, artfully composed. Delivered to your door across Nevada and beyond.
           </motion.p>
 
           <motion.a

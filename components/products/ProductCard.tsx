@@ -54,7 +54,7 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
             {product.name}
           </h3>
           <p className="font-sans text-[13px] text-muted whitespace-nowrap mt-0.5">
-            {product.currency} {product.price.toLocaleString()}
+            ${product.price.toLocaleString()}
           </p>
         </div>
         <p className="mt-1 text-[12px] tracking-[0.04em] text-muted/80">{product.tagline}</p>

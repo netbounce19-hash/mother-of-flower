@@ -30,7 +30,7 @@ export default function HomePage() {
               <span className="text-[#C9A96E]">✦</span>
               <span>Sustainably Sourced</span>
               <span className="text-[#C9A96E]">✦</span>
-              <span>Handcrafted in Dubai</span>
+              <span>Handcrafted in Las Vegas</span>
               <span className="text-[#C9A96E]">✦</span>
               <span>Gift Wrapping Available</span>
               <span className="text-[#C9A96E]">✦</span>
@@ -100,7 +100,7 @@ export default function HomePage() {
             </p>
             <p className="text-[14px] leading-relaxed" style={{ color: '#8A8A8A' }}>
               Our master florists source only the finest seasonal blooms from the Netherlands,
-              Ecuador, and Kenya, combining them into arrangements that feel effortlessly alive.
+              Ecuador, and Colombia, combining them into arrangements that feel effortlessly alive.
               Every piece leaves our studio having been touched only by hand.
             </p>
             <a

@@ -80,7 +80,7 @@ export default function Navbar({ cartCount = 0 }: { cartCount?: number }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             {/* Order a Call */}
             <a
-              href="tel:+97145551234"
+              href="tel:+17252242454"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
                 padding: '8px 16px',

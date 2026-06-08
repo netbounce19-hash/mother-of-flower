@@ -21,7 +21,7 @@ export default function Footer() {
             <p style={{ fontSize: 10, letterSpacing: '0.4em', color: '#8A8A8A', textTransform: 'uppercase', marginTop: -2 }}>of flower</p>
           </div>
           <p style={{ fontSize: 13, color: '#8A8A8A', lineHeight: 1.7, maxWidth: 280 }}>
-            Luxury floral artistry, curated for extraordinary moments. Delivered across the UAE.
+            Luxury floral artistry, curated for extraordinary moments. Delivered across Las Vegas and the US.
           </p>
         </div>
 
@@ -39,9 +39,9 @@ export default function Footer() {
         {/* Contact */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-end' }}>
           <p style={{ fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 8 }}>Get in Touch</p>
-          <a href="mailto:hello@motherofflower.com" style={{ fontSize: 13, color: '#8A8A8A', textDecoration: 'none' }}>hello@motherofflower.com</a>
-          <a href="tel:+97145551234" style={{ fontSize: 13, color: '#8A8A8A', textDecoration: 'none' }}>+971 4 555 1234</a>
-          <p style={{ fontSize: 13, color: '#8A8A8A' }}>Dubai, United Arab Emirates</p>
+          <a href="mailto:info@motherofflower.com" style={{ fontSize: 13, color: '#8A8A8A', textDecoration: 'none' }}>info@motherofflower.com</a>
+          <a href="tel:+17252242454" style={{ fontSize: 13, color: '#8A8A8A', textDecoration: 'none' }}>+1 (725) 224-2454</a>
+          <p style={{ fontSize: 13, color: '#8A8A8A' }}>Las Vegas, Nevada, USA</p>
           <div style={{ display: 'flex', gap: 16, marginTop: 8 }}>
             {['Instagram', 'Pinterest', 'TikTok'].map((s) => (
               <a key={s} href="#" style={{ fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8A8A8A', textDecoration: 'none' }}

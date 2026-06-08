@@ -4,21 +4,21 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
-  title: 'MotherOfFlower — Luxury Floral Artistry, Dubai',
+  title: 'MotherOfFlower — Luxury Floral Artistry, Las Vegas',
   description:
-    'Curated luxury flower arrangements delivered across the UAE. Discover seasonal bouquets composed by master florists from the finest blooms worldwide.',
-  keywords: ['luxury flowers', 'Dubai florist', 'flower delivery UAE', 'premium bouquets'],
+    'Curated luxury flower arrangements delivered across Las Vegas and the US. Discover seasonal bouquets composed by master florists from the finest blooms worldwide.',
+  keywords: ['luxury flowers', 'Las Vegas florist', 'flower delivery Las Vegas', 'premium bouquets'],
   openGraph: {
-    title: 'MotherOfFlower — Luxury Floral Artistry, Dubai',
-    description: 'Curated luxury flower arrangements delivered across the UAE.',
+    title: 'MotherOfFlower — Luxury Floral Artistry, Las Vegas',
+    description: 'Curated luxury flower arrangements delivered across Las Vegas.',
     type: 'website',
-    locale: 'en_AE',
+    locale: 'en_US',
     siteName: 'MotherOfFlower',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'MotherOfFlower — Luxury Floral Artistry, Dubai',
-    description: 'Curated luxury flower arrangements delivered across the UAE.',
+    title: 'MotherOfFlower — Luxury Floral Artistry, Las Vegas',
+    description: 'Curated luxury flower arrangements delivered across Las Vegas.',
   },
 };
 
