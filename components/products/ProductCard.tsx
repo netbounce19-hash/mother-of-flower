@@ -1,6 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Heart, ShoppingBag } from 'lucide-react';
 import { Product } from '@/types';
 
 interface ProductCardProps {
@@ -10,6 +12,9 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, index, onClick }: ProductCardProps) {
+  const [liked, setLiked] = useState(false);
+  const [added, setAdded] = useState(false);
+
   const heightClass =
     product.aspectClass === 'tall'
       ? 'h-[340px] md:h-[420px]'
@@ -49,15 +54,32 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
 
       {/* Info */}
       <div className="mt-4 px-1">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="font-serif text-[17px] md:text-[19px] text-graphite leading-tight group-hover:opacity-70 transition-opacity duration-300">
+        <div className="flex items-center justify-between gap-4">
+          <h3 className="font-sans text-[13px] md:text-[14px] font-semibold tracking-wider uppercase text-graphite leading-tight group-hover:opacity-70 transition-opacity duration-300">
             {product.name}
           </h3>
-          <p className="font-sans text-[13px] text-muted whitespace-nowrap mt-0.5">
-            ${product.price.toLocaleString()}
-          </p>
+          <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+            {/* Bag Icon */}
+            <button
+              onClick={() => setAdded(!added)}
+              className="p-1 hover:text-[#C9A96E] transition-colors duration-200"
+              style={{ color: added ? '#C9A96E' : '#1C1C1C' }}
+            >
+              <ShoppingBag size={15} strokeWidth={1.8} />
+            </button>
+            {/* Heart Icon */}
+            <button
+              onClick={() => setLiked(!liked)}
+              className="p-1 hover:text-[#E02424] transition-colors duration-200"
+              style={{ color: liked ? '#E02424' : '#1C1C1C' }}
+            >
+              <Heart size={15} fill={liked ? '#E02424' : 'none'} strokeWidth={1.8} />
+            </button>
+          </div>
         </div>
-        <p className="mt-1 text-[12px] tracking-[0.04em] text-muted/80">{product.tagline}</p>
+        <p className="font-sans text-[15px] font-bold text-graphite mt-1.5">
+          ${product.price.toLocaleString()}
+        </p>
       </div>
     </motion.article>
   );
