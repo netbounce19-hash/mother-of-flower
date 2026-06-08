@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import HeroSection from '@/components/hero/HeroSection';
 import ProductGrid from '@/components/products/ProductGrid';
 import ProductModal from '@/components/products/ProductModal';
+import InstagramReels from '@/components/social/InstagramReels';
 import { Product } from '@/types';
 
 export default function HomePage() {
@@ -113,6 +114,9 @@ export default function HomePage() {
           </motion.div>
         </section>
       </div>
+
+      {/* Instagram Reels */}
+      <InstagramReels />
 
       {/* Product Modal */}
       <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />

@@ -163,7 +163,7 @@ export default function Navbar({ cartCount = 0 }: { cartCount?: number }) {
                 </motion.a>
               ))}
               <motion.a
-                href="tel:+97145551234"
+                href="tel:+17252242454"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: navLinks.length * 0.08, duration: 0.4 }}
