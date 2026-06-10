@@ -51,7 +51,7 @@ export default function HeroSection() {
           variants={lineVariants}
           style={{
             fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: 'clamp(4rem, 9vw, 11rem)',
+            fontSize: 'clamp(2.5rem, 6vw, 7rem)',
             fontWeight: 400,
             color: '#2D1E23', // Darker font as requested
             lineHeight: 0.9,
@@ -66,7 +66,7 @@ export default function HeroSection() {
           variants={lineVariants}
           style={{
             fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: 'clamp(4rem, 9vw, 11rem)',
+            fontSize: 'clamp(2.5rem, 6vw, 7rem)',
             fontWeight: 400,
             color: '#2D1E23', // Darker font
             lineHeight: 0.9,
