@@ -49,6 +49,12 @@ export default function HeroSection() {
       >
         <motion.h1
           variants={lineVariants}
+          whileHover={{ 
+            letterSpacing: '0.23em', 
+            scale: 1.02,
+            color: '#9D5C69',
+            x: 10
+          }}
           style={{
             fontFamily: "'Cormorant Garamond', Georgia, serif",
             fontSize: 'clamp(2.5rem, 6vw, 7rem)',
@@ -58,12 +64,20 @@ export default function HeroSection() {
             letterSpacing: '0.2em', // Wide tracking like the reference
             textTransform: 'uppercase',
             whiteSpace: 'nowrap',
+            cursor: 'default',
+            originX: 0
           }}
         >
           MOTHER
         </motion.h1>
         <motion.h1
           variants={lineVariants}
+          whileHover={{ 
+            letterSpacing: '0.23em', 
+            scale: 1.02,
+            color: '#9D5C69',
+            x: 10
+          }}
           style={{
             fontFamily: "'Cormorant Garamond', Georgia, serif",
             fontSize: 'clamp(2.5rem, 6vw, 7rem)',
@@ -73,6 +87,8 @@ export default function HeroSection() {
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
             whiteSpace: 'nowrap',
+            cursor: 'default',
+            originX: 0
           }}
         >
           OF FLOWER
