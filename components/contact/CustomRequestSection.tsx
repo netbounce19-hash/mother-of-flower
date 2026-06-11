@@ -67,33 +67,33 @@ export default function CustomRequestSection() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeUp}
-            className="bg-[#FDFDFD] p-10 md:p-16 shadow-[0_20px_60px_rgba(0,0,0,0.03)] rounded-[2px]"
+            className="flex flex-col justify-center"
           >
-            <form className="flex flex-col gap-8" onSubmit={(e) => e.preventDefault()}>
+            <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="flex flex-col gap-2">
-                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#8A8A8A] font-medium">Full Name</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col gap-1">
+                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#5A5A5A] font-medium">Full Name</label>
                   <input 
                     type="text" 
                     placeholder="Jane Doe" 
-                    className="w-full bg-transparent border-b border-[#E5E5E5] py-3 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#D1D1D1] transition-colors"
+                    className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors rounded-none"
                   />
                 </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#8A8A8A] font-medium">Phone or Email</label>
+                <div className="flex flex-col gap-1">
+                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#5A5A5A] font-medium">Phone or Email</label>
                   <input 
                     type="text" 
                     placeholder="contact@example.com" 
-                    className="w-full bg-transparent border-b border-[#E5E5E5] py-3 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#D1D1D1] transition-colors"
+                    className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors rounded-none"
                   />
                 </div>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <label className="text-[10px] tracking-[0.15em] uppercase text-[#8A8A8A] font-medium">Inquiry Type</label>
+              <div className="flex flex-col gap-1">
+                <label className="text-[10px] tracking-[0.15em] uppercase text-[#5A5A5A] font-medium">Inquiry Type</label>
                 <div className="relative">
-                  <select className="w-full bg-transparent border-b border-[#E5E5E5] py-3 text-[14px] text-[#1C1C1C] appearance-none focus:outline-none focus:border-[#1C1C1C] hover:border-[#D1D1D1] transition-colors cursor-pointer rounded-none">
+                  <select className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] appearance-none focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors cursor-pointer rounded-none">
                     <option value="" disabled selected hidden className="text-[#A3A3A3]">Select type...</option>
                     <option>Custom Bouquet</option>
                     <option>Wedding & Bridal</option>
@@ -101,49 +101,66 @@ export default function CustomRequestSection() {
                     <option>Residential / Hotel Styling</option>
                     <option>Other</option>
                   </select>
-                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[#8A8A8A] pointer-events-none text-[10px]">▼</span>
+                  <span className="absolute right-0 top-1/2 -translate-y-1/2 text-[#8A8A8A] pointer-events-none text-[10px]">▼</span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="flex flex-col gap-2">
-                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#8A8A8A] font-medium">Date of Event / Delivery</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col gap-1">
+                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#5A5A5A] font-medium">Date of Event / Delivery</label>
                   <input 
                     type="text" 
                     placeholder="DD.MM.YYYY"
-                    className="w-full bg-transparent border-b border-[#E5E5E5] py-3 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#D1D1D1] transition-colors"
+                    className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors rounded-none"
                   />
                 </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#8A8A8A] font-medium">Estimated Budget</label>
+                <div className="flex flex-col gap-1">
+                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#5A5A5A] font-medium">Estimated Budget</label>
                   <div className="relative">
-                    <select className="w-full bg-transparent border-b border-[#E5E5E5] py-3 text-[14px] text-[#1C1C1C] appearance-none focus:outline-none focus:border-[#1C1C1C] hover:border-[#D1D1D1] transition-colors cursor-pointer rounded-none">
+                    <select className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] appearance-none focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors cursor-pointer rounded-none">
                       <option value="" disabled selected hidden className="text-[#A3A3A3]">Select budget...</option>
                       <option>$100 - $300</option>
                       <option>$300 - $1000</option>
                       <option>$1000 - $5000</option>
                       <option>$5000+</option>
                     </select>
-                    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[#8A8A8A] pointer-events-none text-[10px]">▼</span>
+                    <span className="absolute right-0 top-1/2 -translate-y-1/2 text-[#8A8A8A] pointer-events-none text-[10px]">▼</span>
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <label className="text-[10px] tracking-[0.15em] uppercase text-[#8A8A8A] font-medium">Your Vision / Details</label>
+              <div className="flex flex-col gap-1">
+                <label className="text-[10px] tracking-[0.15em] uppercase text-[#5A5A5A] font-medium">Your Vision / Details</label>
                 <textarea 
                   placeholder="Tell us about the occasion, preferred colors, or specific flowers..." 
-                  rows={4}
-                  className="w-full bg-transparent border-b border-[#E5E5E5] py-3 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#D1D1D1] transition-colors resize-none"
+                  rows={3}
+                  className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors resize-none rounded-none"
                 />
               </div>
 
-              <button
-                type="button"
-                className="mt-6 w-full py-4 text-[11px] tracking-[0.2em] uppercase text-[#FDFDFD] bg-[#1C1C1C] hover:bg-[#C9A96E] transition-colors duration-300"
-              >
-                Submit Request
-              </button>
+              <div className="mt-2">
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center transition-all duration-300 w-fit"
+                  style={{ 
+                    backgroundColor: '#1C1C1C', 
+                    color: '#FDFDFD',
+                    padding: '16px 48px',
+                    fontSize: '11px',
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    fontWeight: 500
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#C9A96E';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#1C1C1C';
+                  }}
+                >
+                  Submit Request
+                </button>
+              </div>
 
             </form>
           </motion.div>

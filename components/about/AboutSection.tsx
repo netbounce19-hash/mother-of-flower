@@ -45,7 +45,7 @@ export default function AboutSection() {
               style={{ height: '14%' }}
             >
               <a 
-                href="https://instagram.com" 
+                href="https://www.instagram.com/mother_of_flower/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-[10px] md:text-[11px] tracking-[0.2em] uppercase text-[#8A8A8A] hover:text-[#1C1C1C] transition-colors pb-1 border-b border-[#8A8A8A]/30 hover:border-[#1C1C1C]"
