@@ -112,22 +112,19 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
           {/* Modal */}
           <motion.div
             key="hint-panel"
-            initial={{ opacity: 0, scale: 0.96, y: 16 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.97, y: 10 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] }}
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             style={{
               position: 'fixed',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
+              top: 0,
+              right: 0,
+              bottom: 0,
               zIndex: 110,
-              width: 'min(520px, calc(100vw - 32px))',
-              maxHeight: 'calc(100dvh - 48px)',
+              width: 'min(480px, 100vw)',
               backgroundColor: '#FDFDFD',
-              borderRadius: 16,
-              boxShadow: '0 25px 60px rgba(0,0,0,0.15)',
-              overflow: 'hidden',
+              boxShadow: '-10px 0 40px rgba(0,0,0,0.1)',
               display: 'flex',
               flexDirection: 'column',
             }}

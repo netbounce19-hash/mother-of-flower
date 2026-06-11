@@ -43,12 +43,10 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
           </p>
         </motion.div>
 
-        {/* Masonry grid */}
-        <div style={{ columns: 3, columnGap: 24 }} className="masonry-grid">
+        {/* Uniform grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '40px' }}>
           {products.map((product, i) => (
-            <div key={product.id} style={{ breakInside: 'avoid', marginBottom: 24 }}>
-              <ProductCard product={product} index={i} onClick={onProductClick} />
-            </div>
+            <ProductCard key={product.id} product={product} index={i} onClick={onProductClick} />
           ))}
         </div>
       </section>

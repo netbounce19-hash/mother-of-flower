@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, X, Menu, Phone } from 'lucide-react';
+import { useCart } from '@/contexts/CartContext';
 
 const navLinks = [
   { label: 'Collections', href: '#catalog' },
@@ -22,9 +23,10 @@ const CONTAINER: React.CSSProperties = {
   justifyContent: 'space-between',
 };
 
-export default function Navbar({ cartCount = 0 }: { cartCount?: number }) {
+export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { cartCount, setIsCartOpen } = useCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -107,6 +109,7 @@ export default function Navbar({ cartCount = 0 }: { cartCount?: number }) {
 
             <button
               aria-label="Shopping bag"
+              onClick={() => setIsCartOpen(true)}
               style={{ position: 'relative', padding: 8, color: '#1C1C1C', background: 'none', border: 'none', cursor: 'pointer' }}
             >
               <ShoppingBag size={20} strokeWidth={1.5} />

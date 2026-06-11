@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Calendar, Check } from 'lucide-react';
 import { Product, SizeOption, BoxColor } from '@/types';
 import DropHintModal from '@/components/modals/DropHintModal';
+import { useCart } from '@/contexts/CartContext';
 
 interface ProductModalProps {
   product: Product | null;
@@ -26,16 +27,17 @@ const getTomorrowLabel = () => {
 export default function ProductModal({ product, onClose }: ProductModalProps) {
   const [selectedSize, setSelectedSize] = useState<SizeOption>('Classic');
   const [selectedBox, setSelectedBox] = useState<BoxColor>('Warm White');
-  const [selectedDate, setSelectedDate] = useState<'tomorrow' | 'calendar'>('tomorrow');
+  const [selectedDate, setSelectedDate] = useState<'tomorrow' | 'calendar'>('calendar');
   const [imageIndex, setImageIndex] = useState(0);
   const [hintOpen, setHintOpen] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     if (product) {
       setSelectedSize(product.sizes[0]);
       setSelectedBox(product.boxColors[0]);
-      setSelectedDate('tomorrow');
+      setSelectedDate('calendar');
       setImageIndex(0);
       setAddedToCart(false);
     }
@@ -51,8 +53,21 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
   }, [product]);
 
   const handleAddToCart = () => {
+    if (!product) return;
+    
+    addToCart({
+      product,
+      size: selectedSize,
+      boxColor: selectedBox,
+      date: selectedDate,
+      quantity: 1,
+    });
+    
     setAddedToCart(true);
-    setTimeout(() => setAddedToCart(false), 2000);
+    setTimeout(() => {
+      setAddedToCart(false);
+      onClose(); // Optional: close modal after adding
+    }, 1000);
   };
 
   const nextImage = () => {
