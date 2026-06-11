@@ -49,41 +49,38 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
             <ProductCard key={product.id} product={product} index={i} onClick={onProductClick} />
           ))}
           
-          {/* Empty cell with "View Full Catalog" button */}
+          {/* Empty cell with "View Full Catalog" button in a Polaroid card */}
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] }}
-            className="flex items-center justify-center w-full"
-            style={{ minHeight: '100%' }}
+            className="w-full flex items-center justify-center"
           >
-             <a
-               href="#custom-request"
-               className="inline-flex items-center justify-center transition-all duration-300 w-fit group"
-               style={{ 
-                 backgroundColor: 'transparent', 
-                 color: '#1C1C1C',
-                 border: '1px solid #D1D1D1',
-                 padding: '16px 40px',
-                 fontSize: '11px',
-                 letterSpacing: '0.15em',
-                 textTransform: 'uppercase',
-                 fontWeight: 500
-               }}
-               onMouseEnter={(e) => {
-                 e.currentTarget.style.borderColor = '#1C1C1C';
-                 e.currentTarget.style.backgroundColor = '#1C1C1C';
-                 e.currentTarget.style.color = '#FDFDFD';
-               }}
-               onMouseLeave={(e) => {
-                 e.currentTarget.style.borderColor = '#D1D1D1';
-                 e.currentTarget.style.backgroundColor = 'transparent';
-                 e.currentTarget.style.color = '#1C1C1C';
-               }}
-             >
-               View Full Catalog
-             </a>
+            <a 
+              href="#custom-request"
+              className="block w-full bg-[#FDFDFD] p-[6%] pb-[25%] shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.12)] transition-all duration-500 rounded-[2px] relative group"
+            >
+              {/* Polaroid Image */}
+              <div className="w-full aspect-[4/5] bg-[#F7F5F2] overflow-hidden relative">
+                <img 
+                  src="https://images.unsplash.com/photo-1558350315-8aa00e8e4590?q=80&w=800&auto=format&fit=crop" 
+                  alt="Mother of Flower Collection" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                />
+                <div className="absolute inset-0 bg-[#1C1C1C]/5 group-hover:bg-transparent transition-colors duration-500" />
+              </div>
+              
+              {/* Polaroid Bottom Text (Button) */}
+              <div 
+                className="absolute bottom-0 left-0 w-full flex items-center justify-center" 
+                style={{ height: '20%' }}
+              >
+                <span className="text-[10px] md:text-[11px] tracking-[0.2em] uppercase text-[#8A8A8A] group-hover:text-[#1C1C1C] transition-colors pb-1 border-b border-transparent group-hover:border-[#1C1C1C]">
+                  View Full Catalog ↗
+                </span>
+              </div>
+            </a>
           </motion.div>
         </div>
       </section>
