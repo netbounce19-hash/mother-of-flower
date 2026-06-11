@@ -48,6 +48,43 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
           {products.map((product, i) => (
             <ProductCard key={product.id} product={product} index={i} onClick={onProductClick} />
           ))}
+          
+          {/* Empty cell with "View Full Catalog" button */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] }}
+            className="flex items-center justify-center w-full"
+            style={{ minHeight: '100%' }}
+          >
+             <a
+               href="#custom-request"
+               className="inline-flex items-center justify-center transition-all duration-300 w-fit group"
+               style={{ 
+                 backgroundColor: 'transparent', 
+                 color: '#1C1C1C',
+                 border: '1px solid #D1D1D1',
+                 padding: '16px 40px',
+                 fontSize: '11px',
+                 letterSpacing: '0.15em',
+                 textTransform: 'uppercase',
+                 fontWeight: 500
+               }}
+               onMouseEnter={(e) => {
+                 e.currentTarget.style.borderColor = '#1C1C1C';
+                 e.currentTarget.style.backgroundColor = '#1C1C1C';
+                 e.currentTarget.style.color = '#FDFDFD';
+               }}
+               onMouseLeave={(e) => {
+                 e.currentTarget.style.borderColor = '#D1D1D1';
+                 e.currentTarget.style.backgroundColor = 'transparent';
+                 e.currentTarget.style.color = '#1C1C1C';
+               }}
+             >
+               View Full Catalog
+             </a>
+          </motion.div>
         </div>
       </section>
     </div>
