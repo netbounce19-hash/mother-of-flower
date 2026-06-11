@@ -67,77 +67,80 @@ export default function CustomRequestSection() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeUp}
-            className="bg-[#FDFDFD] p-8 md:p-12 shadow-[0_15px_50px_rgba(0,0,0,0.04)] rounded-[2px]"
+            className="bg-[#FDFDFD] p-10 md:p-16 shadow-[0_20px_60px_rgba(0,0,0,0.03)] rounded-[2px]"
           >
-            <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
+            <form className="flex flex-col gap-8" onSubmit={(e) => e.preventDefault()}>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-2">
-                  <label className="text-[11px] tracking-[0.1em] uppercase text-[#8A8A8A]">Full Name</label>
+                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#8A8A8A] font-medium">Full Name</label>
                   <input 
                     type="text" 
                     placeholder="Jane Doe" 
-                    className="w-full bg-transparent border-b border-[#E5E5E5] pb-2 text-[14px] text-[#1C1C1C] placeholder:text-[#D1D1D1] focus:outline-none focus:border-[#1C1C1C] transition-colors"
+                    className="w-full bg-transparent border-b border-[#E5E5E5] py-3 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#D1D1D1] transition-colors"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-[11px] tracking-[0.1em] uppercase text-[#8A8A8A]">Phone or Email</label>
+                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#8A8A8A] font-medium">Phone or Email</label>
                   <input 
                     type="text" 
                     placeholder="contact@example.com" 
-                    className="w-full bg-transparent border-b border-[#E5E5E5] pb-2 text-[14px] text-[#1C1C1C] placeholder:text-[#D1D1D1] focus:outline-none focus:border-[#1C1C1C] transition-colors"
+                    className="w-full bg-transparent border-b border-[#E5E5E5] py-3 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#D1D1D1] transition-colors"
                   />
                 </div>
               </div>
 
               <div className="flex flex-col gap-2">
-                <label className="text-[11px] tracking-[0.1em] uppercase text-[#8A8A8A]">Inquiry Type</label>
+                <label className="text-[10px] tracking-[0.15em] uppercase text-[#8A8A8A] font-medium">Inquiry Type</label>
                 <div className="relative">
-                  <select className="w-full bg-transparent border-b border-[#E5E5E5] pb-2 text-[14px] text-[#1C1C1C] appearance-none focus:outline-none focus:border-[#1C1C1C] transition-colors cursor-pointer rounded-none">
+                  <select className="w-full bg-transparent border-b border-[#E5E5E5] py-3 text-[14px] text-[#1C1C1C] appearance-none focus:outline-none focus:border-[#1C1C1C] hover:border-[#D1D1D1] transition-colors cursor-pointer rounded-none">
+                    <option value="" disabled selected hidden className="text-[#A3A3A3]">Select type...</option>
                     <option>Custom Bouquet</option>
                     <option>Wedding & Bridal</option>
                     <option>Corporate Event</option>
                     <option>Residential / Hotel Styling</option>
                     <option>Other</option>
                   </select>
-                  <span className="absolute right-0 top-[2px] text-[#8A8A8A] pointer-events-none text-[10px]">▼</span>
+                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[#8A8A8A] pointer-events-none text-[10px]">▼</span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-2">
-                  <label className="text-[11px] tracking-[0.1em] uppercase text-[#8A8A8A]">Date of Event / Delivery</label>
+                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#8A8A8A] font-medium">Date of Event / Delivery</label>
                   <input 
-                    type="date" 
-                    className="w-full bg-transparent border-b border-[#E5E5E5] pb-2 text-[14px] text-[#1C1C1C] focus:outline-none focus:border-[#1C1C1C] transition-colors"
+                    type="text" 
+                    placeholder="DD.MM.YYYY"
+                    className="w-full bg-transparent border-b border-[#E5E5E5] py-3 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#D1D1D1] transition-colors"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-[11px] tracking-[0.1em] uppercase text-[#8A8A8A]">Estimated Budget</label>
+                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#8A8A8A] font-medium">Estimated Budget</label>
                   <div className="relative">
-                    <select className="w-full bg-transparent border-b border-[#E5E5E5] pb-2 text-[14px] text-[#1C1C1C] appearance-none focus:outline-none focus:border-[#1C1C1C] transition-colors cursor-pointer rounded-none">
+                    <select className="w-full bg-transparent border-b border-[#E5E5E5] py-3 text-[14px] text-[#1C1C1C] appearance-none focus:outline-none focus:border-[#1C1C1C] hover:border-[#D1D1D1] transition-colors cursor-pointer rounded-none">
+                      <option value="" disabled selected hidden className="text-[#A3A3A3]">Select budget...</option>
                       <option>$100 - $300</option>
                       <option>$300 - $1000</option>
                       <option>$1000 - $5000</option>
                       <option>$5000+</option>
                     </select>
-                    <span className="absolute right-0 top-[2px] text-[#8A8A8A] pointer-events-none text-[10px]">▼</span>
+                    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[#8A8A8A] pointer-events-none text-[10px]">▼</span>
                   </div>
                 </div>
               </div>
 
               <div className="flex flex-col gap-2">
-                <label className="text-[11px] tracking-[0.1em] uppercase text-[#8A8A8A]">Your Vision / Details</label>
+                <label className="text-[10px] tracking-[0.15em] uppercase text-[#8A8A8A] font-medium">Your Vision / Details</label>
                 <textarea 
                   placeholder="Tell us about the occasion, preferred colors, or specific flowers..." 
                   rows={4}
-                  className="w-full bg-transparent border-b border-[#E5E5E5] pb-2 text-[14px] text-[#1C1C1C] placeholder:text-[#D1D1D1] focus:outline-none focus:border-[#1C1C1C] transition-colors resize-none mt-1"
+                  className="w-full bg-transparent border-b border-[#E5E5E5] py-3 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#D1D1D1] transition-colors resize-none"
                 />
               </div>
 
               <button
                 type="button"
-                className="mt-6 w-full py-4 text-[12px] tracking-[0.15em] uppercase text-[#FDFDFD] bg-[#1C1C1C] hover:bg-[#C9A96E] transition-colors duration-300"
+                className="mt-6 w-full py-4 text-[11px] tracking-[0.2em] uppercase text-[#FDFDFD] bg-[#1C1C1C] hover:bg-[#C9A96E] transition-colors duration-300"
               >
                 Submit Request
               </button>

@@ -102,8 +102,8 @@ export default function AboutSection() {
       </div>
 
       {/* Block 3: Partnerships & Collaborations (Cream Theme) */}
-      <div className="w-full text-[#1C1C1C]" style={{ backgroundColor: '#F7F5F2', padding: '120px 5vw' }}>
-        <div className="mx-auto flex flex-col" style={{ maxWidth: 1100, gap: '100px' }}>
+      <div className="w-full text-[#1C1C1C]" style={{ backgroundColor: '#F7F5F2', padding: '120px 5vw 120px 10vw' }}>
+        <div className="mx-auto flex flex-col" style={{ maxWidth: 1200, gap: '100px' }}>
           
           {/* Section 1: Intro & Hero */}
           <motion.div
@@ -131,7 +131,7 @@ export default function AboutSection() {
             </motion.div>
 
             {/* Intro Text Grid */}
-            <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-24 mt-4">
+            <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-2 mt-4" style={{ gap: '6vw' }}>
               <div className="flex flex-col gap-6">
                 <p className="text-[16px] leading-[1.8] text-[#5A5A5A]">
                   We collaborate with hotels, resorts, restaurants, event planners, realtors, and design studios across Las Vegas. From one-off moments to ongoing programs, we make flowers the easiest win for your guest experience.
@@ -152,7 +152,7 @@ export default function AboutSection() {
           </motion.div>
 
           {/* Section 2: What partners get */}
-          <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-12 md:gap-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 items-center" style={{ gap: '8vw' }}>
             
             <motion.div
               initial="hidden"
@@ -164,7 +164,7 @@ export default function AboutSection() {
             >
               <div className="bg-[#FDFDFD] p-[6%] pb-[20%] shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.12)] transition-shadow duration-500 rounded-[2px]">
                 <img 
-                  src="https://images.unsplash.com/photo-1563241595-cecaeb64ec39?q=80&w=800&auto=format&fit=crop" 
+                  src="/images/pink_flowers_chair.png" 
                   alt="Pink flowers on chair" 
                   style={{ width: '100%', height: 'auto', display: 'block' }} 
                 />
