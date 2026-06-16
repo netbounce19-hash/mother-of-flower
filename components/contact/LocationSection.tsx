@@ -14,7 +14,7 @@ const staggerContainer: Variants = {
 
 export default function LocationSection() {
   return (
-    <section id="locations" style={{ width: '100%', backgroundColor: '#FDFDFD', padding: '120px 5vw' }}>
+    <section id="locations" style={{ width: '100%', backgroundColor: '#FAF9F6', padding: '120px 5vw' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         
         {/* Top Text */}
@@ -23,7 +23,8 @@ export default function LocationSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
-          className="flex flex-col items-center text-center mb-32"
+          className="flex flex-col items-center text-center"
+          style={{ marginBottom: 100 }}
         >
           <motion.p variants={fadeUp} style={{ fontSize: 11, letterSpacing: '0.35em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: '1.5rem' }}>
             Visit Us
@@ -105,7 +106,7 @@ export default function LocationSection() {
           {/* Map Widget (Right Col) */}
           <motion.div 
             variants={fadeUp} 
-            className="lg:col-span-8 w-full bg-[#FDFDFD] border border-[#E5E5E5] p-2"
+            className="lg:col-span-8 w-full bg-[#FDFDFD] p-4 shadow-[0_15px_40px_rgba(0,0,0,0.06)] rounded-[2px]"
           >
             <div className="w-full h-[300px] md:h-[350px] bg-[#F7F5F2] relative overflow-hidden">
               <iframe 
