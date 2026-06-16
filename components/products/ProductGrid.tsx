@@ -38,7 +38,7 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
               Curated Arrangements
             </h2>
           </div>
-          <p style={{ fontSize: 13, color: '#8A8A8A', lineHeight: 1.7, maxWidth: 300, textAlign: 'right' }}>
+          <p style={{ fontSize: 14, color: '#333333', fontWeight: 500, lineHeight: 1.7, maxWidth: 300, textAlign: 'right' }}>
             Each piece is hand-composed by our master florists using only the finest seasonal blooms sourced from the world&apos;s finest farms.
           </p>
         </motion.div>

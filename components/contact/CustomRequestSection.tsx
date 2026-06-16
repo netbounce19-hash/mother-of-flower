@@ -43,7 +43,7 @@ export default function CustomRequestSection() {
               >
                 Custom Design &<br/>Event Styling
               </h2>
-              <p style={{ fontSize: 15, color: '#5A5A5A', lineHeight: 1.8, maxWidth: 460 }}>
+              <p style={{ fontSize: 15, color: '#333333', fontWeight: 500, lineHeight: 1.8, maxWidth: 460 }}>
                 From personalized signature bouquets to full-scale floral architecture for weddings, corporate galas, and exclusive private events in Las Vegas. Share your vision with our master florists, and we will bring it to life with the finest event-grade blooms.
               </p>
             </motion.div>
@@ -51,7 +51,7 @@ export default function CustomRequestSection() {
             <motion.div variants={fadeUp} className="flex flex-col gap-6 mt-4">
               <div>
                 <h3 className="text-[12px] tracking-wide font-bold uppercase text-[#1C1C1C] mb-2">What we offer</h3>
-                <ul className="text-[14px] text-[#5A5A5A] flex flex-col gap-2 leading-relaxed">
+                <ul className="text-[14px] font-medium text-[#333333] flex flex-col gap-2 leading-relaxed">
                   <li>✦ Tailored Personal Bouquets</li>
                   <li>✦ Wedding & Engagement Florals</li>
                   <li>✦ Corporate Event & Gala Styling</li>

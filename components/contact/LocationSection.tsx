@@ -32,7 +32,7 @@ export default function LocationSection() {
               variants={fadeUp} 
               className="lg:col-span-4 flex flex-col items-start"
             >
-              <div className="flex flex-col gap-8 text-[15px] text-[#1C1C1C] leading-relaxed mb-10" style={{ fontFamily: 'var(--font-sans)' }}>
+              <div className="flex flex-col gap-8 text-[15px] font-medium text-[#1C1C1C] leading-relaxed mb-10" style={{ fontFamily: 'var(--font-sans)' }}>
                 <div>
                   <p className="text-[13px] tracking-wide uppercase text-[#8A8A8A] font-bold mb-2">Address</p>
                   <p>7710 Eastgate Rd<br/>Henderson, NV 89011</p>
@@ -108,7 +108,7 @@ export default function LocationSection() {
           variants={fadeUp}
           className="mt-24 pt-12 border-t border-[#E5E5E5] text-center"
         >
-          <p className="text-[13px] text-[#8A8A8A] max-w-2xl mx-auto italic font-serif">
+          <p className="text-[14px] font-medium text-[#333333] max-w-2xl mx-auto italic font-serif">
             "We're always here to guide you through the ordering process or help you to make a decision on what composition would be the best fit for your occasion. Don't be shy and reach out."
           </p>
         </motion.div>

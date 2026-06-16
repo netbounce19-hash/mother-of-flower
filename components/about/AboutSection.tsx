@@ -65,28 +65,28 @@ export default function AboutSection() {
           >
             <motion.div variants={fadeUp} className="flex flex-col gap-4">
               <h2 className="font-sans text-[14px] font-bold tracking-wide uppercase" style={{ color: '#1C1C1C' }}>Premium Quality</h2>
-              <p className="text-[15px] leading-[1.8]" style={{ color: '#5A5A5A' }}>
+              <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
                 We source event-grade blooms daily and handcraft every piece in our Las Vegas studio. Temperature-controlled hydration, clean mechanics, and recyclable wrap keep your flowers pristine from workbench to doorstep.
               </p>
             </motion.div>
 
             <motion.div variants={fadeUp} className="flex flex-col gap-4">
               <h2 className="font-sans text-[14px] font-bold tracking-wide uppercase" style={{ color: '#1C1C1C' }}>Delivery & Setup</h2>
-              <p className="text-[15px] leading-[1.8]" style={{ color: '#5A5A5A' }}>
+              <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
                 Same-day, hand delivery with precise 2-hour windows. We coordinate with concierge, can place arrangements in-room, and include a care card. For bouquets, use a clean vase with cool water. See our simple care guide or message us—we'll help with everything.
               </p>
             </motion.div>
 
             <motion.div variants={fadeUp} className="flex flex-col gap-4">
               <h2 className="font-sans text-[14px] font-bold tracking-wide uppercase" style={{ color: '#1C1C1C' }}>Handcrafted Florals,<br/>Living Stories</h2>
-              <p className="text-[15px] leading-[1.8]" style={{ color: '#5A5A5A' }}>
+              <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
                 Our designer florists build each arrangement by hand in our Las Vegas studio. We compose color, texture, and movement so your bouquet feels personal—more than flowers, a story for your moment.
               </p>
             </motion.div>
 
             <motion.div variants={fadeUp} className="flex flex-col gap-4">
               <h2 className="font-sans text-[14px] font-bold tracking-wide uppercase" style={{ color: '#1C1C1C' }}>Sustainability & Safety</h2>
-              <p className="text-[15px] leading-[1.8] mb-2" style={{ color: '#5A5A5A' }}>
+              <p className="text-[15px] font-medium leading-[1.8] mb-2 text-[#333333]">
                 Responsibly sourced blooms, recyclable wrapping, and water-based care. Same-day, temperature-conscious hand delivery for homes, offices, and hotel suites. Need child- or pet-considerate florals? Tell us—we'll tailor the selection.
               </p>
               <a
@@ -133,19 +133,20 @@ export default function AboutSection() {
             {/* Intro Text Grid */}
             <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-2 mt-4" style={{ gap: '6vw' }}>
               <div className="flex flex-col gap-6">
-                <p className="text-[16px] leading-[1.8] text-[#5A5A5A]">
-                  We collaborate with hotels, resorts, restaurants, event planners, realtors, and design studios across Las Vegas. From one-off moments to ongoing programs, we make flowers the easiest win for your guest experience.
+                <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
+                  Whether you're a luxury boutique, a hotel concierge, or an event planner, we provide priority service tailored to your volume and needs. 
                 </p>
-                <p className="text-[16px] leading-[1.8] text-[#5A5A5A]">
-                  Our designs feel at home in private residences and commercial spaces alike: lobbies, suites and VIP lounges on The Strip, fine-dining tables, retail boutiques, salons, galleries, offices, and model homes.
+                <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
+                  Mother of Flower is a registered vendor with many top venues in Las Vegas, making coordination seamless and swift.
                 </p>
               </div>
+
               <div className="flex flex-col gap-6">
-                <p className="text-[16px] leading-[1.8] text-[#5A5A5A]">
-                  Flowers aren't background—they're part of the story. Thoughtful arrangements spark the kind of moments guests remember (and share).
+                <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
+                  We understand the pace of high-end hospitality. From last-minute VIP requests to weekly lobby installations, our team is equipped to execute flawlessly on short timelines.
                 </p>
-                <p className="text-[16px] leading-[1.8] text-[#5A5A5A]">
-                  Let's create spaces people want to return to. Tell us about your venue—same-day support available citywide (order by 2 PM).
+                <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
+                  Partnering with us means you have a dedicated floral concierge. We remember your preferences, invoice smoothly, and ensure every arrangement reflects the caliber of your own brand.
                 </p>
               </div>
             </motion.div>
@@ -182,7 +183,7 @@ export default function AboutSection() {
                 What our partners get:
               </motion.h3>
               
-              <motion.ul variants={fadeUp} className="flex flex-col gap-6 text-[16px] text-[#5A5A5A]">
+              <motion.ul variants={fadeUp} className="flex flex-col gap-6 text-[15px] font-medium text-[#333333]">
                 <li className="flex items-start gap-4">
                   <span className="text-[#C9A96E] mt-1 text-[12px]">✦</span>
                   <span className="leading-[1.6]">Preferred commercial terms</span>

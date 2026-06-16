@@ -184,7 +184,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   <h2 style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: 'clamp(1.8rem,3.5vw,2.8rem)', color: '#1C1C1C', lineHeight: 1.08, marginBottom: 4 }}>
                     {product.name}
                   </h2>
-                  <p style={{ fontSize: 13, color: '#8A8A8A', fontStyle: 'italic', marginBottom: 16 }}>{product.tagline}</p>
+                  <p style={{ fontSize: 14, color: '#5A5A5A', fontWeight: 500, fontStyle: 'italic', marginBottom: 16 }}>{product.tagline}</p>
 
                   {/* Price */}
                   <p style={{ fontSize: 24, fontWeight: 700, color: '#1C1C1C', marginBottom: 24 }}>
@@ -194,7 +194,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   <div style={{ width: '100%', height: 1, backgroundColor: '#E5E5E5', marginBottom: 24 }} />
 
                   {/* Description */}
-                  <p style={{ fontSize: 13, color: '#8A8A8A', lineHeight: 1.7, marginBottom: 28 }}>{product.description}</p>
+                  <p style={{ fontSize: 14, color: '#333333', fontWeight: 500, lineHeight: 1.7, marginBottom: 28 }}>{product.description}</p>
 
                   {/* Choose Date */}
                   <div style={{ marginBottom: 24 }}>

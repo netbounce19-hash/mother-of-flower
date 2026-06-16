@@ -20,7 +20,7 @@ export default function Footer() {
             <p style={{ fontFamily: "var(--font-sans)", fontSize: 20, letterSpacing: '0.14em', color: '#1C1C1C' }}>MOTHER</p>
             <p style={{ fontSize: 10, letterSpacing: '0.4em', color: '#8A8A8A', textTransform: 'uppercase', marginTop: -2 }}>of flower</p>
           </div>
-          <p style={{ fontSize: 13, color: '#8A8A8A', lineHeight: 1.7, maxWidth: 280 }}>
+          <p style={{ fontSize: 14, fontWeight: 500, color: '#333333', lineHeight: 1.7, maxWidth: 280 }}>
             Luxury floral artistry, curated for extraordinary moments. Delivered across Las Vegas and the US.
           </p>
         </div>
