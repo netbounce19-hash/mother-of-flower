@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, X, Menu, Phone } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
+import OrderCallModal from '@/components/modals/OrderCallModal';
 
 const navLinks = [
   { label: 'Collections', href: '#catalog' },
@@ -26,6 +27,7 @@ const CONTAINER: React.CSSProperties = {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isOrderCallOpen, setIsOrderCallOpen] = useState(false);
   const { cartCount, setIsCartOpen } = useCart();
 
   useEffect(() => {
@@ -83,8 +85,8 @@ export default function Navbar() {
           {/* Right actions */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             {/* Order a Call */}
-            <a
-              href="tel:+17252242454"
+            <button
+              onClick={() => setIsOrderCallOpen(true)}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '10px 24px',
@@ -96,6 +98,8 @@ export default function Navbar() {
                 boxShadow: scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.1)',
                 backdropFilter: scrolled ? 'none' : 'blur(4px)',
                 transition: 'all 0.3s',
+                cursor: 'pointer',
+                background: 'transparent',
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.backgroundColor = scrolled ? '#1C1C1C' : '#FDFDFD';
@@ -112,7 +116,7 @@ export default function Navbar() {
             >
               <Phone size={14} strokeWidth={1.5} />
               Order a Call
-            </a>
+            </button>
 
             <button
               aria-label="Shopping bag"
@@ -180,21 +184,25 @@ export default function Navbar() {
                   {link.label}
                 </motion.a>
               ))}
-              <motion.a
-                href="tel:+17252242454"
+              <motion.button
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: navLinks.length * 0.08, duration: 0.4 }}
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 13, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#8A8A8A', textDecoration: 'none' }}
-                onClick={() => setMenuOpen(false)}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 13, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#8A8A8A', textDecoration: 'none', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                onClick={() => {
+                  setMenuOpen(false);
+                  setIsOrderCallOpen(true);
+                }}
               >
                 <Phone size={16} strokeWidth={1.5} />
                 Order a Call
-              </motion.a>
+              </motion.button>
             </nav>
           </motion.div>
         )}
       </AnimatePresence>
+
+      <OrderCallModal isOpen={isOrderCallOpen} onClose={() => setIsOrderCallOpen(false)} />
     </>
   );
 }
