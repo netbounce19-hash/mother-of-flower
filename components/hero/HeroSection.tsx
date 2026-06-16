@@ -1,200 +1,151 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useMotionValueEvent, type Variants } from 'framer-motion';
-import Image from 'next/image';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCreative, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/effect-creative';
+import 'swiper/css/pagination';
+
 import DropHintModal from '@/components/modals/DropHintModal';
 import { products } from '@/data/products';
 
-const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
-
-const lineVariants: Variants = {
-  hidden: { opacity: 0, y: 50, filter: 'blur(10px)' },
-  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 1.8, ease: EASE } },
-};
-
-const imageVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 1.4, ease: EASE, delay: 0.3 } },
-};
-
 export default function HeroSection() {
-  const ref = useRef<HTMLElement>(null);
-  const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [isHintOpen, setIsHintOpen] = useState(false);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const { scrollY } = useScroll();
-  
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    if (latest > 50 && isButtonVisible) {
-      setIsButtonVisible(false);
-    }
-  });
 
-  const imageY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
+  // Placeholder slides for the Swiper
+  const slides = [
+    { id: 1, bgColor: '#EAE5DF', text: 'SLIDE 1 (PLACEHOLDER)' },
+    { id: 2, bgColor: '#D9D0C7', text: 'SLIDE 2 (PLACEHOLDER)' },
+    { id: 3, bgColor: '#C2B8B1', text: 'SLIDE 3 (PLACEHOLDER)' },
+  ];
 
   return (
     <section
-      ref={ref}
       style={{
         position: 'relative',
         width: '100%',
-        minHeight: '100svh',
-        overflow: 'hidden',
-        backgroundColor: '#FEF4F5',
-        display: 'flex',
-        alignItems: 'center',
+        height: '100svh', // full viewport height
+        backgroundColor: '#FDFDFD',
       }}
     >
-      {/* Left side Typography */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        transition={{ staggerChildren: 0.2 }}
-        style={{ 
-          zIndex: 3, 
-          paddingLeft: 'clamp(30px, 10vw, 150px)', // Organic left spacing
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: 10
+      <Swiper
+        grabCursor={true}
+        effect={'creative'}
+        creativeEffect={{
+          prev: {
+            translate: [0, 0, -400],
+          },
+          next: {
+            translate: ['100%', 0, 0],
+          },
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        mousewheel={true}
+        keyboard={true}
+        loop={true}
+        modules={[EffectCreative, Pagination, Mousewheel, Keyboard]}
+        className="w-full h-full"
+      >
+        {slides.map((slide) => (
+          <SwiperSlide key={slide.id} className="w-full h-full select-none">
+            <div 
+              style={{ 
+                width: '100%', 
+                height: '100%', 
+                backgroundColor: slide.bgColor,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <span style={{ 
+                color: '#8A8A8A', 
+                fontSize: '14px', 
+                letterSpacing: '0.15em', 
+                textTransform: 'uppercase',
+                fontFamily: 'var(--font-sans)'
+              }}>
+                {slide.text}
+              </span>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      {/* Overlay Title & Button centered over the slider */}
+      <div 
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 10,
+          pointerEvents: 'none', // Allows swiping over the text
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
         <motion.h1
-          variants={lineVariants}
-          whileHover={{ 
-            letterSpacing: '0.23em', 
-            scale: 1.02,
-            color: '#9D5C69',
-            x: 10
-          }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           style={{
             fontFamily: "var(--font-sans)",
-            fontSize: 'clamp(2.5rem, 6vw, 7rem)',
+            fontSize: 'clamp(3rem, 8vw, 8rem)',
             fontWeight: 400,
-            color: '#2D1E23', // Darker font as requested
-            textShadow: '0px 4px 24px rgba(254, 244, 245, 0.6)', // organic glow to separate from image
+            color: '#1C1C1C',
             lineHeight: 0.9,
-            letterSpacing: '0.2em', // Wide tracking like the reference
+            letterSpacing: '0.2em',
             textTransform: 'uppercase',
-            whiteSpace: 'nowrap',
-            cursor: 'default',
-            originX: 0
+            textAlign: 'center',
+            textShadow: '0 4px 40px rgba(253,253,253,0.8)' // Strong glow so text is readable on any background
           }}
         >
           MOTHER
+          <br />
+          OF FLOWER
         </motion.h1>
-        <div 
-          style={{ position: 'relative', display: 'inline-flex', flexDirection: 'column', alignItems: 'flex-start' }}
-          onMouseEnter={() => setIsButtonVisible(true)}
-        >
-          <motion.h1
-            variants={lineVariants}
-            whileHover={{ 
-              letterSpacing: '0.23em', 
-              scale: 1.02,
-              color: '#9D5C69',
-              x: 10
-            }}
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: 'clamp(2.5rem, 6vw, 7rem)',
-              fontWeight: 400,
-              color: '#2D1E23', // Darker font
-              textShadow: '0px 4px 24px rgba(254, 244, 245, 0.6)', // organic glow
-              lineHeight: 0.9,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              whiteSpace: 'nowrap',
-              cursor: 'default',
-              originX: 0,
-              marginLeft: '5vw' // Shifted right so MOTHER appears relatively further left
-            }}
-          >
-            OF FLO<span style={{ 
-              backgroundColor: 'rgba(254, 244, 245, 0.35)', 
-              backdropFilter: 'blur(16px)', 
-              WebkitBackdropFilter: 'blur(16px)',
-              borderRadius: '24px',
-              padding: '0 8px',
-              marginLeft: '-4px', // slight negative margin to keep kerning tight
-            }}>WER</span>
-          </motion.h1>
-          
-          <motion.button
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: isButtonVisible ? 1 : 0, y: isButtonVisible ? 15 : -10 }}
-            transition={{ duration: 0.4, ease: EASE }}
-            onClick={() => setIsHintOpen(true)}
-            style={{
-              pointerEvents: isButtonVisible ? 'auto' : 'none',
-              position: 'absolute',
-              top: '100%',
-              left: '0',
-              marginTop: '15px',
-              padding: '12px 28px',
-              borderRadius: '30px',
-              border: '1px solid #9D5C69',
-              color: '#9D5C69',
-              fontSize: '13px',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              backgroundColor: '#FEF4F5',
-              boxShadow: '0 4px 16px rgba(157, 92, 105, 0.15)',
-              cursor: 'pointer',
-              whiteSpace: 'nowrap'
-            }}
-            whileHover={{
-              backgroundColor: '#9D5C69',
-              color: '#FEF4F5',
-            }}
-          >
-            Drop Hint
-          </motion.button>
-        </div>
-      </motion.div>
 
-      {/* Right side Image overlapping text with smooth fade */}
-      <motion.div
-        variants={imageVariants}
-        initial="hidden"
-        animate="visible"
-        style={{
-          position: 'absolute',
-          right: 0,
-          top: 0,
-          bottom: 0,
-          width: '60vw', // Take up slightly more than half to overlap text
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          y: imageY,
-          zIndex: 2, // Placed ON TOP of text
-          pointerEvents: 'none'
-        }}
-      >
-        <div style={{ 
-          position: 'relative', 
-          width: '100%', 
-          height: '100%', 
-          minHeight: 600,
-          // CSS mask to create a smooth transition on the left edge!
-          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 100%)',
-          maskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 100%)'
-        }}>
-          <Image
-            src="/images/hero-light-roses.png"
-            alt="Mother of Flower Bouquet"
-            fill
-            style={{ 
-              objectFit: 'cover', 
-              objectPosition: 'left center', // Keep image aligned left so flowers overlap the text
-              mixBlendMode: 'multiply', 
-              opacity: 0.95
-            }}
-            priority
-          />
-        </div>
-      </motion.div>
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          onClick={() => setIsHintOpen(true)}
+          style={{
+            pointerEvents: 'auto', // Enable clicks just for the button
+            marginTop: '50px',
+            padding: '14px 40px',
+            borderRadius: '40px',
+            border: '1px solid #1C1C1C',
+            color: '#1C1C1C',
+            fontSize: '11px',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            backgroundColor: 'rgba(253,253,253,0.6)',
+            backdropFilter: 'blur(10px)',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#1C1C1C';
+            e.currentTarget.style.color = '#FDFDFD';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(253,253,253,0.6)';
+            e.currentTarget.style.color = '#1C1C1C';
+          }}
+        >
+          Drop Hint
+        </motion.button>
+      </div>
 
       <DropHintModal product={products[0]} isOpen={isHintOpen} onClose={() => setIsHintOpen(false)} />
     </section>
