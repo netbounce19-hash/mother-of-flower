@@ -59,7 +59,7 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
             style={{ minHeight: '100%' }}
           >
              <a
-               href="#custom-request"
+               href="/catalog"
                className="inline-flex items-center justify-center transition-all duration-300 w-fit group"
                style={{ 
                  backgroundColor: 'transparent', 
