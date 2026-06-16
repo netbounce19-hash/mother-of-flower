@@ -104,7 +104,7 @@ export default function LocationSection() {
           {/* Map Widget (Right Col) */}
           <motion.div 
             variants={fadeUp} 
-            className="w-full aspect-square md:aspect-[4/5] bg-[#F7F5F2] relative overflow-hidden"
+            className="w-full h-[350px] md:h-[400px] bg-[#F7F5F2] relative overflow-hidden"
           >
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3226.7905878466657!2d-115.02534572412854!3d36.02517887247781!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c8d11c80f4886f%3A0xcb06526fc1ff725!2s7710%20Eastgate%20Rd%2C%20Henderson%2C%20NV%2089011!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" 
