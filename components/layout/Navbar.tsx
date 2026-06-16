@@ -57,7 +57,7 @@ export default function Navbar() {
         <nav style={CONTAINER}>
           {/* Logo */}
           <a href="/" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1, textDecoration: 'none', flexShrink: 0 }}>
-            <span style={{ fontFamily: "var(--font-serif)", fontSize: 28, fontWeight: 400, letterSpacing: '0.04em', color: scrolled ? '#1C1C1C' : '#FDFDFD', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
+            <span style={{ fontFamily: "var(--font-serif)", fontSize: 24, fontWeight: 400, letterSpacing: '0.04em', color: scrolled ? '#1C1C1C' : '#FDFDFD', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
               Mother of Flower
             </span>
             <div style={{ height: '1px', width: '100%', backgroundColor: scrolled ? '#1C1C1C' : '#FDFDFD', margin: '6px 0', opacity: scrolled ? 0.2 : 0.4, transition: 'background-color 0.4s, opacity 0.4s' }} />
@@ -157,7 +157,7 @@ export default function Navbar() {
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 24px', height: 80 }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1 }}>
-                <span style={{ fontFamily: "var(--font-serif)", fontSize: 24, fontWeight: 400, letterSpacing: '0.04em', color: '#1C1C1C' }}>
+                <span style={{ fontFamily: "var(--font-serif)", fontSize: 22, fontWeight: 400, letterSpacing: '0.04em', color: '#1C1C1C' }}>
                   Mother of Flower
                 </span>
                 <div style={{ height: '1px', width: '100%', backgroundColor: '#1C1C1C', margin: '4px 0', opacity: 0.2 }} />
