@@ -14,31 +14,8 @@ const staggerContainer: Variants = {
 
 export default function LocationSection() {
   return (
-    <section id="locations" style={{ width: '100%', backgroundColor: '#FAF9F6', padding: '120px 5vw' }}>
+    <section id="locations" style={{ width: '100%', backgroundColor: '#FAF9F6', padding: '40px 5vw 120px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        
-        {/* Top Text */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer}
-          className="flex flex-col items-center text-center"
-          style={{ marginBottom: 100 }}
-        >
-          <motion.p variants={fadeUp} style={{ fontSize: 11, letterSpacing: '0.35em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: '1.5rem' }}>
-            Visit Us
-          </motion.p>
-          <motion.h2 
-            variants={fadeUp} 
-            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(2.2rem, 5vw, 3.5rem)', color: '#1C1C1C', lineHeight: 1.05 }}
-          >
-            Delivery & Location
-          </motion.h2>
-          <motion.p variants={fadeUp} className="text-[14px] text-[#5A5A5A] max-w-2xl mt-10 leading-relaxed">
-            We're an online flower shop with physical locations available for pickup and same-day delivery. We deliver flowers to most areas of Las Vegas and Henderson within the hour or same-day if flowers are in stock.
-          </motion.p>
-        </motion.div>
 
         {/* Location Grid */}
         <motion.div
