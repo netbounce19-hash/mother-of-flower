@@ -9,10 +9,10 @@ import ProductCard from '@/components/products/ProductCard';
 import ProductModal from '@/components/products/ProductModal';
 
 const CATEGORIES = [
-  'Balloons&Gifts (8)', 'Bouquets (8)', 'Bouquets & Sympathy Arrangements (8)', 
-  'Bouquets in Vases (8)', 'Boutonnières&Corsages (8)', 'Bridal Bouquets (8)',
-  'Cake&Flowers (8)', 'Casket Spays (8)', 'Catalog (8)', 'Catalog Balloons&Gifts (8)',
-  'Ceremony Decor (8)', 'Custom Tributes (8)', 'Custom Wedding Packages (8)', 'Floral Arch & Backdrops (8)'
+  'Balloons & Gifts', 'Bouquets', 'Bouquets & Sympathy Arrangements', 
+  'Bouquets in Vases', 'Boutonnières & Corsages', 'Bridal Bouquets',
+  'Cake & Flowers', 'Casket Spays', 'Catalog', 'Catalog Balloons & Gifts',
+  'Ceremony Decor', 'Custom Tributes', 'Custom Wedding Packages', 'Floral Arch & Backdrops'
 ];
 
 const COLORS = [
@@ -37,13 +37,13 @@ export default function CatalogPage() {
   const displayedProducts = products;
 
   return (
-    <div className="w-full min-h-screen bg-[#FAF9F6] pt-[100px] pb-24">
+    <div className="w-full min-h-screen bg-[#FAF9F6] pt-[160px] pb-24">
       <div style={{ maxWidth: 1440, margin: '0 auto', paddingLeft: 'clamp(20px, 5vw, 72px)', paddingRight: 'clamp(20px, 5vw, 72px)' }}>
         
         <div className="flex flex-col lg:flex-row gap-12 mt-8">
           
           {/* Sidebar */}
-          <aside className="w-full lg:w-[260px] flex-shrink-0 flex flex-col gap-6">
+          <aside className="w-full lg:w-[260px] flex-shrink-0 flex flex-col gap-6 lg:sticky lg:top-[160px] max-h-[calc(100vh-180px)] overflow-y-auto custom-scrollbar pr-2 pb-10">
             {/* Categories Accordion */}
             <div className="border-b border-[#E5E5E5] pb-6">
               <button 
@@ -62,7 +62,7 @@ export default function CatalogPage() {
                     exit={{ height: 0, opacity: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="flex flex-col gap-3 mt-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                    <div className="flex flex-col gap-3 mt-4">
                       {CATEGORIES.map((cat) => (
                         <button
                           key={cat}
