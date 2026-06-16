@@ -17,7 +17,7 @@ export default function Footer() {
         {/* Brand */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div style={{ lineHeight: 1 }}>
-            <p style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 20, letterSpacing: '0.14em', color: '#1C1C1C' }}>MOTHER</p>
+            <p style={{ fontFamily: "var(--font-sans)", fontSize: 20, letterSpacing: '0.14em', color: '#1C1C1C' }}>MOTHER</p>
             <p style={{ fontSize: 10, letterSpacing: '0.4em', color: '#8A8A8A', textTransform: 'uppercase', marginTop: -2 }}>of flower</p>
           </div>
           <p style={{ fontSize: 13, color: '#8A8A8A', lineHeight: 1.7, maxWidth: 280 }}>

@@ -99,9 +99,6 @@ export default function LocationSection() {
 
           </div>
         </motion.div>
-
-        </motion.div>
-
         {/* Bottom Contact Note */}
         <motion.div
           initial="hidden"

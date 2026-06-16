@@ -34,7 +34,7 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
             <p style={{ fontSize: 11, letterSpacing: '0.35em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>
               The Collection
             </p>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(2.2rem, 5vw, 4rem)', color: '#1C1C1C', lineHeight: 1.05 }}>
+            <h2 style={{ fontFamily: "var(--font-sans)", fontSize: 'clamp(2.2rem, 5vw, 4rem)', color: '#1C1C1C', lineHeight: 1.05 }}>
               Curated Arrangements
             </h2>
           </div>

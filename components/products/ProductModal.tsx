@@ -181,7 +181,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   </p>
 
                   {/* Title */}
-                  <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.8rem,3.5vw,2.8rem)', color: '#1C1C1C', lineHeight: 1.08, marginBottom: 4 }}>
+                  <h2 style={{ fontFamily: "var(--font-sans)", fontSize: 'clamp(1.8rem,3.5vw,2.8rem)', color: '#1C1C1C', lineHeight: 1.08, marginBottom: 4 }}>
                     {product.name}
                   </h2>
                   <p style={{ fontSize: 13, color: '#8A8A8A', fontStyle: 'italic', marginBottom: 16 }}>{product.tagline}</p>

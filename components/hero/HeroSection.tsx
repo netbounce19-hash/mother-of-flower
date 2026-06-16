@@ -68,7 +68,7 @@ export default function HeroSection() {
             x: 10
           }}
           style={{
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontFamily: "var(--font-sans)",
             fontSize: 'clamp(2.5rem, 6vw, 7rem)',
             fontWeight: 400,
             color: '#2D1E23', // Darker font as requested
@@ -96,7 +96,7 @@ export default function HeroSection() {
               x: 10
             }}
             style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontFamily: "var(--font-sans)",
               fontSize: 'clamp(2.5rem, 6vw, 7rem)',
               fontWeight: 400,
               color: '#2D1E23', // Darker font

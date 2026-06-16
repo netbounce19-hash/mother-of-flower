@@ -54,10 +54,10 @@ export default function Navbar() {
         <nav style={CONTAINER}>
           {/* Logo */}
           <a href="/" style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, textDecoration: 'none', flexShrink: 0 }}>
-            <span style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 18, letterSpacing: '0.12em', color: '#1C1C1C' }}>
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: 18, letterSpacing: '0.12em', color: '#1C1C1C' }}>
               MOTHER
             </span>
-            <span style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 10, letterSpacing: '0.4em', color: '#8A8A8A', textTransform: 'uppercase', marginTop: -2 }}>
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: 10, letterSpacing: '0.4em', color: '#8A8A8A', textTransform: 'uppercase', marginTop: -2 }}>
               of flower
             </span>
           </a>
@@ -145,7 +145,7 @@ export default function Navbar() {
             style={{ position: 'fixed', inset: 0, zIndex: 60, backgroundColor: '#FDFDFD', display: 'flex', flexDirection: 'column' }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 24px', height: 64 }}>
-              <span style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 18, letterSpacing: '0.12em', color: '#1C1C1C' }}>MOTHER</span>
+              <span style={{ fontFamily: "var(--font-sans)", fontSize: 18, letterSpacing: '0.12em', color: '#1C1C1C' }}>MOTHER</span>
               <button aria-label="Close menu" onClick={() => setMenuOpen(false)} style={{ padding: 8, background: 'none', border: 'none', cursor: 'pointer', color: '#1C1C1C' }}>
                 <X size={22} strokeWidth={1.5} />
               </button>
@@ -159,7 +159,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.08, duration: 0.4 }}
-                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 40, color: '#1C1C1C', textDecoration: 'none' }}
+                  style={{ fontFamily: "var(--font-sans)", fontSize: 40, color: '#1C1C1C', textDecoration: 'none' }}
                   onClick={() => setMenuOpen(false)}
                 >
                   {link.label}

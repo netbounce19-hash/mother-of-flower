@@ -388,7 +388,7 @@ export default function InstagramReels() {
           </p>
           <h2
             style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontFamily: "var(--font-sans)",
               fontSize: 'clamp(2.2rem, 4.5vw, 3.4rem)',
               color: '#1C1C1C',
               lineHeight: 1.05,
@@ -682,7 +682,7 @@ export default function InstagramReels() {
                     >
                       <span
                         style={{
-                          fontFamily: "'Cormorant Garamond', Georgia, serif",
+                          fontFamily: "var(--font-sans)",
                           fontSize: 14,
                           fontWeight: 500,
                           color: '#C9A96E',
@@ -745,7 +745,7 @@ export default function InstagramReels() {
                         flexShrink: 0,
                       }}
                     >
-                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 10, color: '#C9A96E' }}>MF</span>
+                      <span style={{ fontFamily: "var(--font-sans)", fontSize: 10, color: '#C9A96E' }}>MF</span>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                       <p style={{ fontSize: 12.5, color: '#1C1C1C', lineHeight: 1.5 }}>

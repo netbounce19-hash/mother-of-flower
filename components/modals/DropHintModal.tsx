@@ -163,7 +163,7 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
                     </div>
                     <div>
                       <p style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 2 }}>Drop a Hint</p>
-                      <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 18, color: '#1C1C1C', lineHeight: 1.2 }}>{product.name}</h3>
+                      <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 18, color: '#1C1C1C', lineHeight: 1.2 }}>{product.name}</h3>
                       <p style={{ fontSize: 12, color: '#8A8A8A', marginTop: 2 }}>{product.currency} {product.price.toLocaleString()}</p>
                     </div>
                   </div>
@@ -222,7 +222,7 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
                   style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 16, padding: '20px 0' }}
                 >
                   <div style={{ width: 56, height: 56, borderRadius: '50%', backgroundColor: '#F7F5F2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>🌸</div>
-                  <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 26, color: '#1C1C1C' }}>Hint Sent!</h3>
+                  <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 26, color: '#1C1C1C' }}>Hint Sent!</h3>
                   <p style={{ fontSize: 13, color: '#8A8A8A', lineHeight: 1.7, maxWidth: 280 }}>
                     We've sent a beautiful hint to <strong style={{ color: '#1C1C1C', fontWeight: 400 }}>{form.recipientFirstName || 'them'}</strong>. Fingers crossed they take the hint! 🌹
                   </p>

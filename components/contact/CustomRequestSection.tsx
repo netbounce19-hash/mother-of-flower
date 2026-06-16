@@ -33,7 +33,7 @@ export default function CustomRequestSection() {
               </p>
               <h2
                 style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
                   color: '#1C1C1C',
                   lineHeight: 1.1,
