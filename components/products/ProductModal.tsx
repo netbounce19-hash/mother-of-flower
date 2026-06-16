@@ -176,19 +176,19 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   style={{ padding: '2rem 2.5rem', paddingBottom: '2rem' }}
                 >
                   {/* SKU */}
-                  <p style={{ fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>
+                  <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>
                     {product.sku}
                   </p>
 
                   {/* Title */}
-                  <h2 style={{ fontFamily: "var(--font-sans)", fontSize: 'clamp(1.8rem,3.5vw,2.8rem)', color: '#1C1C1C', lineHeight: 1.08, marginBottom: 4 }}>
+                  <h2 style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: 'clamp(1.8rem,3.5vw,2.8rem)', color: '#1C1C1C', lineHeight: 1.08, marginBottom: 4 }}>
                     {product.name}
                   </h2>
                   <p style={{ fontSize: 13, color: '#8A8A8A', fontStyle: 'italic', marginBottom: 16 }}>{product.tagline}</p>
 
                   {/* Price */}
-                  <p style={{ fontSize: 22, color: '#1C1C1C', marginBottom: 24 }}>
-                    {product.currency} <strong style={{ fontWeight: 500 }}>{product.price.toLocaleString()}</strong>
+                  <p style={{ fontSize: 24, fontWeight: 700, color: '#1C1C1C', marginBottom: 24 }}>
+                    {product.currency} {product.price.toLocaleString()}
                   </p>
 
                   <div style={{ width: '100%', height: 1, backgroundColor: '#E5E5E5', marginBottom: 24 }} />
@@ -198,7 +198,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
                   {/* Choose Date */}
                   <div style={{ marginBottom: 24 }}>
-                    <p style={{ fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>Delivery Date</p>
+                    <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>Delivery Date</p>
                     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                       {(['tomorrow', 'calendar'] as const).map((d) => (
                         <button
@@ -207,8 +207,9 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                           style={{
                             padding: '10px 16px',
                             borderRadius: 9999,
-                            fontSize: 12,
-                            letterSpacing: '0.06em',
+                            fontSize: 13,
+                            fontWeight: 600,
+                            letterSpacing: '0.02em',
                             border: `1px solid ${selectedDate === d ? '#1C1C1C' : '#E5E5E5'}`,
                             backgroundColor: selectedDate === d ? '#1C1C1C' : 'transparent',
                             color: selectedDate === d ? '#FDFDFD' : '#1C1C1C',
@@ -228,7 +229,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
                   {/* Size */}
                   <div style={{ marginBottom: 24 }}>
-                    <p style={{ fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>Size</p>
+                    <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>Size</p>
                     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                       {product.sizes.map((size) => (
                         <button
@@ -237,8 +238,9 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                           style={{
                             padding: '10px 20px',
                             borderRadius: 9999,
-                            fontSize: 12,
-                            letterSpacing: '0.06em',
+                            fontSize: 13,
+                            fontWeight: 600,
+                            letterSpacing: '0.02em',
                             border: `1px solid ${selectedSize === size ? '#1C1C1C' : '#E5E5E5'}`,
                             backgroundColor: selectedSize === size ? '#1C1C1C' : 'transparent',
                             color: selectedSize === size ? '#FDFDFD' : '#1C1C1C',
@@ -254,7 +256,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
                   {/* Box Color */}
                   <div style={{ marginBottom: 32 }}>
-                    <p style={{ fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>Box</p>
+                    <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>Box</p>
                     <div style={{ display: 'flex', gap: 12 }}>
                       {BOX_COLORS.filter((bc) => product.boxColors.includes(bc.label)).map((bc) => (
                         <button
@@ -291,10 +293,11 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                       style={{
                         width: '100%',
                         padding: '16px',
-                        fontSize: 12,
-                        letterSpacing: '0.18em',
+                        fontSize: 13,
+                        fontWeight: 700,
+                        letterSpacing: '0.04em',
                         textTransform: 'uppercase',
-                        fontFamily: 'Inter, sans-serif',
+                        fontFamily: 'var(--font-sans)',
                         backgroundColor: addedToCart ? '#4A7C59' : '#1C1C1C',
                         color: '#FDFDFD',
                         border: 'none',
@@ -307,7 +310,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                         cursor: 'pointer',
                       }}
                     >
-                      {addedToCart ? <><Check size={14} strokeWidth={2} /> Added to Cart</> : 'Add to Cart'}
+                      {addedToCart ? <><Check size={14} strokeWidth={2.5} /> Added to Cart</> : 'Add to Cart'}
                     </button>
 
                     <button
@@ -315,10 +318,11 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                       style={{
                         width: '100%',
                         padding: '14px',
-                        fontSize: 12,
-                        letterSpacing: '0.18em',
+                        fontSize: 13,
+                        fontWeight: 700,
+                        letterSpacing: '0.04em',
                         textTransform: 'uppercase',
-                        fontFamily: 'Inter, sans-serif',
+                        fontFamily: 'var(--font-sans)',
                         backgroundColor: 'transparent',
                         color: '#1C1C1C',
                         border: '1px solid #E5E5E5',

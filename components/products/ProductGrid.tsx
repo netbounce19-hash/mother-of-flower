@@ -31,10 +31,10 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
           style={{ marginBottom: 64, display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 32, flexWrap: 'wrap' }}
         >
           <div>
-            <p style={{ fontSize: 11, letterSpacing: '0.35em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>
+            <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>
               The Collection
             </p>
-            <h2 style={{ fontFamily: "var(--font-sans)", fontSize: 'clamp(2.2rem, 5vw, 4rem)', color: '#1C1C1C', lineHeight: 1.05 }}>
+            <h2 style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: 'clamp(2.2rem, 5vw, 4rem)', color: '#1C1C1C', lineHeight: 1.05 }}>
               Curated Arrangements
             </h2>
           </div>
@@ -66,10 +66,10 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
                  color: '#1C1C1C',
                  border: '1px solid #D1D1D1',
                  padding: '16px 40px',
-                 fontSize: '11px',
-                 letterSpacing: '0.15em',
+                 fontSize: '13px',
+                 letterSpacing: '0.04em',
                  textTransform: 'uppercase',
-                 fontWeight: 500
+                 fontWeight: 700
                }}
                onMouseEnter={(e) => {
                  e.currentTarget.style.borderColor = '#1C1C1C';

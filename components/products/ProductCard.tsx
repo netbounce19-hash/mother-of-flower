@@ -50,7 +50,7 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
       {/* Info */}
       <div className="flex flex-col justify-center" style={{ minHeight: '110px', padding: '0 1%' }}>
         <div className="flex items-center justify-between gap-4">
-          <h3 className="font-sans text-[12px] tracking-[0.12em] uppercase text-graphite group-hover:opacity-75 transition-opacity duration-300">
+          <h3 className="font-sans text-[14px] font-bold tracking-wide uppercase text-graphite group-hover:opacity-75 transition-opacity duration-300">
             {product.name}
           </h3>
           <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
@@ -70,7 +70,7 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
             </button>
           </div>
         </div>
-        <p className="font-sans text-[12px] tracking-[0.12em] text-[#8A8A8A] mt-1 uppercase">
+        <p className="font-sans text-[14px] font-bold tracking-wide text-[#8A8A8A] mt-1 uppercase">
           ${product.price.toLocaleString()}
         </p>
       </div>

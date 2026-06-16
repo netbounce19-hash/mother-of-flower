@@ -64,35 +64,35 @@ export default function AboutSection() {
             style={{ gap: '48px' }}
           >
             <motion.div variants={fadeUp} className="flex flex-col gap-4">
-              <h2 className="font-sans text-[14px] tracking-[0.18em] uppercase" style={{ color: '#1C1C1C' }}>Premium Quality</h2>
+              <h2 className="font-sans text-[14px] font-bold tracking-wide uppercase" style={{ color: '#1C1C1C' }}>Premium Quality</h2>
               <p className="text-[15px] leading-[1.8]" style={{ color: '#5A5A5A' }}>
                 We source event-grade blooms daily and handcraft every piece in our Las Vegas studio. Temperature-controlled hydration, clean mechanics, and recyclable wrap keep your flowers pristine from workbench to doorstep.
               </p>
             </motion.div>
 
             <motion.div variants={fadeUp} className="flex flex-col gap-4">
-              <h2 className="font-sans text-[14px] tracking-[0.18em] uppercase" style={{ color: '#1C1C1C' }}>Delivery & Setup</h2>
+              <h2 className="font-sans text-[14px] font-bold tracking-wide uppercase" style={{ color: '#1C1C1C' }}>Delivery & Setup</h2>
               <p className="text-[15px] leading-[1.8]" style={{ color: '#5A5A5A' }}>
                 Same-day, hand delivery with precise 2-hour windows. We coordinate with concierge, can place arrangements in-room, and include a care card. For bouquets, use a clean vase with cool water. See our simple care guide or message us—we'll help with everything.
               </p>
             </motion.div>
 
             <motion.div variants={fadeUp} className="flex flex-col gap-4">
-              <h2 className="font-sans text-[14px] tracking-[0.18em] uppercase" style={{ color: '#1C1C1C' }}>Handcrafted Florals,<br/>Living Stories</h2>
+              <h2 className="font-sans text-[14px] font-bold tracking-wide uppercase" style={{ color: '#1C1C1C' }}>Handcrafted Florals,<br/>Living Stories</h2>
               <p className="text-[15px] leading-[1.8]" style={{ color: '#5A5A5A' }}>
                 Our designer florists build each arrangement by hand in our Las Vegas studio. We compose color, texture, and movement so your bouquet feels personal—more than flowers, a story for your moment.
               </p>
             </motion.div>
 
             <motion.div variants={fadeUp} className="flex flex-col gap-4">
-              <h2 className="font-sans text-[14px] tracking-[0.18em] uppercase" style={{ color: '#1C1C1C' }}>Sustainability & Safety</h2>
+              <h2 className="font-sans text-[14px] font-bold tracking-wide uppercase" style={{ color: '#1C1C1C' }}>Sustainability & Safety</h2>
               <p className="text-[15px] leading-[1.8] mb-2" style={{ color: '#5A5A5A' }}>
                 Responsibly sourced blooms, recyclable wrapping, and water-based care. Same-day, temperature-conscious hand delivery for homes, offices, and hotel suites. Need child- or pet-considerate florals? Tell us—we'll tailor the selection.
               </p>
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 text-[12px] tracking-[0.12em] uppercase border-b pb-1 w-fit hover:opacity-50 transition-opacity duration-300"
-                style={{ color: '#1C1C1C', borderColor: '#1C1C1C', fontWeight: 500 }}
+                className="inline-flex items-center gap-2 text-[13px] tracking-wide uppercase font-bold border-b pb-1 w-fit hover:opacity-50 transition-opacity duration-300"
+                style={{ color: '#1C1C1C', borderColor: '#1C1C1C' }}
               >
                 Get Advice →
               </a>
@@ -115,8 +115,8 @@ export default function AboutSection() {
           >
             <motion.h2 
               variants={fadeUp} 
-              className="font-sans tracking-[0.15em] uppercase text-center"
-              style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 400 }}
+              className="font-sans tracking-wide uppercase text-center"
+              style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 700 }}
             >
               Partner with Mother of Flower
             </motion.h2>
@@ -178,7 +178,7 @@ export default function AboutSection() {
               variants={staggerContainer}
               className="flex flex-col gap-10 order-1 md:order-2"
             >
-              <motion.h3 variants={fadeUp} className="font-sans text-[16px] tracking-[0.2em] uppercase text-[#1C1C1C]">
+              <motion.h3 variants={fadeUp} className="font-sans text-[16px] font-bold tracking-wide uppercase text-[#1C1C1C]">
                 What our partners get:
               </motion.h3>
               
@@ -216,10 +216,10 @@ export default function AboutSection() {
                     backgroundColor: '#1C1C1C', 
                     color: '#FDFDFD',
                     padding: '18px 48px',
-                    fontSize: '12px',
-                    letterSpacing: '0.15em',
+                    fontSize: '13px',
+                    letterSpacing: '0.04em',
                     textTransform: 'uppercase',
-                    fontWeight: 500
+                    fontWeight: 700
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.backgroundColor = '#C9A96E';

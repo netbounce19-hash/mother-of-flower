@@ -34,17 +34,17 @@ export default function LocationSection() {
             >
               <div className="flex flex-col gap-8 text-[15px] text-[#1C1C1C] leading-relaxed mb-10" style={{ fontFamily: 'var(--font-sans)' }}>
                 <div>
-                  <p className="text-[11px] tracking-[0.2em] uppercase text-[#8A8A8A] font-semibold mb-2">Address</p>
+                  <p className="text-[13px] tracking-wide uppercase text-[#8A8A8A] font-bold mb-2">Address</p>
                   <p>7710 Eastgate Rd<br/>Henderson, NV 89011</p>
                 </div>
                 
                 <div>
-                  <p className="text-[11px] tracking-[0.2em] uppercase text-[#8A8A8A] font-semibold mb-2">Hours</p>
+                  <p className="text-[13px] tracking-wide uppercase text-[#8A8A8A] font-bold mb-2">Hours</p>
                   <p>Mon - Sat, 9am - 7pm<br/>Sun, 9am - 5pm</p>
                 </div>
 
                 <div>
-                  <p className="text-[11px] tracking-[0.2em] uppercase text-[#8A8A8A] font-semibold mb-2">Contact</p>
+                  <p className="text-[13px] tracking-wide uppercase text-[#8A8A8A] font-bold mb-2">Contact</p>
                   <p>+1 (702) 555-0198</p>
                   <a href="mailto:orders@motherofflower.com" className="hover:text-[#9D5C69] transition-colors block">orders@motherofflower.com</a>
                 </div>
@@ -60,10 +60,10 @@ export default function LocationSection() {
                   color: '#1C1C1C',
                   border: '1px solid #1C1C1C',
                   padding: '16px 48px',
-                  fontSize: '11px',
-                  letterSpacing: '0.15em',
+                  fontSize: '13px',
+                  letterSpacing: '0.04em',
                   textTransform: 'uppercase',
-                  fontWeight: 600,
+                  fontWeight: 700,
                   borderRadius: '50px'
                 }}
                 onMouseEnter={(e) => {

@@ -28,7 +28,7 @@ export default function CustomRequestSection() {
             style={{ gap: '32px' }}
           >
             <motion.div variants={fadeUp}>
-              <p style={{ fontSize: 10, letterSpacing: '0.35em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12, fontWeight: 500 }}>
+              <p style={{ fontSize: 13, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12, fontWeight: 700 }}>
                 Bespoke Services
               </p>
               <h2
@@ -37,7 +37,7 @@ export default function CustomRequestSection() {
                   fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
                   color: '#1C1C1C',
                   lineHeight: 1.1,
-                  fontWeight: 400,
+                  fontWeight: 700,
                   marginBottom: 24
                 }}
               >
@@ -50,7 +50,7 @@ export default function CustomRequestSection() {
 
             <motion.div variants={fadeUp} className="flex flex-col gap-6 mt-4">
               <div>
-                <h3 className="text-[12px] tracking-[0.15em] uppercase text-[#1C1C1C] mb-2 font-medium">What we offer</h3>
+                <h3 className="text-[12px] tracking-wide font-bold uppercase text-[#1C1C1C] mb-2">What we offer</h3>
                 <ul className="text-[14px] text-[#5A5A5A] flex flex-col gap-2 leading-relaxed">
                   <li>✦ Tailored Personal Bouquets</li>
                   <li>✦ Wedding & Engagement Florals</li>
@@ -73,7 +73,7 @@ export default function CustomRequestSection() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-1">
-                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#5A5A5A] font-medium">Full Name</label>
+                  <label className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Full Name</label>
                   <input 
                     type="text" 
                     placeholder="Jane Doe" 
@@ -81,7 +81,7 @@ export default function CustomRequestSection() {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#5A5A5A] font-medium">Phone or Email</label>
+                  <label className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Phone or Email</label>
                   <input 
                     type="text" 
                     placeholder="contact@example.com" 
@@ -91,7 +91,7 @@ export default function CustomRequestSection() {
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-[10px] tracking-[0.15em] uppercase text-[#5A5A5A] font-medium">Inquiry Type</label>
+                <label className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Inquiry Type</label>
                 <div className="relative">
                   <select className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] appearance-none focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors cursor-pointer rounded-none">
                     <option value="" disabled selected hidden className="text-[#A3A3A3]">Select type...</option>
@@ -107,7 +107,7 @@ export default function CustomRequestSection() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-1">
-                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#5A5A5A] font-medium">Date of Event / Delivery</label>
+                  <label className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Date of Event / Delivery</label>
                   <input 
                     type="text" 
                     placeholder="DD.MM.YYYY"
@@ -115,7 +115,7 @@ export default function CustomRequestSection() {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-[10px] tracking-[0.15em] uppercase text-[#5A5A5A] font-medium">Estimated Budget</label>
+                  <label className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Estimated Budget</label>
                   <div className="relative">
                     <select className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] appearance-none focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors cursor-pointer rounded-none">
                       <option value="" disabled selected hidden className="text-[#A3A3A3]">Select budget...</option>
@@ -130,7 +130,7 @@ export default function CustomRequestSection() {
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-[10px] tracking-[0.15em] uppercase text-[#5A5A5A] font-medium">Your Vision / Details</label>
+                <label className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Your Vision / Details</label>
                 <textarea 
                   placeholder="Tell us about the occasion, preferred colors, or specific flowers..." 
                   rows={3}
@@ -146,10 +146,10 @@ export default function CustomRequestSection() {
                     backgroundColor: '#1C1C1C', 
                     color: '#FDFDFD',
                     padding: '16px 48px',
-                    fontSize: '11px',
-                    letterSpacing: '0.15em',
+                    fontSize: '13px',
+                    letterSpacing: '0.04em',
                     textTransform: 'uppercase',
-                    fontWeight: 500
+                    fontWeight: 700
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.backgroundColor = '#C9A96E';
