@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCreative, Pagination, Keyboard, Mousewheel } from 'swiper/modules';
+import Image from 'next/image';
 
 import 'swiper/css';
 import 'swiper/css/effect-creative';
@@ -15,11 +16,11 @@ import { products } from '@/data/products';
 export default function HeroSection() {
   const [isHintOpen, setIsHintOpen] = useState(false);
 
-  // Placeholder slides for the Swiper
+  // Slides with image paths
   const slides = [
-    { id: 1, bgColor: '#EAE5DF', text: 'SLIDE 1 (PLACEHOLDER)' },
-    { id: 2, bgColor: '#D9D0C7', text: 'SLIDE 2 (PLACEHOLDER)' },
-    { id: 3, bgColor: '#C2B8B1', text: 'SLIDE 3 (PLACEHOLDER)' },
+    { id: 1, imageUrl: '/images/hero-1.jpg' },
+    { id: 2, imageUrl: '/images/hero-2.jpg' },
+    { id: 3, imageUrl: '/images/hero-3.jpg' },
   ];
 
   return (
@@ -58,27 +59,24 @@ export default function HeroSection() {
               style={{ 
                 width: '100%', 
                 height: '100%', 
-                backgroundColor: slide.bgColor,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
+                position: 'relative',
+                backgroundColor: '#1C1C1C' // Dark background while loading
               }}
             >
-              <span style={{ 
-                color: '#8A8A8A', 
-                fontSize: '14px', 
-                letterSpacing: '0.15em', 
-                textTransform: 'uppercase',
-                fontFamily: 'var(--font-sans)'
-              }}>
-                {slide.text}
-              </span>
+              {/* Fallback color/placeholder is removed, we now render the image directly */}
+              <Image 
+                src={slide.imageUrl} 
+                alt={`Hero Slide ${slide.id}`} 
+                fill 
+                style={{ objectFit: 'cover' }} 
+                priority={slide.id === 1} // Only preload the first image
+              />
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
 
-      {/* Overlay Title & Button centered over the slider */}
+      {/* Overlay Button centered over the slider */}
       <div 
         style={{
           position: 'absolute',
@@ -87,34 +85,13 @@ export default function HeroSection() {
           width: '100%',
           height: '100%',
           zIndex: 10,
-          pointerEvents: 'none', // Allows swiping over the text
+          pointerEvents: 'none', // Allows swiping over the overlay
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: 'clamp(3rem, 8vw, 8rem)',
-            fontWeight: 400,
-            color: '#1C1C1C',
-            lineHeight: 0.9,
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            textAlign: 'center',
-            textShadow: '0 4px 40px rgba(253,253,253,0.8)' // Strong glow so text is readable on any background
-          }}
-        >
-          MOTHER
-          <br />
-          OF FLOWER
-        </motion.h1>
-
         <motion.button
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -122,7 +99,6 @@ export default function HeroSection() {
           onClick={() => setIsHintOpen(true)}
           style={{
             pointerEvents: 'auto', // Enable clicks just for the button
-            marginTop: '50px',
             padding: '14px 40px',
             borderRadius: '40px',
             border: '1px solid #1C1C1C',
