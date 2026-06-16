@@ -54,10 +54,10 @@ export default function Navbar() {
         <nav style={CONTAINER}>
           {/* Logo */}
           <a href="/" style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, textDecoration: 'none', flexShrink: 0 }}>
-            <span style={{ fontFamily: "var(--font-sans)", fontSize: 18, letterSpacing: '0.12em', color: '#1C1C1C' }}>
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: 20, letterSpacing: '0.12em', color: scrolled ? '#1C1C1C' : '#FDFDFD', textShadow: scrolled ? 'none' : '0 2px 10px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
               MOTHER
             </span>
-            <span style={{ fontFamily: "var(--font-sans)", fontSize: 10, letterSpacing: '0.4em', color: '#8A8A8A', textTransform: 'uppercase', marginTop: -2 }}>
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: 11, letterSpacing: '0.4em', color: scrolled ? '#8A8A8A' : '#EAEAEA', textTransform: 'uppercase', marginTop: -2, textShadow: scrolled ? 'none' : '0 2px 10px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
               of flower
             </span>
           </a>
@@ -68,9 +68,9 @@ export default function Navbar() {
               <li key={link.label}>
                 <a
                   href={link.href}
-                  style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#8A8A8A', textDecoration: 'none', transition: 'color 0.3s' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = '#1C1C1C')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#8A8A8A')}
+                  style={{ fontSize: 13, fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: scrolled ? '#8A8A8A' : '#FDFDFD', textShadow: scrolled ? 'none' : '0 2px 10px rgba(0,0,0,0.4)', textDecoration: 'none', transition: 'color 0.3s' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = scrolled ? '#1C1C1C' : '#EAEAEA')}
+                  onMouseLeave={e => (e.currentTarget.style.color = scrolled ? '#8A8A8A' : '#FDFDFD')}
                 >
                   {link.label}
                 </a>
@@ -85,36 +85,41 @@ export default function Navbar() {
               href="tel:+17252242454"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
-                padding: '8px 16px',
+                padding: '10px 20px',
                 borderRadius: 9999,
-                border: '1px solid #E5E5E5',
-                fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase',
-                color: '#1C1C1C', textDecoration: 'none',
-                transition: 'all 0.25s',
+                border: `1px solid ${scrolled ? '#E5E5E5' : 'rgba(253,253,253,0.6)'}`,
+                fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase',
+                color: scrolled ? '#1C1C1C' : '#FDFDFD', textDecoration: 'none',
+                textShadow: scrolled ? 'none' : '0 2px 10px rgba(0,0,0,0.3)',
+                boxShadow: scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.1)',
+                backdropFilter: scrolled ? 'none' : 'blur(4px)',
+                transition: 'all 0.3s',
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.backgroundColor = '#1C1C1C';
-                e.currentTarget.style.color = '#FDFDFD';
-                e.currentTarget.style.borderColor = '#1C1C1C';
+                e.currentTarget.style.backgroundColor = scrolled ? '#1C1C1C' : '#FDFDFD';
+                e.currentTarget.style.color = scrolled ? '#FDFDFD' : '#1C1C1C';
+                e.currentTarget.style.borderColor = scrolled ? '#1C1C1C' : '#FDFDFD';
+                e.currentTarget.style.textShadow = 'none';
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#1C1C1C';
-                e.currentTarget.style.borderColor = '#E5E5E5';
+                e.currentTarget.style.color = scrolled ? '#1C1C1C' : '#FDFDFD';
+                e.currentTarget.style.borderColor = scrolled ? '#E5E5E5' : 'rgba(253,253,253,0.6)';
+                e.currentTarget.style.textShadow = scrolled ? 'none' : '0 2px 10px rgba(0,0,0,0.3)';
               }}
             >
-              <Phone size={12} strokeWidth={1.5} />
+              <Phone size={14} strokeWidth={1.5} />
               Order a Call
             </a>
 
             <button
               aria-label="Shopping bag"
               onClick={() => setIsCartOpen(true)}
-              style={{ position: 'relative', padding: 8, color: '#1C1C1C', background: 'none', border: 'none', cursor: 'pointer' }}
+              style={{ position: 'relative', padding: 8, color: scrolled ? '#1C1C1C' : '#FDFDFD', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.4s' }}
             >
-              <ShoppingBag size={20} strokeWidth={1.5} />
+              <ShoppingBag size={22} strokeWidth={1.5} style={{ filter: scrolled ? 'none' : 'drop-shadow(0 2px 10px rgba(0,0,0,0.4))' }} />
               {cartCount > 0 && (
-                <span style={{ position: 'absolute', top: 4, right: 4, width: 16, height: 16, borderRadius: '50%', backgroundColor: '#1C1C1C', color: '#FDFDFD', fontSize: 9, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ position: 'absolute', top: 4, right: 4, width: 16, height: 16, borderRadius: '50%', backgroundColor: scrolled ? '#1C1C1C' : '#FDFDFD', color: scrolled ? '#FDFDFD' : '#1C1C1C', fontSize: 9, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {cartCount}
                 </span>
               )}
@@ -123,11 +128,11 @@ export default function Navbar() {
             {/* Mobile hamburger */}
             <button
               aria-label="Open menu"
-              style={{ padding: 8, color: '#1C1C1C', background: 'none', border: 'none', cursor: 'pointer', display: 'none' }}
+              style={{ padding: 8, color: scrolled ? '#1C1C1C' : '#FDFDFD', background: 'none', border: 'none', cursor: 'pointer', display: 'none', transition: 'color 0.4s' }}
               className="mobile-menu-btn"
               onClick={() => setMenuOpen(true)}
             >
-              <Menu size={20} strokeWidth={1.5} />
+              <Menu size={22} strokeWidth={1.5} style={{ filter: scrolled ? 'none' : 'drop-shadow(0 2px 10px rgba(0,0,0,0.4))' }} />
             </button>
           </div>
         </nav>

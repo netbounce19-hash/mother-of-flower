@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCreative, Pagination, Keyboard, Mousewheel } from 'swiper/modules';
@@ -10,12 +9,7 @@ import 'swiper/css';
 import 'swiper/css/effect-creative';
 import 'swiper/css/pagination';
 
-import DropHintModal from '@/components/modals/DropHintModal';
-import { products } from '@/data/products';
-
 export default function HeroSection() {
-  const [isHintOpen, setIsHintOpen] = useState(false);
-
   // Slides with image paths
   const slides = [
     { id: 1, imageUrl: '/images/hero-1.jpg' },
@@ -63,7 +57,6 @@ export default function HeroSection() {
                 backgroundColor: '#1C1C1C' // Dark background while loading
               }}
             >
-              {/* Fallback color/placeholder is removed, we now render the image directly */}
               <Image 
                 src={slide.imageUrl} 
                 alt={`Hero Slide ${slide.id}`} 
@@ -92,39 +85,41 @@ export default function HeroSection() {
           justifyContent: 'center',
         }}
       >
-        <motion.button
+        <motion.a
+          href="#catalog"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          onClick={() => setIsHintOpen(true)}
           style={{
             pointerEvents: 'auto', // Enable clicks just for the button
-            padding: '14px 40px',
-            borderRadius: '40px',
-            border: '1px solid #1C1C1C',
-            color: '#1C1C1C',
-            fontSize: '11px',
-            letterSpacing: '0.15em',
+            padding: '18px 56px',
+            borderRadius: '50px',
+            border: '1px solid rgba(253,253,253,0.8)',
+            color: '#FDFDFD',
+            fontSize: '13px',
+            letterSpacing: '0.2em',
             textTransform: 'uppercase',
-            backgroundColor: 'rgba(253,253,253,0.6)',
-            backdropFilter: 'blur(10px)',
+            backgroundColor: 'rgba(28,28,28,0.3)',
+            backdropFilter: 'blur(12px)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+            textDecoration: 'none',
             cursor: 'pointer',
             transition: 'all 0.3s ease'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#1C1C1C';
-            e.currentTarget.style.color = '#FDFDFD';
+            e.currentTarget.style.backgroundColor = '#FDFDFD';
+            e.currentTarget.style.color = '#1C1C1C';
+            e.currentTarget.style.transform = 'scale(1.05)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(253,253,253,0.6)';
-            e.currentTarget.style.color = '#1C1C1C';
+            e.currentTarget.style.backgroundColor = 'rgba(28,28,28,0.3)';
+            e.currentTarget.style.color = '#FDFDFD';
+            e.currentTarget.style.transform = 'scale(1)';
           }}
         >
-          Drop Hint
-        </motion.button>
+          Shop Now
+        </motion.a>
       </div>
-
-      <DropHintModal product={products[0]} isOpen={isHintOpen} onClose={() => setIsHintOpen(false)} />
     </section>
   );
 }
