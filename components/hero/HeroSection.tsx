@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCreative, Pagination, Keyboard } from 'swiper/modules';
+import { EffectCreative, Pagination, Keyboard, Mousewheel } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/effect-creative';
@@ -46,8 +46,10 @@ export default function HeroSection() {
           clickable: true,
         }}
         keyboard={true}
-        loop={true}
-        modules={[EffectCreative, Pagination, Keyboard]}
+        mousewheel={{
+          releaseOnEdges: true,
+        }}
+        modules={[EffectCreative, Pagination, Keyboard, Mousewheel]}
         className="w-full h-full"
       >
         {slides.map((slide) => (
