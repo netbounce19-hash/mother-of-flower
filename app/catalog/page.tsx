@@ -37,13 +37,13 @@ export default function CatalogPage() {
   const displayedProducts = products;
 
   return (
-    <div className="w-full min-h-screen bg-[#FAF9F6] pt-[160px] pb-24">
+    <div className="w-full min-h-screen bg-[#FAF9F6] pt-[200px] pb-24">
       <div style={{ maxWidth: 1440, margin: '0 auto', paddingLeft: 'clamp(20px, 5vw, 72px)', paddingRight: 'clamp(20px, 5vw, 72px)' }}>
         
         <div className="flex flex-col lg:flex-row gap-12 mt-8">
           
           {/* Sidebar */}
-          <aside className="w-full lg:w-[260px] flex-shrink-0 flex flex-col gap-6 lg:sticky lg:top-[160px] max-h-[calc(100vh-180px)] overflow-y-auto custom-scrollbar pr-2 pb-10">
+          <aside className="w-full lg:w-[260px] flex-shrink-0 flex flex-col gap-6 lg:sticky lg:top-[200px] max-h-[calc(100vh-220px)] overflow-y-auto custom-scrollbar pr-2 pb-10">
             {/* Categories Accordion */}
             <div className="border-b border-[#E5E5E5] pb-6">
               <button 
