@@ -69,7 +69,7 @@ export default function HeroSection() {
         ))}
       </Swiper>
 
-      {/* Overlay Button centered over the slider */}
+      {/* Overlay Text and Button centered over the slider */}
       <div 
         style={{
           position: 'absolute',
@@ -83,8 +83,29 @@ export default function HeroSection() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
+          gap: '32px',
         }}
       >
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(32px, 5vw, 48px)',
+            fontStyle: 'italic',
+            fontWeight: 400,
+            color: '#FDFDFD',
+            textShadow: '0 4px 16px rgba(0,0,0,0.5)',
+            letterSpacing: '0.02em',
+            textAlign: 'center',
+            margin: 0,
+            padding: '0 20px',
+          }}
+        >
+          Custom Floral Designs
+        </motion.h1>
+
         <motion.a
           href="#catalog"
           initial={{ opacity: 0, y: 20 }}

@@ -1,9 +1,17 @@
 import type { Metadata } from 'next';
+import { Playfair_Display } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { Providers } from '@/components/providers/Providers';
 import CartSidebar from '@/components/cart/CartSidebar';
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-serif',
+});
 
 export const metadata: Metadata = {
   title: 'MotherOfFlower — Luxury Floral Artistry, Las Vegas',
@@ -31,7 +39,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className={playfair.variable}>
         <Providers>
           <Navbar />
           <CartSidebar />

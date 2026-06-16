@@ -53,12 +53,13 @@ export default function Navbar() {
       >
         <nav style={CONTAINER}>
           {/* Logo */}
-          <a href="/" style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, textDecoration: 'none', flexShrink: 0 }}>
-            <span style={{ fontFamily: "var(--font-sans)", fontSize: 24, fontWeight: 800, letterSpacing: '0.02em', color: scrolled ? '#1C1C1C' : '#FDFDFD', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
-              MOTHER
+          <a href="/" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1, textDecoration: 'none', flexShrink: 0 }}>
+            <span style={{ fontFamily: "var(--font-serif)", fontSize: 28, fontWeight: 400, letterSpacing: '0.04em', color: scrolled ? '#1C1C1C' : '#FDFDFD', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
+              Mother of Flower
             </span>
-            <span style={{ fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 700, letterSpacing: '0.3em', color: scrolled ? '#8A8A8A' : '#EAEAEA', textTransform: 'uppercase', marginTop: 2, textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
-              of flower
+            <div style={{ height: '1px', width: '100%', backgroundColor: scrolled ? '#1C1C1C' : '#FDFDFD', margin: '6px 0', opacity: scrolled ? 0.2 : 0.4, transition: 'background-color 0.4s, opacity 0.4s' }} />
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: 10, fontWeight: 500, letterSpacing: '0.3em', color: scrolled ? '#5A5A5A' : '#EAEAEA', textTransform: 'uppercase', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
+              Las Vegas
             </span>
           </a>
 
@@ -149,10 +150,18 @@ export default function Navbar() {
             transition={{ duration: 0.3 }}
             style={{ position: 'fixed', inset: 0, zIndex: 60, backgroundColor: '#FDFDFD', display: 'flex', flexDirection: 'column' }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 24px', height: 64 }}>
-              <span style={{ fontFamily: "var(--font-sans)", fontSize: 18, letterSpacing: '0.12em', color: '#1C1C1C' }}>MOTHER</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 24px', height: 80 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1 }}>
+                <span style={{ fontFamily: "var(--font-serif)", fontSize: 24, fontWeight: 400, letterSpacing: '0.04em', color: '#1C1C1C' }}>
+                  Mother of Flower
+                </span>
+                <div style={{ height: '1px', width: '100%', backgroundColor: '#1C1C1C', margin: '4px 0', opacity: 0.2 }} />
+                <span style={{ fontFamily: "var(--font-sans)", fontSize: 9, fontWeight: 500, letterSpacing: '0.3em', color: '#5A5A5A', textTransform: 'uppercase' }}>
+                  Las Vegas
+                </span>
+              </div>
               <button aria-label="Close menu" onClick={() => setMenuOpen(false)} style={{ padding: 8, background: 'none', border: 'none', cursor: 'pointer', color: '#1C1C1C' }}>
-                <X size={22} strokeWidth={1.5} />
+                <X size={24} strokeWidth={1.5} />
               </button>
             </div>
 
