@@ -46,9 +46,10 @@ export default function Navbar() {
           zIndex: 50,
           height: 72,
           transition: 'background-color 0.4s, border-color 0.4s, backdrop-filter 0.4s',
-          backgroundColor: scrolled ? 'rgba(253,253,253,0.92)' : 'transparent',
-          borderBottom: scrolled ? '1px solid #E5E5E5' : '1px solid transparent',
-          backdropFilter: scrolled ? 'blur(12px)' : 'none',
+          backgroundColor: scrolled ? 'rgba(253,253,253,0.95)' : 'rgba(0, 0, 0, 0.15)',
+          borderBottom: scrolled ? '1px solid #E5E5E5' : '1px solid rgba(253,253,253,0.1)',
+          backdropFilter: scrolled ? 'blur(12px)' : 'blur(10px)',
+          WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'blur(10px)',
         }}
       >
         <nav style={CONTAINER}>
