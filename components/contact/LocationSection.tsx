@@ -45,13 +45,13 @@ export default function LocationSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center"
         >
           
           {/* Details (Left Col) */}
           <motion.div 
             variants={fadeUp} 
-            className="flex flex-col items-start"
+            className="lg:col-span-4 flex flex-col items-start"
           >
             <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '2.5rem', color: '#1C1C1C', marginBottom: '1.5rem' }}>Henderson</h3>
             
@@ -104,7 +104,7 @@ export default function LocationSection() {
           {/* Map Widget (Right Col) */}
           <motion.div 
             variants={fadeUp} 
-            className="w-full h-[350px] md:h-[400px] bg-[#F7F5F2] relative overflow-hidden"
+            className="lg:col-span-8 w-full h-[300px] md:h-[350px] bg-[#F7F5F2] relative overflow-hidden"
           >
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3226.7905878466657!2d-115.02534572412854!3d36.02517887247781!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c8d11c80f4886f%3A0xcb06526fc1ff725!2s7710%20Eastgate%20Rd%2C%20Henderson%2C%20NV%2089011!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" 
