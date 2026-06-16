@@ -54,10 +54,10 @@ export default function Navbar() {
         <nav style={CONTAINER}>
           {/* Logo */}
           <a href="/" style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, textDecoration: 'none', flexShrink: 0 }}>
-            <span style={{ fontFamily: "var(--font-sans)", fontSize: 20, letterSpacing: '0.12em', color: scrolled ? '#1C1C1C' : '#FDFDFD', textShadow: scrolled ? 'none' : '0 2px 10px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: 24, fontWeight: 800, letterSpacing: '0.02em', color: scrolled ? '#1C1C1C' : '#FDFDFD', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
               MOTHER
             </span>
-            <span style={{ fontFamily: "var(--font-sans)", fontSize: 11, letterSpacing: '0.4em', color: scrolled ? '#8A8A8A' : '#EAEAEA', textTransform: 'uppercase', marginTop: -2, textShadow: scrolled ? 'none' : '0 2px 10px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 700, letterSpacing: '0.3em', color: scrolled ? '#8A8A8A' : '#EAEAEA', textTransform: 'uppercase', marginTop: 2, textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
               of flower
             </span>
           </a>
@@ -68,9 +68,9 @@ export default function Navbar() {
               <li key={link.label}>
                 <a
                   href={link.href}
-                  style={{ fontSize: 13, fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: scrolled ? '#8A8A8A' : '#FDFDFD', textShadow: scrolled ? 'none' : '0 2px 10px rgba(0,0,0,0.4)', textDecoration: 'none', transition: 'color 0.3s' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = scrolled ? '#1C1C1C' : '#EAEAEA')}
-                  onMouseLeave={e => (e.currentTarget.style.color = scrolled ? '#8A8A8A' : '#FDFDFD')}
+                  style={{ fontSize: 14, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: scrolled ? '#333333' : '#FDFDFD', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', textDecoration: 'none', transition: 'color 0.3s' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = scrolled ? '#000000' : '#EAEAEA')}
+                  onMouseLeave={e => (e.currentTarget.style.color = scrolled ? '#333333' : '#FDFDFD')}
                 >
                   {link.label}
                 </a>
@@ -84,13 +84,13 @@ export default function Navbar() {
             <a
               href="tel:+17252242454"
               style={{
-                display: 'inline-flex', alignItems: 'center', gap: 6,
-                padding: '10px 20px',
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                padding: '10px 24px',
                 borderRadius: 9999,
-                border: `1px solid ${scrolled ? '#E5E5E5' : 'rgba(253,253,253,0.6)'}`,
-                fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase',
+                border: `2px solid ${scrolled ? '#1C1C1C' : 'rgba(253,253,253,0.9)'}`,
+                fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase',
                 color: scrolled ? '#1C1C1C' : '#FDFDFD', textDecoration: 'none',
-                textShadow: scrolled ? 'none' : '0 2px 10px rgba(0,0,0,0.3)',
+                textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.3)',
                 boxShadow: scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.1)',
                 backdropFilter: scrolled ? 'none' : 'blur(4px)',
                 transition: 'all 0.3s',
@@ -104,8 +104,8 @@ export default function Navbar() {
               onMouseLeave={e => {
                 e.currentTarget.style.backgroundColor = 'transparent';
                 e.currentTarget.style.color = scrolled ? '#1C1C1C' : '#FDFDFD';
-                e.currentTarget.style.borderColor = scrolled ? '#E5E5E5' : 'rgba(253,253,253,0.6)';
-                e.currentTarget.style.textShadow = scrolled ? 'none' : '0 2px 10px rgba(0,0,0,0.3)';
+                e.currentTarget.style.borderColor = scrolled ? '#1C1C1C' : 'rgba(253,253,253,0.9)';
+                e.currentTarget.style.textShadow = scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.3)';
               }}
             >
               <Phone size={14} strokeWidth={1.5} />
