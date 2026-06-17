@@ -37,13 +37,13 @@ export default function CatalogPage() {
   const displayedProducts = products;
 
   return (
-    <div className="w-full min-h-screen bg-[#FAF9F6] pt-[200px] pb-24">
+    <div className="w-full min-h-screen bg-[#FAF9F6] pb-24" style={{ paddingTop: 140 }}>
       <div style={{ maxWidth: 1440, margin: '0 auto', paddingLeft: 'clamp(20px, 5vw, 72px)', paddingRight: 'clamp(20px, 5vw, 72px)' }}>
         
         <div className="flex flex-col lg:flex-row gap-12 mt-8">
           
           {/* Sidebar */}
-          <aside className="w-full lg:w-[260px] flex-shrink-0 flex flex-col gap-6 lg:sticky lg:top-[200px] max-h-[calc(100vh-220px)] overflow-y-auto custom-scrollbar pr-2 pb-10">
+          <aside className="w-full lg:w-[260px] flex-shrink-0 flex flex-col gap-6 lg:sticky lg:top-[100px] max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar pr-2 pb-10">
             {/* Categories Accordion */}
             <div className="border-b border-[#E5E5E5] pb-6">
               <button 
@@ -67,7 +67,7 @@ export default function CatalogPage() {
                         <button
                           key={cat}
                           onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
-                          className={`text-left text-[14px] font-medium transition-colors ${selectedCategory === cat ? 'text-[#1C1C1C]' : 'text-[#8A8A8A] hover:text-[#333333]'}`}
+                          className={`text-left text-[15px] font-medium transition-colors ${selectedCategory === cat ? 'text-[#1C1C1C]' : 'text-[#8A8A8A] hover:text-[#333333]'}`}
                         >
                           {cat}
                         </button>
@@ -125,7 +125,7 @@ export default function CatalogPage() {
           </aside>
 
           {/* Main Grid */}
-          <main className="flex-1">
+          <main className="flex-1 lg:mt-[40px]">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-12">
               {displayedProducts.map((product, i) => (
                 <ProductCard key={product.id} product={product} index={i} onClick={setSelectedProduct} />
