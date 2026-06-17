@@ -57,17 +57,17 @@ export default function Navbar() {
         <nav style={CONTAINER}>
           {/* Logo */}
           <a href="/" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1, textDecoration: 'none', flexShrink: 0 }}>
-            <span style={{ fontFamily: "var(--font-serif)", fontSize: 24, fontWeight: 400, letterSpacing: '0.04em', color: scrolled ? '#1C1C1C' : '#FDFDFD', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
+            <span className="text-[20px] md:text-[24px]" style={{ fontFamily: "var(--font-serif)", fontWeight: 400, letterSpacing: '0.04em', color: scrolled ? '#1C1C1C' : '#FDFDFD', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
               Mother of Flower
             </span>
             <div style={{ height: '1px', width: '100%', backgroundColor: scrolled ? '#1C1C1C' : '#FDFDFD', margin: '6px 0', opacity: scrolled ? 0.2 : 0.4, transition: 'background-color 0.4s, opacity 0.4s' }} />
-            <span style={{ fontFamily: "var(--font-sans)", fontSize: 10, fontWeight: 500, letterSpacing: '0.3em', color: scrolled ? '#5A5A5A' : '#EAEAEA', textTransform: 'uppercase', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
+            <span className="text-[8px] md:text-[10px]" style={{ fontFamily: "var(--font-sans)", fontWeight: 500, letterSpacing: '0.3em', color: scrolled ? '#5A5A5A' : '#EAEAEA', textTransform: 'uppercase', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
               Las Vegas
             </span>
           </a>
 
           {/* Desktop Nav */}
-          <ul style={{ display: 'flex', alignItems: 'center', gap: 40, listStyle: 'none', margin: 0, padding: 0 }}>
+          <ul className="hidden lg:flex" style={{ alignItems: 'center', gap: 40, listStyle: 'none', margin: 0, padding: 0 }}>
             {navLinks.map((link) => (
               <li key={link.label}>
                 <a
@@ -87,19 +87,15 @@ export default function Navbar() {
             {/* Order a Call */}
             <button
               onClick={() => setIsOrderCallOpen(true)}
+              className="hidden lg:inline-flex items-center gap-2 px-6 rounded-full border-2 transition-all duration-300 bg-transparent"
               style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                padding: '10px 24px',
-                borderRadius: 9999,
-                border: `2px solid ${scrolled ? '#1C1C1C' : 'rgba(253,253,253,0.9)'}`,
+                borderColor: scrolled ? '#1C1C1C' : 'rgba(253,253,253,0.9)',
                 fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase',
                 color: scrolled ? '#1C1C1C' : '#FDFDFD', textDecoration: 'none',
                 textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.3)',
                 boxShadow: scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.1)',
                 backdropFilter: scrolled ? 'none' : 'blur(4px)',
-                transition: 'all 0.3s',
                 cursor: 'pointer',
-                background: 'transparent',
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.backgroundColor = scrolled ? '#1C1C1C' : '#FDFDFD';
@@ -134,8 +130,8 @@ export default function Navbar() {
             {/* Mobile hamburger */}
             <button
               aria-label="Open menu"
-              style={{ padding: 8, color: scrolled ? '#1C1C1C' : '#FDFDFD', background: 'none', border: 'none', cursor: 'pointer', display: 'none', transition: 'color 0.4s' }}
-              className="mobile-menu-btn"
+              style={{ padding: 8, color: scrolled ? '#1C1C1C' : '#FDFDFD', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.4s' }}
+              className="lg:hidden"
               onClick={() => setMenuOpen(true)}
             >
               <Menu size={22} strokeWidth={1.5} style={{ filter: scrolled ? 'none' : 'drop-shadow(0 2px 10px rgba(0,0,0,0.4))' }} />
