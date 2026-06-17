@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCreative, Pagination, Keyboard, Mousewheel } from 'swiper/modules';
 import Image from 'next/image';
+import { Typewriter } from '@/components/ui/Typewriter';
 
 import 'swiper/css';
 import 'swiper/css/effect-creative';
@@ -86,25 +87,17 @@ export default function HeroSection() {
           gap: '32px',
         }}
       >
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          style={{
-            fontFamily: 'var(--font-serif)',
-            fontSize: 'clamp(32px, 5vw, 48px)',
-            fontStyle: 'italic',
-            fontWeight: 400,
-            color: '#FDFDFD',
-            textShadow: '0 4px 16px rgba(0,0,0,0.5)',
-            letterSpacing: '0.02em',
-            textAlign: 'center',
-            margin: 0,
-            padding: '0 20px',
-          }}
-        >
-          Custom Floral Designs
-        </motion.h1>
+        <div className="text-center px-4" style={{ textShadow: '0 4px 16px rgba(0,0,0,0.5)' }}>
+          <h1>
+            <Typewriter
+              className="text-[clamp(32px,5vw,60px)] font-bold tracking-tighter uppercase text-[#FDFDFD]"
+              words={["Custom Floral Designs"]}
+              speed={80}
+              delayBetweenWords={2000}
+              cursor={false}
+            />
+          </h1>
+        </div>
 
         <motion.a
           href="#catalog"
