@@ -20,8 +20,6 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0, transition: { duration: 0.7, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] } }}
       viewport={{ once: true, margin: '-60px' }}
-      whileHover={{ y: -10, scale: 1.03, rotate: index % 2 === 0 ? 1.5 : -1.5, zIndex: 10, transition: { duration: 0.4, ease: 'easeOut' } }}
-      whileTap={{ scale: 0.98, rotate: 0, transition: { duration: 0.2 } }}
       className="group cursor-pointer bg-[#FDFDFD] flex flex-col shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-shadow duration-500 rounded-[2px]"
       style={{ padding: '6.5%', paddingBottom: 0 }}
       onClick={() => onClick(product)}
@@ -32,7 +30,6 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
           src={product.images[0]}
           alt={product.name}
           className="w-full h-full object-cover"
-          whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         />
 
