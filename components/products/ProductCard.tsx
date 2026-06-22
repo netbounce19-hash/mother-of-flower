@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { Product } from '@/types';
 
@@ -15,21 +15,34 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
   const [liked, setLiked] = useState(false);
   const [added, setAdded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const cardRef = useRef<HTMLElement>(null);
+  const isInView = useInView(cardRef, { margin: "-30% 0px -30% 0px" });
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const shouldPlay = isHovered || (isMobile && isInView);
 
   useEffect(() => {
     if (videoRef.current) {
-      if (isHovered) {
+      if (shouldPlay) {
         videoRef.current.play().catch(e => console.log('Hover play blocked:', e));
       } else {
         videoRef.current.pause();
-        videoRef.current.currentTime = 0;
+        // Don't reset currentTime on pause so it feels more natural on mobile scroll
       }
     }
-  }, [isHovered]);
+  }, [shouldPlay]);
 
   return (
     <motion.article
+      ref={cardRef as any}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0, transition: { duration: 0.7, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] } }}
       viewport={{ once: true, margin: '-60px' }}
@@ -57,7 +70,7 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
             muted
             playsInline
             preload="auto"
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isHovered ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${shouldPlay ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
           />
         )}
 
