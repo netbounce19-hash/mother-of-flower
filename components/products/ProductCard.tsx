@@ -65,8 +65,8 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
         <div className="absolute inset-0 bg-[#1C1C1C]/0 group-hover:bg-[#1C1C1C]/5 transition-colors duration-500 z-20" />
 
         {/* Quick-shop pill */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-400 translate-y-2 group-hover:translate-y-0 z-30">
-          <span className="inline-block px-5 py-2 bg-[#FDFDFD]/95 backdrop-blur-sm text-[11px] tracking-[0.18em] uppercase text-graphite rounded-full whitespace-nowrap shadow-sm">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-400 translate-y-2 group-hover:translate-y-0 z-30">
+          <span className="inline-block px-8 py-3 bg-[#FDFDFD]/95 backdrop-blur-sm text-[12px] tracking-[0.18em] uppercase text-graphite rounded-full whitespace-nowrap shadow-[0_4px_12px_rgba(0,0,0,0.1)] font-medium">
             View Details
           </span>
         </div>
