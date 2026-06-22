@@ -15,6 +15,7 @@ export interface Product {
   featured?: boolean;
   /** used for masonry height variation */
   aspectClass?: 'tall' | 'standard' | 'wide';
+  hoverVideo?: string;
 }
 
 export interface CartItem {

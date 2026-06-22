@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { Product } from '@/types';
@@ -14,6 +14,19 @@ interface ProductCardProps {
 export default function ProductCard({ product, index, onClick }: ProductCardProps) {
   const [liked, setLiked] = useState(false);
   const [added, setAdded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      if (isHovered) {
+        videoRef.current.play().catch(e => console.log('Hover play blocked:', e));
+      } else {
+        videoRef.current.pause();
+        videoRef.current.currentTime = 0;
+      }
+    }
+  }, [isHovered]);
 
   return (
     <motion.article
@@ -23,6 +36,8 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
       className="group cursor-pointer bg-[#FDFDFD] flex flex-col shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-shadow duration-500 rounded-[2px]"
       style={{ padding: '6.5%', paddingBottom: 0 }}
       onClick={() => onClick(product)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container */}
       <div className="relative w-full aspect-square overflow-hidden bg-[#F7F5F2] rounded-[1px] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)]">
@@ -33,11 +48,24 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         />
 
+        {/* Hover Video */}
+        {product.hoverVideo && (
+          <video
+            ref={videoRef}
+            src={product.hoverVideo}
+            loop
+            muted
+            playsInline
+            preload="auto"
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isHovered ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+          />
+        )}
+
         {/* Hover overlay */}
-        <div className="absolute inset-0 bg-[#1C1C1C]/0 group-hover:bg-[#1C1C1C]/5 transition-colors duration-500" />
+        <div className="absolute inset-0 bg-[#1C1C1C]/0 group-hover:bg-[#1C1C1C]/5 transition-colors duration-500 z-20" />
 
         {/* Quick-shop pill */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-400 translate-y-2 group-hover:translate-y-0">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-400 translate-y-2 group-hover:translate-y-0 z-30">
           <span className="inline-block px-5 py-2 bg-[#FDFDFD]/95 backdrop-blur-sm text-[11px] tracking-[0.18em] uppercase text-graphite rounded-full whitespace-nowrap shadow-sm">
             View Details
           </span>
