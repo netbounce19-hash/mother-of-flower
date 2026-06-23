@@ -22,13 +22,16 @@ export default function PartnershipRequestForm() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
-          className="flex flex-col text-center mb-16 gap-4"
+          className="flex flex-col text-center mb-14 gap-4"
         >
-          <motion.h2 variants={fadeUp} className="font-sans text-[clamp(2rem,4vw,3rem)] font-bold uppercase tracking-tight text-[#1C1C1C]">
+          <motion.p variants={fadeUp} className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C9A96E]">
+            Become a Partner
+          </motion.p>
+          <motion.h2 variants={fadeUp} className="font-sans text-[clamp(1.6rem,2.5vw,2.2rem)] font-bold uppercase tracking-tight text-[#1C1C1C]">
             Let's discuss the details
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-[#8A8A8A] text-[15px] font-medium max-w-2xl mx-auto">
-            To become our partner, fill out the contact form. We’ll get back within one business day to discuss collaboration opportunities and create a unique floral design.
+          <motion.p variants={fadeUp} className="text-[#8A8A8A] text-[14px] font-medium max-w-xl mx-auto leading-relaxed">
+            Fill out the contact form and we'll get back within one business day to discuss collaboration opportunities.
           </motion.p>
         </motion.div>
 

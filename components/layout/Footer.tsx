@@ -32,7 +32,7 @@ export default function Footer() {
             {[
               { label: 'Collections', href: '#catalog' },
               { label: 'Occasions', href: '#occasions' },
-              { label: 'About Us', href: '/sotrud' },
+              { label: 'Partnerships', href: '/sotrud' },
               { label: 'FAQ', href: '#' },
               { label: 'Care Guide', href: '#' },
             ].map((item) => (

@@ -8,7 +8,7 @@ import OrderCallModal from '@/components/modals/OrderCallModal';
 
 const navLinks = [
   { label: 'Collections', href: '#catalog' },
-  { label: 'About', href: '/sotrud' },
+  { label: 'Partnerships', href: '/sotrud' },
   { label: 'Occasions', href: '#occasions' },
   { label: 'Contact', href: '/contact' },
 ];

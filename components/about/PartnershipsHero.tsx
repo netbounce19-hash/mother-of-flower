@@ -15,20 +15,23 @@ export default function PartnershipsHero() {
         <div className="absolute inset-0 bg-[#1C1C1C]/40 backdrop-blur-[2px]"></div>
       </div>
 
-      <div className="relative z-10 flex flex-col items-center gap-6 px-4 text-center">
-        <motion.p
+      <div className="relative z-10 flex flex-col items-center gap-5 px-4 text-center">
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="text-[#FDFDFD] text-[12px] md:text-[14px] uppercase tracking-[0.2em] font-bold"
+          className="flex flex-col items-center gap-3"
         >
-          Sotrudnichestvo
-        </motion.p>
+          <p className="text-[#C9A96E] text-[11px] uppercase tracking-[0.25em] font-semibold">
+            Partnerships
+          </p>
+          <div style={{ width: 32, height: 1, backgroundColor: '#C9A96E', opacity: 0.6 }} />
+        </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-[#FDFDFD] font-sans text-[clamp(2rem,5vw,4rem)] font-bold tracking-tight uppercase"
+          className="text-[#FDFDFD] font-sans text-[clamp(1.8rem,3.5vw,3rem)] font-bold tracking-tight uppercase max-w-2xl"
         >
           Partner with Mother of Flower
         </motion.h1>
