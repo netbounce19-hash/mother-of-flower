@@ -1,73 +1,95 @@
 'use client';
 
-const CONTAINER: React.CSSProperties = {
-
-  maxWidth: 1280,
-  margin: '0 auto',
-  paddingLeft: 'clamp(20px, 5vw, 72px)',
-  paddingRight: 'clamp(20px, 5vw, 72px)',
-};
-
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer style={{ borderTop: '1px solid #E5E5E5', marginTop: 80, width: '100%' }}>
-      <div style={{ ...CONTAINER, paddingTop: 72, paddingBottom: 72, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 48 }}>
-        {/* Brand */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div style={{ lineHeight: 1 }}>
-            <p style={{ fontFamily: "var(--font-sans)", fontSize: 20, letterSpacing: '0.14em', color: '#1C1C1C' }}>MOTHER</p>
-            <p style={{ fontSize: 10, letterSpacing: '0.4em', color: '#8A8A8A', textTransform: 'uppercase', marginTop: -2 }}>of flower</p>
+    <footer className="w-full border-t border-[#E5E5E5] bg-[#FDFDFD]">
+      <div className="max-w-[1100px] mx-auto px-[5vw]">
+
+        {/* Main Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 py-16">
+
+          {/* Brand */}
+          <div className="flex flex-col gap-5">
+            <div className="leading-tight">
+              <p className="font-sans text-[18px] tracking-[0.14em] text-[#1C1C1C] font-semibold">MOTHER</p>
+              <p className="text-[9px] tracking-[0.4em] text-[#8A8A8A] uppercase -mt-0.5">of flower</p>
+            </div>
+            <p className="text-[13px] font-medium text-[#555555] leading-[1.75] max-w-[260px]">
+              Luxury floral artistry, curated for extraordinary moments. Delivered across Las Vegas and the US.
+            </p>
           </div>
-          <p style={{ fontSize: 14, fontWeight: 500, color: '#333333', lineHeight: 1.7, maxWidth: 280 }}>
-            Luxury floral artistry, curated for extraordinary moments. Delivered across Las Vegas and the US.
+
+          {/* Links */}
+          <div className="flex flex-col gap-3 md:items-center">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8A8A8A] mb-1">Explore</p>
+            {[
+              { label: 'Collections', href: '#catalog' },
+              { label: 'Occasions', href: '#occasions' },
+              { label: 'About Us', href: '/sotrud' },
+              { label: 'FAQ', href: '#' },
+              { label: 'Care Guide', href: '#' },
+            ].map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="text-[13px] text-[#8A8A8A] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+
+          {/* Contact */}
+          <div className="flex flex-col gap-3 md:items-end">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8A8A8A] mb-1">Get in Touch</p>
+            <a
+              href="mailto:info@motherofflower.com"
+              className="text-[13px] text-[#8A8A8A] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
+            >
+              info@motherofflower.com
+            </a>
+            <a
+              href="tel:+17252242454"
+              className="text-[13px] text-[#8A8A8A] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
+            >
+              +1 (725) 224-2454
+            </a>
+            <p className="text-[13px] text-[#8A8A8A]">Las Vegas, Nevada, USA</p>
+            <div className="flex gap-5 mt-2">
+              {['Instagram', 'Pinterest', 'TikTok'].map((s) => (
+                <a
+                  key={s}
+                  href="#"
+                  className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#8A8A8A] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
+                >
+                  {s}
+                </a>
+              ))}
+            </div>
+          </div>
+
+        </div>
+
+        {/* Bottom bar */}
+        <div className="border-t border-[#E5E5E5] py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-[11px] text-[#AAAAAA] tracking-wide">
+            © {year} MotherOfFlower. All rights reserved.
           </p>
-        </div>
-
-        {/* Links */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
-          <p style={{ fontSize: 13, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A8A8A', fontWeight: 700, marginBottom: 8 }}>Explore</p>
-          {[
-            { label: 'Collections', href: '#catalog' },
-            { label: 'Occasions', href: '#occasions' },
-            { label: 'About Us', href: '/sotrud' },
-            { label: 'FAQ', href: '#' },
-            { label: 'Care Guide', href: '#' }
-          ].map((item) => (
-            <a key={item.label} href={item.href} style={{ fontSize: 13, color: '#8A8A8A', textDecoration: 'none', transition: 'color 0.3s' }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#1C1C1C')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#8A8A8A')}
-            >{item.label}</a>
-          ))}
-        </div>
-
-        {/* Contact */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-end' }}>
-          <p style={{ fontSize: 13, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A8A8A', fontWeight: 700, marginBottom: 8 }}>Get in Touch</p>
-          <a href="mailto:info@motherofflower.com" style={{ fontSize: 13, color: '#8A8A8A', textDecoration: 'none' }}>info@motherofflower.com</a>
-          <a href="tel:+17252242454" style={{ fontSize: 13, color: '#8A8A8A', textDecoration: 'none' }}>+1 (725) 224-2454</a>
-          <p style={{ fontSize: 13, color: '#8A8A8A' }}>Las Vegas, Nevada, USA</p>
-          <div style={{ display: 'flex', gap: 16, marginTop: 8 }}>
-            {['Instagram', 'Pinterest', 'TikTok'].map((s) => (
-              <a key={s} href="#" style={{ fontSize: 13, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A8A8A', textDecoration: 'none', fontWeight: 700 }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#1C1C1C')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#8A8A8A')}
-              >{s}</a>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div style={{ borderTop: '1px solid #E5E5E5' }}>
-        <div style={{ ...CONTAINER, paddingTop: 20, paddingBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
-          <p style={{ fontSize: 11, color: '#8A8A8A', letterSpacing: '0.05em' }}>© {year} MotherOfFlower. All rights reserved.</p>
-          <div style={{ display: 'flex', gap: 24 }}>
+          <div className="flex gap-6">
             {['Privacy Policy', 'Terms', 'Shipping & Returns'].map((item) => (
-              <a key={item} href="#" style={{ fontSize: 11, color: '#8A8A8A', textDecoration: 'none' }}>{item}</a>
+              <a
+                key={item}
+                href="#"
+                className="text-[11px] text-[#AAAAAA] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
+              >
+                {item}
+              </a>
             ))}
           </div>
         </div>
+
       </div>
     </footer>
   );
