@@ -14,8 +14,8 @@ const staggerContainer: Variants = {
 
 export default function LocationSection() {
   return (
-    <section id="locations" className="w-full bg-[#FAF9F6] px-[5vw] pb-[100px]">
-      <div className="max-w-[1100px] mx-auto">
+    <section id="locations" className="w-full bg-[#FAF9F6]" style={{ padding: '0 5vw 100px' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
         {/* Location Card */}
         <motion.div

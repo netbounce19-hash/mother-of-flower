@@ -5,7 +5,7 @@ export default function Footer() {
 
   return (
     <footer className="w-full border-t border-[#E5E5E5] bg-[#FDFDFD]">
-      <div className="max-w-[1100px] mx-auto px-[5vw]">
+      <div style={{ maxWidth: 1100, margin: '0 auto', paddingLeft: '5vw', paddingRight: '5vw' }}>
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 py-16">

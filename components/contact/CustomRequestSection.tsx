@@ -16,9 +16,10 @@ export default function CustomRequestSection() {
   return (
     <section
       id="custom-request"
-      className="w-full bg-[#FAF9F6] py-[100px] px-[5vw]"
+      className="w-full bg-[#FAF9F6]"
+      style={{ padding: '100px 5vw' }}
     >
-      <div className="max-w-[1100px] mx-auto">
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20 lg:gap-28 items-start">
 
           {/* Left Column: Copy */}
