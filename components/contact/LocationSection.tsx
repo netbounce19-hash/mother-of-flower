@@ -30,7 +30,8 @@ export default function LocationSection() {
             {/* Details (Left) */}
             <motion.div
               variants={fadeUp}
-              className="flex flex-col gap-7 p-8 lg:p-10 border-b lg:border-b-0 lg:border-r border-[#EEEEEE]"
+              className="flex flex-col border-b lg:border-b-0 lg:border-r border-[#EEEEEE]"
+              style={{ gap: 28, padding: '40px 40px' }}
             >
               <div className="flex flex-col gap-1">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C9A96E] mb-2">Address</p>
