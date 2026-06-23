@@ -8,9 +8,9 @@ import OrderCallModal from '@/components/modals/OrderCallModal';
 
 const navLinks = [
   { label: 'Collections', href: '#catalog' },
-  { label: 'About', href: '#about' },
+  { label: 'About', href: '/sotrud' },
   { label: 'Occasions', href: '#occasions' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 const CONTAINER: React.CSSProperties = {

@@ -28,11 +28,17 @@ export default function Footer() {
         {/* Links */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
           <p style={{ fontSize: 13, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A8A8A', fontWeight: 700, marginBottom: 8 }}>Explore</p>
-          {['Collections', 'Occasions', 'About Us', 'FAQ', 'Care Guide'].map((item) => (
-            <a key={item} href="#" style={{ fontSize: 13, color: '#8A8A8A', textDecoration: 'none', transition: 'color 0.3s' }}
+          {[
+            { label: 'Collections', href: '#catalog' },
+            { label: 'Occasions', href: '#occasions' },
+            { label: 'About Us', href: '/sotrud' },
+            { label: 'FAQ', href: '#' },
+            { label: 'Care Guide', href: '#' }
+          ].map((item) => (
+            <a key={item.label} href={item.href} style={{ fontSize: 13, color: '#8A8A8A', textDecoration: 'none', transition: 'color 0.3s' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#1C1C1C')}
               onMouseLeave={e => (e.currentTarget.style.color = '#8A8A8A')}
-            >{item}</a>
+            >{item.label}</a>
           ))}
         </div>
 
