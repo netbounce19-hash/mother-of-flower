@@ -12,10 +12,15 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="flex flex-col gap-5">
-            <div className="leading-tight">
-              <p className="font-sans text-[18px] tracking-[0.14em] text-[#1C1C1C] font-semibold">MOTHER</p>
-              <p className="text-[9px] tracking-[0.4em] text-[#8A8A8A] uppercase -mt-0.5">of flower</p>
-            </div>
+            <a href="/" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1, textDecoration: 'none' }}>
+              <span style={{ fontFamily: 'var(--font-serif)', fontSize: 22, fontWeight: 400, letterSpacing: '0.04em', color: '#1C1C1C' }}>
+                Mother of Flower
+              </span>
+              <div style={{ height: '1px', width: '100%', backgroundColor: '#1C1C1C', margin: '6px 0', opacity: 0.2 }} />
+              <span style={{ fontFamily: 'var(--font-sans)', fontSize: 9, fontWeight: 500, letterSpacing: '0.3em', color: '#5A5A5A', textTransform: 'uppercase' }}>
+                Las Vegas
+              </span>
+            </a>
             <p className="text-[13px] font-medium text-[#555555] leading-[1.75] max-w-[260px]">
               Luxury floral artistry, curated for extraordinary moments. Delivered across Las Vegas and the US.
             </p>
