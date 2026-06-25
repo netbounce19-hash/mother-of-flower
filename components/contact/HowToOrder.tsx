@@ -3,13 +3,13 @@
 import { motion, Variants } from 'framer-motion';
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
 };
 
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.12 } }
+  visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
 };
 
 const orderSteps = [
@@ -37,45 +37,46 @@ const orderSteps = [
 
 export default function HowToOrder() {
   return (
-    <section className="w-full bg-[#FAF8F4] py-[80px] md:py-[100px] overflow-hidden">
-      <div className="max-w-[900px] mx-auto px-[5vw]">
+    <section className="w-full bg-[#FAF8F4] py-[80px] md:py-[100px]">
+      <div className="w-full max-w-[1100px] mx-auto px-6 md:px-12">
 
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "-60px" }}
           variants={staggerContainer}
-          className="flex flex-col gap-12"
+          className="flex flex-col gap-10 md:gap-12"
         >
-          {/* Header */}
-          <div className="flex flex-col gap-3 text-center items-center">
+          {/* ── Header ── */}
+          <div className="flex flex-col items-center gap-3 text-center">
             <motion.p variants={fadeUp} className="text-[#C9A96E] text-[11px] font-semibold uppercase tracking-[0.25em]">
               Payment
             </motion.p>
-            <motion.h2 variants={fadeUp} className="text-[#1C1C1C] font-sans text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold tracking-tight uppercase">
+            <motion.h2 variants={fadeUp} className="text-[#1C1C1C] text-[clamp(1.6rem,3vw,2.25rem)] font-bold tracking-tight uppercase">
               How To Order
             </motion.h2>
-            <motion.div variants={fadeUp} className="w-8 h-[1.5px] bg-[#C9A96E] mt-2" />
+            <motion.div variants={fadeUp} className="w-8 h-[1.5px] bg-[#C9A96E]" />
           </div>
 
-          {/* Steps List */}
+          {/* ── Steps ── */}
           <div className="flex flex-col">
             {orderSteps.map((step, idx) => (
               <motion.div
                 key={idx}
                 variants={fadeUp}
-                className="flex flex-col md:flex-row gap-5 md:gap-10 py-8 border-t border-[#E5E2DB] last:border-b"
+                className="grid grid-cols-[56px_1fr] md:grid-cols-[72px_1fr] gap-6 md:gap-8 py-7 md:py-8 border-t border-[#E5E2DB] last:border-b"
               >
-                <div className="flex-shrink-0 min-w-[40px]">
-                  <span className="text-[#1C1C1C] font-sans text-[28px] md:text-[40px] font-bold leading-none opacity-15 tabular-nums">
+                {/* Number */}
+                <div className="flex items-start pt-0.5">
+                  <span className="text-[#1C1C1C] text-[28px] md:text-[36px] font-bold leading-none tabular-nums"
+                    style={{ opacity: 0.13 }}>
                     {step.num.padStart(2, '0')}
                   </span>
                 </div>
-                <div className="flex flex-col justify-center">
-                  <p className="text-[#333333] text-[14px] md:text-[15px] leading-[1.85] whitespace-pre-line">
-                    {step.text}
-                  </p>
-                </div>
+                {/* Text */}
+                <p className="text-[#444444] text-[14px] md:text-[15px] leading-[1.85] whitespace-pre-line self-start pt-1">
+                  {step.text}
+                </p>
               </motion.div>
             ))}
           </div>

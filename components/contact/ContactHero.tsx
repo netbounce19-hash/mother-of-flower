@@ -4,90 +4,84 @@ import { motion } from 'framer-motion';
 import { MapPin, Clock, Phone, Mail, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
-};
-
-const stagger = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.12 } },
-};
-
 export default function ContactHero() {
   return (
-    <section className="relative w-full bg-[#FDFDFD] pt-[120px] pb-[80px] md:pt-[160px] md:pb-[100px] overflow-hidden">
+    <section className="relative w-full bg-[#FDFDFD] overflow-hidden">
 
-      {/* Subtle warm tint at top */}
-      <div
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            'radial-gradient(ellipse 70% 40% at 50% 0%, rgba(201,169,110,0.07) 0%, transparent 70%)',
-        }}
-      />
+      {/* ═══════════════════════════════════════
+          WORDMARK — full-width band
+      ═══════════════════════════════════════ */}
+      <div className="relative w-full bg-[#FDFDFD] pt-[100px] md:pt-[140px] pb-10 md:pb-14">
+        {/* subtle radial glow at top */}
+        <div
+          className="absolute inset-0 z-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              'radial-gradient(ellipse 55% 40% at 50% 0%, rgba(201,169,110,0.07) 0%, transparent 70%)',
+          }}
+        />
 
-      <div className="relative z-10 max-w-[1100px] mx-auto px-[5vw] flex flex-col gap-16 md:gap-20">
-
-        {/* Hero wordmark */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={stagger}
-          className="flex flex-col items-center gap-5"
-        >
-          <motion.p variants={fadeUp} className="text-[#C9A96E] text-[11px] uppercase tracking-[0.3em] font-semibold">
+        <div className="relative z-10 flex flex-col items-center gap-6 px-6">
+          <p className="text-[#C9A96E] text-[10px] uppercase tracking-[0.35em] font-semibold">
             Las Vegas
-          </motion.p>
+          </p>
 
-          <motion.div variants={fadeUp} className="w-full max-w-[460px] mx-auto">
+          {/* Wordmark image — centered block, max width 740px */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            style={{ width: '100%', maxWidth: '740px' }}
+          >
             <Image
               src="/images/contact-hero-wordmark-light.png"
               alt="Mother of Flower"
-              width={460}
-              height={460}
+              width={740}
+              height={740}
               className="w-full h-auto object-contain"
               priority
             />
           </motion.div>
 
-          <motion.div variants={fadeUp} className="w-10 h-[1.5px] bg-[#C9A96E]" />
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="w-8 h-[1.5px] bg-[#C9A96E]"
+          />
+        </div>
+      </div>
 
-        {/* Contact Info Grid */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={stagger}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#E8E2D9] border border-[#E8E2D9] rounded-[4px] overflow-hidden"
-        >
+      {/* ═══════════════════════════════════════
+          CONTACT GRID — contained
+      ═══════════════════════════════════════ */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full max-w-[1100px] mx-auto px-6 md:px-12"
+      >
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#E8E2D9] border border-[#E8E2D9] rounded-[3px] overflow-hidden">
           {[
             {
               icon: <MapPin strokeWidth={1.4} size={18} />,
               label: 'Address',
               content: (
-                <span>
-                  7710 Eastgate Rd,<br />Henderson, NV 89011
-                </span>
+                <span>7710 Eastgate Rd,<br />Henderson, NV 89011</span>
               ),
             },
             {
               icon: <Clock strokeWidth={1.4} size={18} />,
               label: 'Hours',
               content: (
-                <span>
-                  Mon–Sun:<br />10:00 AM – 7:00 PM
-                </span>
+                <span>Mon–Sun:<br />10:00 AM – 7:00 PM</span>
               ),
             },
             {
               icon: <Phone strokeWidth={1.4} size={18} />,
               label: 'Phone',
               content: (
-                <a
-                  href="tel:+17252242454"
-                  className="hover:text-[#C9A96E] transition-colors duration-300"
-                >
+                <a href="tel:+17252242454" className="hover:text-[#C9A96E] transition-colors duration-300">
                   +1 725 224 2454
                 </a>
               ),
@@ -96,21 +90,17 @@ export default function ContactHero() {
               icon: <Mail strokeWidth={1.4} size={18} />,
               label: 'Email',
               content: (
-                <a
-                  href="mailto:info@motherofflower.com"
-                  className="hover:text-[#C9A96E] transition-colors duration-300 break-all"
-                >
+                <a href="mailto:info@motherofflower.com" className="hover:text-[#C9A96E] transition-colors duration-300 break-all">
                   info@motherofflower.com
                 </a>
               ),
             },
           ].map((item, i) => (
-            <motion.div
+            <div
               key={i}
-              variants={fadeUp}
-              className="flex flex-col gap-3 items-center text-center p-6 md:p-8 bg-[#FDFDFD] hover:bg-[#FAF8F4] transition-colors duration-500"
+              className="flex flex-col gap-3 items-center text-center py-7 px-5 bg-[#FDFDFD] hover:bg-[#FAF8F4] transition-colors duration-500"
             >
-              <div className="w-9 h-9 flex items-center justify-center rounded-full bg-[#C9A96E]/12 text-[#C9A96E]">
+              <div className="w-9 h-9 flex items-center justify-center rounded-full bg-[#C9A96E]/10 text-[#C9A96E]">
                 {item.icon}
               </div>
               <h3 className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8A8A8A]">
@@ -119,37 +109,39 @@ export default function ContactHero() {
               <p className="text-[#333333] text-[13px] leading-relaxed">
                 {item.content}
               </p>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
+      </motion.div>
 
-        {/* Quick Contact Bar */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2 border-t border-[#E5E5E5]"
-        >
-          <p className="text-[#8A8A8A] text-[12px] tracking-wide">
-            Check bouquet availability by phone:
-          </p>
-          <div className="flex gap-3">
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1C1C1C] text-[#FDFDFD] text-[11px] font-bold uppercase tracking-wider rounded-[2px] hover:bg-[#C9A96E] transition-colors duration-300"
-            >
-              <MessageCircle size={13} /> WhatsApp
-            </a>
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#C9A96E]/50 text-[#1C1C1C] text-[11px] font-bold uppercase tracking-wider rounded-[2px] hover:bg-[#C9A96E]/10 transition-colors duration-300"
-            >
-              <MessageCircle size={13} /> Telegram
-            </a>
-          </div>
-        </motion.div>
+      {/* ═══════════════════════════════════════
+          QUICK CONTACT BAR
+      ═══════════════════════════════════════ */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full max-w-[1100px] mx-auto px-6 md:px-12 py-8 flex flex-col sm:flex-row items-center justify-center gap-4 border-t border-[#E8E2D9] mt-0"
+      >
+        <p className="text-[#8A8A8A] text-[12px] tracking-wide">
+          Check bouquet availability by phone:
+        </p>
+        <div className="flex gap-3">
+          <a
+            href="#"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1C1C1C] text-[#FDFDFD] text-[11px] font-bold uppercase tracking-wider rounded-[2px] hover:bg-[#C9A96E] transition-colors duration-300"
+          >
+            <MessageCircle size={13} /> WhatsApp
+          </a>
+          <a
+            href="#"
+            className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#C9A96E]/40 text-[#1C1C1C] text-[11px] font-bold uppercase tracking-wider rounded-[2px] hover:bg-[#C9A96E]/10 transition-colors duration-300"
+          >
+            <MessageCircle size={13} /> Telegram
+          </a>
+        </div>
+      </motion.div>
 
-      </div>
     </section>
   );
 }

@@ -3,7 +3,7 @@
 import { motion, Variants } from 'framer-motion';
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
 };
 
@@ -14,23 +14,24 @@ const staggerContainer: Variants = {
 
 export default function DeliveryAndReturns() {
   return (
-    <section className="w-full bg-[#FDFDFD] py-[80px] md:py-[100px] border-t border-[#E8E2D9] overflow-hidden">
-      <div className="max-w-[1000px] mx-auto px-[5vw]">
+    <section className="w-full bg-[#FDFDFD] py-[80px] md:py-[100px] border-t border-[#E8E2D9]">
+      <div className="w-full max-w-[1100px] mx-auto px-6 md:px-12">
 
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "-60px" }}
           variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20"
+          className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 lg:gap-24"
         >
-          {/* Delivery Column */}
+
+          {/* ── Delivery ── */}
           <motion.div variants={fadeUp} className="flex flex-col gap-7">
             <div className="flex flex-col gap-3">
               <p className="text-[#C9A96E] text-[11px] font-semibold uppercase tracking-[0.25em]">
                 Logistics
               </p>
-              <h2 className="text-[#1C1C1C] font-sans text-[20px] font-bold tracking-wide uppercase">
+              <h2 className="text-[#1C1C1C] text-[20px] font-bold tracking-wide uppercase">
                 Delivery
               </h2>
               <div className="w-6 h-[1.5px] bg-[#C9A96E]" />
@@ -48,13 +49,13 @@ export default function DeliveryAndReturns() {
             </div>
           </motion.div>
 
-          {/* Returns Column */}
+          {/* ── Returns ── */}
           <motion.div variants={fadeUp} className="flex flex-col gap-7">
             <div className="flex flex-col gap-3">
               <p className="text-[#C9A96E] text-[11px] font-semibold uppercase tracking-[0.25em]">
                 Policy
               </p>
-              <h2 className="text-[#1C1C1C] font-sans text-[20px] font-bold tracking-wide uppercase">
+              <h2 className="text-[#1C1C1C] text-[20px] font-bold tracking-wide uppercase">
                 Returns
               </h2>
               <div className="w-6 h-[1.5px] bg-[#C9A96E]" />
@@ -69,14 +70,11 @@ export default function DeliveryAndReturns() {
               <p>
                 Natural variations in shade, size, and shape of flowers are not considered defects, as they are inherent to fresh botanical materials.
               </p>
-              <p className="text-[#8A8A8A] text-[13px]">
-                To report an issue, please contact us at:{' '}
+              <p className="text-[#8A8A8A] text-[13px] border-t border-[#E8E2D9] pt-4">
+                To report an issue:{' '}
                 <a href="mailto:support@motherofflower.com" className="text-[#1C1C1C] hover:text-[#C9A96E] transition-colors duration-300">
                   support@motherofflower.com
                 </a>
-              </p>
-              <p className="text-[#8A8A8A] text-[13px]">
-                Mother of Flower is not responsible for damage caused by improper handling, lack of water, exposure to heat or cold, or other conditions outside our control after the bouquet has been delivered.
               </p>
             </div>
           </motion.div>
