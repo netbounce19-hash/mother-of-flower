@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, Variants } from 'framer-motion';
+import { site } from '@/lib/site';
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 20 },
@@ -14,7 +15,7 @@ const staggerContainer: Variants = {
 
 export default function DeliveryAndReturns() {
   return (
-    <section className="w-full bg-[#FDFDFD] py-[80px] md:py-[100px] border-t border-[#E8E2D9]">
+    <section id="delivery" className="w-full bg-[#FDFDFD] py-[80px] md:py-[100px] border-t border-[#E8E2D9] scroll-mt-[72px]">
       <div className="w-full max-w-[1100px] mx-auto px-6 md:px-12">
 
         <motion.div
@@ -72,8 +73,12 @@ export default function DeliveryAndReturns() {
               </p>
               <p className="text-[#8A8A8A] text-[13px] border-t border-[#E8E2D9] pt-4">
                 To report an issue:{' '}
-                <a href="mailto:support@motherofflower.com" className="text-[#1C1C1C] hover:text-[#C9A96E] transition-colors duration-300">
-                  support@motherofflower.com
+                <a href={`mailto:${site.email}`} className="text-[#1C1C1C] hover:text-[#C9A96E] transition-colors duration-300">
+                  {site.email}
+                </a>{' '}
+                or call{' '}
+                <a href={site.phone.href} className="text-[#1C1C1C] hover:text-[#C9A96E] transition-colors duration-300">
+                  {site.phone.display}
                 </a>
               </p>
             </div>

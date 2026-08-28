@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight, Calendar, Check } from 'lucide-react';
 import { Product, SizeOption, BoxColor } from '@/types';
 import DropHintModal from '@/components/modals/DropHintModal';
@@ -25,23 +26,30 @@ const getTomorrowLabel = () => {
 };
 
 export default function ProductModal({ product, onClose }: ProductModalProps) {
-  const [selectedSize, setSelectedSize] = useState<SizeOption>('Classic');
-  const [selectedBox, setSelectedBox] = useState<BoxColor>('Warm White');
+  const [selectedSize, setSelectedSize] = useState<SizeOption | null>(null);
+  const [selectedBox, setSelectedBox] = useState<BoxColor | null>(null);
   const [selectedDate, setSelectedDate] = useState<'tomorrow' | 'calendar'>('calendar');
   const [imageIndex, setImageIndex] = useState(0);
   const [hintOpen, setHintOpen] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
   const { addToCart } = useCart();
 
-  useEffect(() => {
-    if (product) {
-      setSelectedSize(product.sizes[0]);
-      setSelectedBox(product.boxColors[0]);
-      setSelectedDate('calendar');
-      setImageIndex(0);
-      setAddedToCart(false);
-    }
-  }, [product]);
+  // Reset the picker when a different bouquet is opened. Adjusting state
+  // during render (React's documented pattern) rather than in an effect
+  // avoids rendering one product's options against another's for a frame.
+  const [lastProductId, setLastProductId] = useState<string | null>(null);
+  if (product && product.id !== lastProductId) {
+    setLastProductId(product.id);
+    setSelectedSize(product.sizes[0]);
+    setSelectedBox(product.boxColors[0]);
+    setSelectedDate('calendar');
+    setImageIndex(0);
+    setAddedToCart(false);
+  }
+
+  // Fall back to the first option on the very first render for this product.
+  const activeSize = selectedSize ?? product?.sizes[0] ?? 'Classic';
+  const activeBox = selectedBox ?? product?.boxColors[0] ?? 'Warm White';
 
   useEffect(() => {
     if (product) {
@@ -57,8 +65,8 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
     
     addToCart({
       product,
-      size: selectedSize,
-      boxColor: selectedBox,
+      size: activeSize,
+      boxColor: activeBox,
       date: selectedDate,
       quantity: 1,
     });
@@ -123,16 +131,22 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   style={{ minHeight: '280px', backgroundColor: '#F7F5F2' }}
                 >
                   <AnimatePresence mode="wait">
-                    <motion.img
+                    <motion.div
                       key={imageIndex}
-                      src={product.images[imageIndex]}
-                      alt={product.name}
                       initial={{ opacity: 0, scale: 1.04 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.5 }}
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
+                      className="absolute inset-0"
+                    >
+                      <Image
+                        src={product.images[imageIndex]}
+                        alt={product.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 46vw"
+                        className="object-cover"
+                      />
+                    </motion.div>
                   </AnimatePresence>
 
                   {product.images.length > 1 && (
@@ -241,9 +255,9 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                             fontSize: 13,
                             fontWeight: 600,
                             letterSpacing: '0.02em',
-                            border: `1px solid ${selectedSize === size ? '#1C1C1C' : '#E5E5E5'}`,
-                            backgroundColor: selectedSize === size ? '#1C1C1C' : 'transparent',
-                            color: selectedSize === size ? '#FDFDFD' : '#1C1C1C',
+                            border: `1px solid ${activeSize === size ? '#1C1C1C' : '#E5E5E5'}`,
+                            backgroundColor: activeSize === size ? '#1C1C1C' : 'transparent',
+                            color: activeSize === size ? '#FDFDFD' : '#1C1C1C',
                             transition: 'all 0.2s',
                             cursor: 'pointer',
                           }}
@@ -268,9 +282,9 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                             height: 40,
                             borderRadius: 4,
                             backgroundColor: bc.hex,
-                            border: `2px solid ${selectedBox === bc.label ? '#1C1C1C' : 'transparent'}`,
-                            outline: selectedBox === bc.label ? 'none' : '1px solid #E5E5E5',
-                            transform: selectedBox === bc.label ? 'scale(1.12)' : 'scale(1)',
+                            border: `2px solid ${activeBox === bc.label ? '#1C1C1C' : 'transparent'}`,
+                            outline: activeBox === bc.label ? 'none' : '1px solid #E5E5E5',
+                            transform: activeBox === bc.label ? 'scale(1.12)' : 'scale(1)',
                             transition: 'all 0.2s',
                             cursor: 'pointer',
                             display: 'flex',
@@ -278,7 +292,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                             justifyContent: 'center',
                           }}
                         >
-                          {selectedBox === bc.label && (
+                          {activeBox === bc.label && (
                             <Check size={12} strokeWidth={2.5} color={bc.label === 'Black' ? '#FDFDFD' : '#1C1C1C'} />
                           )}
                         </button>

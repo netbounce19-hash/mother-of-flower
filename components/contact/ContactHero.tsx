@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { MapPin, Clock, Phone, Mail, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
+import { site } from '@/lib/site';
 
 export default function ContactHero() {
   return (
@@ -34,12 +35,13 @@ export default function ContactHero() {
             style={{ width: '100%', maxWidth: '740px' }}
           >
             <Image
-              src="/images/contact-hero-wordmark-light.png"
+              src="/images/contact-hero-wordmark-light.webp"
               alt="Mother of Flower"
               width={740}
               height={740}
+              sizes="(max-width: 780px) 100vw, 740px"
               className="w-full h-auto object-contain"
-              priority
+              preload
             />
           </motion.div>
 
@@ -67,7 +69,7 @@ export default function ContactHero() {
               icon: <MapPin strokeWidth={1.4} size={18} />,
               label: 'Address',
               content: (
-                <span>7710 Eastgate Rd,<br />Henderson, NV 89011</span>
+                <span>{site.address.line1},<br />{site.address.line2}</span>
               ),
             },
             {
@@ -81,8 +83,8 @@ export default function ContactHero() {
               icon: <Phone strokeWidth={1.4} size={18} />,
               label: 'Phone',
               content: (
-                <a href="tel:+17252242454" className="hover:text-[#C9A96E] transition-colors duration-300">
-                  +1 725 224 2454
+                <a href={site.phone.href} className="hover:text-[#C9A96E] transition-colors duration-300">
+                  {site.phone.display}
                 </a>
               ),
             },
@@ -90,8 +92,8 @@ export default function ContactHero() {
               icon: <Mail strokeWidth={1.4} size={18} />,
               label: 'Email',
               content: (
-                <a href="mailto:info@motherofflower.com" className="hover:text-[#C9A96E] transition-colors duration-300 break-all">
-                  info@motherofflower.com
+                <a href={`mailto:${site.email}`} className="hover:text-[#C9A96E] transition-colors duration-300 break-all">
+                  {site.email}
                 </a>
               ),
             },

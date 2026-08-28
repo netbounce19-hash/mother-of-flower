@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+import Image from 'next/image';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { Product } from '@/types';
 
@@ -42,7 +43,7 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
 
   return (
     <motion.article
-      ref={cardRef as any}
+      ref={cardRef}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0, transition: { duration: 0.7, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] } }}
       viewport={{ once: true, margin: '-60px' }}
@@ -54,11 +55,12 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
     >
       {/* Image Container */}
       <div className="relative w-full aspect-square overflow-hidden bg-[#F7F5F2] rounded-[1px] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)]">
-        <motion.img
+        <Image
           src={product.images[0]}
           alt={product.name}
-          className="w-full h-full object-cover"
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+          className="object-cover"
         />
 
         {/* Hover Video */}

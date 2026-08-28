@@ -37,7 +37,7 @@ const orderSteps = [
 
 export default function HowToOrder() {
   return (
-    <section className="w-full bg-[#FAF8F4] py-[80px] md:py-[100px]">
+    <section id="how-to-order" className="w-full bg-[#FAF8F4] py-[80px] md:py-[100px] scroll-mt-[72px]">
       <div className="w-full max-w-[1100px] mx-auto px-6 md:px-12">
 
         <motion.div

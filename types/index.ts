@@ -12,6 +12,8 @@ export interface Product {
   images: string[];
   sizes: SizeOption[];
   boxColors: BoxColor[];
+  category?: string;
+  color?: string;
   featured?: boolean;
   /** used for masonry height variation */
   aspectClass?: 'tall' | 'standard' | 'wide';

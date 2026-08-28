@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useActionState, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Phone } from 'lucide-react';
+import { submitCallRequest } from '@/app/actions/submissions';
+import { initialFormState } from '@/lib/form-state';
+import { FieldError, Honeypot, SubmitButton } from '@/components/forms/FormBits';
 
 interface OrderCallModalProps {
   isOpen: boolean;
@@ -8,31 +11,11 @@ interface OrderCallModalProps {
 }
 
 export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps) {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
   const [whatsapp, setWhatsapp] = useState(false);
   const [telegram, setTelegram] = useState(false);
-  const [error, setError] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [state, formAction] = useActionState(submitCallRequest, initialFormState);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name.trim()) {
-      setError(true);
-      return;
-    }
-    setError(false);
-    // Simulate submission
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setName('');
-      setPhone('');
-      setWhatsapp(false);
-      setTelegram(false);
-      onClose();
-    }, 2000);
-  };
+  const submitted = state.status === 'success';
 
   return (
     <AnimatePresence>
@@ -102,34 +85,34 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
                     <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 22, fontWeight: 700, color: '#1C1C1C', lineHeight: 1.2 }}>We will call you back</h3>
                   </div>
 
-                  <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                  <form action={formAction} className="flex flex-col gap-6">
+                    <Honeypot />
                     <div className="flex flex-col gap-1">
-                      <label className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Name <span className="text-[#C9A96E]">*</span></label>
+                      <label htmlFor="oc-name" className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Name <span className="text-[#C9A96E]">*</span></label>
                       <input
+                        id="oc-name"
+                        name="name"
                         type="text"
+                        required
+                        autoComplete="name"
                         placeholder="Jane Doe"
-                        value={name}
-                        onChange={(e) => {
-                          setName(e.target.value);
-                          if (error) setError(false);
-                        }}
                         className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors rounded-none"
                       />
-                      {error && (
-                        <span className="text-red-500 text-[10px] mt-1 tracking-wide uppercase">This field is required.</span>
-                      )}
+                      <FieldError messages={state.errors?.name} />
                     </div>
 
                     <div className="flex flex-col gap-1">
-                      <label className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Phone Number <span className="text-[#C9A96E]">*</span></label>
+                      <label htmlFor="oc-phone" className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Phone Number <span className="text-[#C9A96E]">*</span></label>
                       <input
+                        id="oc-phone"
+                        name="phone"
                         type="tel"
                         required
+                        autoComplete="tel"
                         placeholder="+1 (999) 999-9999"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
                         className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors rounded-none"
                       />
+                      <FieldError messages={state.errors?.phone} />
                     </div>
 
                     <div className="flex flex-col gap-3 mt-2">
@@ -139,7 +122,7 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
                         <div className={`w-4 h-4 flex items-center justify-center transition-colors ${whatsapp ? 'bg-[#1C1C1C] border-[#1C1C1C]' : 'border border-[#D1D1D1] bg-transparent group-hover:border-[#8A8A8A]'}`}>
                           {whatsapp && <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
                         </div>
-                        <input type="checkbox" className="hidden" checked={whatsapp} onChange={(e) => setWhatsapp(e.target.checked)} />
+                        <input type="checkbox" name="whatsapp" className="sr-only" checked={whatsapp} onChange={(e) => setWhatsapp(e.target.checked)} />
                         <span className="text-[13px] text-[#5A5A5A] group-hover:text-[#1C1C1C] transition-colors flex items-center gap-2">
                           Write to me on WhatsApp
                           <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
@@ -152,7 +135,7 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
                         <div className={`w-4 h-4 flex items-center justify-center transition-colors ${telegram ? 'bg-[#1C1C1C] border-[#1C1C1C]' : 'border border-[#D1D1D1] bg-transparent group-hover:border-[#8A8A8A]'}`}>
                           {telegram && <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
                         </div>
-                        <input type="checkbox" className="hidden" checked={telegram} onChange={(e) => setTelegram(e.target.checked)} />
+                        <input type="checkbox" name="telegram" className="sr-only" checked={telegram} onChange={(e) => setTelegram(e.target.checked)} />
                         <span className="text-[13px] text-[#5A5A5A] group-hover:text-[#1C1C1C] transition-colors flex items-center gap-2">
                           Write to me on Telegram
                           <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
@@ -162,8 +145,14 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
                       </label>
                     </div>
 
-                    <button
-                      type="submit"
+                    {state.status === 'error' && !state.errors && (
+                      <p role="alert" className="text-[#C0392B] text-[12px] leading-relaxed">
+                        {state.message}
+                      </p>
+                    )}
+
+                    <SubmitButton
+                      pendingLabel="Sending…"
                       style={{
                         width: '100%',
                         padding: '16px',
@@ -181,22 +170,21 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
                         justifyContent: 'center',
                         gap: 8,
                         marginTop: 16,
-                        cursor: 'pointer',
-                        transition: 'background-color 0.3s'
+                        transition: 'background-color 0.3s',
                       }}
                       onMouseEnter={e => e.currentTarget.style.backgroundColor = '#C9A96E'}
                       onMouseLeave={e => e.currentTarget.style.backgroundColor = '#1C1C1C'}
                     >
                       <Phone size={14} strokeWidth={2.5} />
                       Order a call
-                    </button>
+                    </SubmitButton>
 
                     <p className="text-[11px] text-[#8A8A8A] mt-2 leading-relaxed">
-                      By clicking the "Order a call" button, I give my{' '}
-                      <a href="#" className="text-[#1C1C1C] hover:text-[#C9A96E] transition-colors underline decoration-[#E5E5E5] hover:decoration-[#C9A96E] underline-offset-4">
-                        Consent to the processing of my personal data
-                      </a>
-                      . In accordance with the Federal Law "On Personal Data", on the terms and for the purposes defined in the Consent to the processing of personal data.
+                      By submitting this form you agree to our{' '}
+                      <a href="/privacy" className="text-[#1C1C1C] hover:text-[#C9A96E] transition-colors underline decoration-[#E5E5E5] hover:decoration-[#C9A96E] underline-offset-4">
+                        Privacy Policy
+                      </a>{' '}
+                      and consent to being contacted about your enquiry. We never sell your data.
                     </p>
                   </form>
                 </>
@@ -210,7 +198,7 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
                   <div style={{ width: 56, height: 56, borderRadius: '50%', backgroundColor: '#F7F5F2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, marginBottom: 8 }}>✨</div>
                   <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 26, fontWeight: 700, color: '#1C1C1C' }}>Thank You!</h3>
                   <p style={{ fontSize: 13, color: '#8A8A8A', lineHeight: 1.7, maxWidth: 280 }}>
-                    We've received your request. Our manager will call you back shortly.
+                    We&apos;ve received your request. Our manager will call you back shortly.
                   </p>
                   <button
                     onClick={onClose}

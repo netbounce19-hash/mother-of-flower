@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { Product, SizeOption, BoxColor } from '@/types';
 
 export interface CartItem {
@@ -19,36 +19,53 @@ interface CartContextType {
   addToCart: (item: Omit<CartItem, 'id'>) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
+  clearCart: () => void;
   cartCount: number;
   cartTotal: number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const STORAGE_KEY = 'mof_cart';
+
+function readStoredCart(): CartItem[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? (JSON.parse(stored) as CartItem[]) : [];
+  } catch (e) {
+    console.error('Failed to parse cart from local storage', e);
+    return [];
+  }
+}
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+  const hydrated = useRef(false);
 
-  // Load from local storage on mount
+  // The stored cart has to be read *after* mount, not in the state
+  // initialiser: the server always renders an empty bag, so seeding state
+  // synchronously would make the hydrated markup disagree with the HTML
+  // (visibly, via the cart-count badge). react-hooks/set-state-in-effect
+  // flags this shape, but for a localStorage-backed store it is the correct
+  // one — the alternative is a hydration mismatch.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setItems(readStoredCart()), []);
+
+  // Persist on change, skipping the first pass so the initial empty state
+  // never overwrites a real stored cart before it has been read back.
   useEffect(() => {
-    setIsMounted(true);
+    if (!hydrated.current) {
+      hydrated.current = true;
+      return;
+    }
     try {
-      const stored = localStorage.getItem('mof_cart');
-      if (stored) {
-        setItems(JSON.parse(stored));
-      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     } catch (e) {
-      console.error('Failed to parse cart from local storage', e);
+      console.error('Failed to persist cart', e);
     }
-  }, []);
-
-  // Save to local storage on change
-  useEffect(() => {
-    if (isMounted) {
-      localStorage.setItem('mof_cart', JSON.stringify(items));
-    }
-  }, [items, isMounted]);
+  }, [items]);
 
   const addToCart = (newItem: Omit<CartItem, 'id'>) => {
     setItems((prev) => {
@@ -81,6 +98,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setItems((prev) => prev.map((i) => (i.id === id ? { ...i, quantity } : i)));
   };
 
+  const clearCart = () => setItems([]);
+
   const cartCount = items.reduce((total, item) => total + item.quantity, 0);
   
   // Note: we might want to add size multipliers to price later, but for now we use base price.
@@ -95,6 +114,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         addToCart,
         removeFromCart,
         updateQuantity,
+        clearCart,
         cartCount,
         cartTotal,
       }}

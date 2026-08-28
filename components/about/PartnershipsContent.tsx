@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, Variants } from 'framer-motion';
+import Image from 'next/image';
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -58,10 +59,13 @@ export default function PartnershipsContent() {
             className="order-2 md:order-1"
           >
             <div className="bg-[#FAF9F6] p-[6%] shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.12)] transition-shadow duration-500 rounded-[2px]">
-              <img 
-                src="/images/pink_flowers_chair.png" 
-                alt="Pink flowers on chair" 
-                style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }} 
+              <Image
+                src="/images/pink_flowers_chair.webp"
+                alt="Pink flowers on chair"
+                width={1024}
+                height={1024}
+                sizes="(max-width: 768px) 88vw, 500px"
+                style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
               />
             </div>
           </motion.div>

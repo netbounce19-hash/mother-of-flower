@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, Variants } from 'framer-motion';
+import Image from 'next/image';
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -73,7 +74,7 @@ export default function AboutSection() {
             <motion.div variants={fadeUp} className="flex flex-col gap-4">
               <h2 className="font-sans text-[14px] font-bold tracking-wide uppercase" style={{ color: '#1C1C1C' }}>Delivery & Setup</h2>
               <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
-                Same-day, hand delivery with precise 2-hour windows. We coordinate with concierge, can place arrangements in-room, and include a care card. For bouquets, use a clean vase with cool water. See our simple care guide or message us—we'll help with everything.
+                Same-day, hand delivery with precise 2-hour windows. We coordinate with concierge, can place arrangements in-room, and include a care card. For bouquets, use a clean vase with cool water. See our simple care guide or message us—we&apos;ll help with everything.
               </p>
             </motion.div>
 
@@ -87,7 +88,7 @@ export default function AboutSection() {
             <motion.div variants={fadeUp} className="flex flex-col gap-4">
               <h2 className="font-sans text-[14px] font-bold tracking-wide uppercase" style={{ color: '#1C1C1C' }}>Sustainability & Safety</h2>
               <p className="text-[15px] font-medium leading-[1.8] mb-2 text-[#333333]">
-                Responsibly sourced blooms, recyclable wrapping, and water-based care. Same-day, temperature-conscious hand delivery for homes, offices, and hotel suites. Need child- or pet-considerate florals? Tell us—we'll tailor the selection.
+                Responsibly sourced blooms, recyclable wrapping, and water-based care. Same-day, temperature-conscious hand delivery for homes, offices, and hotel suites. Need child- or pet-considerate florals? Tell us—we&apos;ll tailor the selection.
               </p>
               <a
                 href="#contact"
@@ -122,11 +123,13 @@ export default function AboutSection() {
             </motion.h2>
             
             {/* Hero Image */}
-            <motion.div variants={fadeUp} style={{ width: '100%', aspectRatio: '21/9', overflow: 'hidden', backgroundColor: '#E5E5E5' }}>
-              <img 
-                src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2000&auto=format&fit=crop" 
-                alt="Event table setup in nature" 
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+            <motion.div variants={fadeUp} style={{ position: 'relative', width: '100%', aspectRatio: '21/9', overflow: 'hidden', backgroundColor: '#E5E5E5' }}>
+              <Image
+                src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2000&auto=format&fit=crop"
+                alt="Event table setup in nature"
+                fill
+                sizes="(max-width: 1200px) 100vw, 1200px"
+                style={{ objectFit: 'cover' }}
               />
             </motion.div>
 
@@ -134,7 +137,7 @@ export default function AboutSection() {
             <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-2 mt-4" style={{ gap: '6vw' }}>
               <div className="flex flex-col gap-6">
                 <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
-                  Whether you're a luxury boutique, a hotel concierge, or an event planner, we provide priority service tailored to your volume and needs. 
+                  Whether you&apos;re a luxury boutique, a hotel concierge, or an event planner, we provide priority service tailored to your volume and needs. 
                 </p>
                 <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
                   Mother of Flower is a registered vendor with many top venues in Las Vegas, making coordination seamless and swift.
@@ -164,10 +167,13 @@ export default function AboutSection() {
               className="order-2 md:order-1"
             >
               <div className="bg-[#FDFDFD] p-[6%] pb-[20%] shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.12)] transition-shadow duration-500 rounded-[2px]">
-                <img 
-                  src="/images/pink_flowers_chair.png" 
-                  alt="Pink flowers on chair" 
-                  style={{ width: '100%', height: 'auto', display: 'block' }} 
+                <Image
+                  src="/images/pink_flowers_chair.webp"
+                  alt="Pink flowers on chair"
+                  width={1024}
+                  height={1024}
+                  sizes="(max-width: 768px) 88vw, 460px"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
                 />
               </div>
             </motion.div>
@@ -208,7 +214,7 @@ export default function AboutSection() {
 
               <motion.div variants={fadeUp} className="pt-10 border-t border-[#E5E5E5] flex flex-col gap-6">
                 <p className="text-[15px] text-[#8A8A8A] leading-[1.6]">
-                  To become our partner, fill out the contact form. We'll get back within one business day to discuss collaboration opportunities.
+                  To become our partner, fill out the contact form. We&apos;ll get back within one business day to discuss collaboration opportunities.
                 </p>
                 <a
                   href="#custom-request"

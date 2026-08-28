@@ -10,12 +10,14 @@ import 'swiper/css';
 import 'swiper/css/effect-creative';
 import 'swiper/css/pagination';
 
+const HERO_HEADING = 'Custom Floral Designs';
+
 export default function HeroSection() {
   // Slides with image paths
   const slides = [
-    { id: 1, imageUrl: '/images/hero-1.jpg' },
-    { id: 2, imageUrl: '/images/hero-2.jpg' },
-    { id: 3, imageUrl: '/images/hero-3.jpg' },
+    { id: 1, imageUrl: '/images/hero-1.webp' },
+    { id: 2, imageUrl: '/images/hero-2.webp' },
+    { id: 3, imageUrl: '/images/hero-3.webp' },
   ];
 
   return (
@@ -58,12 +60,13 @@ export default function HeroSection() {
                 backgroundColor: '#1C1C1C' // Dark background while loading
               }}
             >
-              <Image 
-                src={slide.imageUrl} 
-                alt={`Hero Slide ${slide.id}`} 
-                fill 
-                style={{ objectFit: 'cover' }} 
-                priority={slide.id === 1} // Only preload the first image
+              <Image
+                src={slide.imageUrl}
+                alt=""
+                fill
+                sizes="100vw"
+                style={{ objectFit: 'cover' }}
+                preload={slide.id === 1} // Only preload the first image
               />
             </div>
           </SwiperSlide>
@@ -88,14 +91,14 @@ export default function HeroSection() {
         }}
       >
         <div className="text-center px-4" style={{ textShadow: '0 4px 16px rgba(0,0,0,0.5)' }}>
-          <h1>
-            <Typewriter
-              className="text-[clamp(32px,5vw,60px)] font-bold tracking-tighter uppercase text-[#FDFDFD]"
-              words={["Custom Floral Designs"]}
-              speed={80}
-              delayBetweenWords={2000}
-              cursor={false}
-            />
+          {/*
+            The heading text ships in the HTML for crawlers and no-JS visitors;
+            the typewriter is a visual layer on top of it. Previously the <h1>
+            was empty until JS ran.
+          */}
+          <h1 className="text-[clamp(32px,5vw,60px)] font-bold tracking-tighter uppercase text-[#FDFDFD]">
+            <span className="sr-only">{HERO_HEADING}</span>
+            <Typewriter aria-hidden="true" words={[HERO_HEADING]} speed={80} cursor={false} />
           </h1>
         </div>
 

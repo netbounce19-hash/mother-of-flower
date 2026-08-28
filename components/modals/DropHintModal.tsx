@@ -1,9 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useActionState, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { X, Send } from 'lucide-react';
-import { Product, HintFormData } from '@/types';
+import { Product } from '@/types';
+import { submitDropHint } from '@/app/actions/submissions';
+import { initialFormState } from '@/lib/form-state';
+import { FieldError, Honeypot, SubmitButton } from '@/components/forms/FormBits';
 
 interface DropHintModalProps {
   product: Product | null;
@@ -13,16 +17,22 @@ interface DropHintModalProps {
 
 interface FieldProps {
   id: string;
+  name: string;
   label: string;
   type?: string;
-  value: string;
-  onChange: (v: string) => void;
+  onChange?: (v: string) => void;
   required?: boolean;
+  error?: string[];
 }
 
-function FloatingInput({ id, label, type = 'text', value, onChange, required }: FieldProps) {
+/**
+ * Uncontrolled on purpose: values are read from FormData on submit, so the
+ * only local state is what the floating label needs.
+ */
+function FloatingInput({ id, name, label, type = 'text', onChange, required, error }: FieldProps) {
   const [focused, setFocused] = useState(false);
-  const lifted = focused || value.length > 0;
+  const [hasValue, setHasValue] = useState(false);
+  const lifted = focused || hasValue;
 
   return (
     <div style={{ position: 'relative', paddingTop: 20 }}>
@@ -45,12 +55,15 @@ function FloatingInput({ id, label, type = 'text', value, onChange, required }: 
       </label>
       <input
         id={id}
+        name={name}
         type={type}
-        value={value}
         required={required}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => {
+          setHasValue(e.target.value.length > 0);
+          onChange?.(e.target.value);
+        }}
         style={{
           width: '100%',
           backgroundColor: 'transparent',
@@ -61,35 +74,20 @@ function FloatingInput({ id, label, type = 'text', value, onChange, required }: 
           fontSize: 14,
           color: '#1C1C1C',
           transition: 'border-color 0.2s',
-          fontFamily: 'Inter, sans-serif',
+          fontFamily: 'var(--font-sans)',
         }}
       />
+      <FieldError messages={error} />
     </div>
   );
 }
 
 export default function DropHintModal({ product, isOpen, onClose }: DropHintModalProps) {
-  const [form, setForm] = useState<HintFormData>({
-    recipientFirstName: '',
-    recipientEmail: '',
-    senderFirstName: '',
-    senderEmail: '',
-  });
-  const [submitted, setSubmitted] = useState(false);
+  // Kept only so the success message can address the recipient by name.
+  const [recipientName, setRecipientName] = useState('');
+  const [state, formAction] = useActionState(submitDropHint, initialFormState);
 
-  useEffect(() => {
-    if (isOpen) {
-      setForm({ recipientFirstName: '', recipientEmail: '', senderFirstName: '', senderEmail: '' });
-      setSubmitted(false);
-    }
-  }, [isOpen]);
-
-  const set = (key: keyof HintFormData) => (v: string) => setForm((f) => ({ ...f, [key]: v }));
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
+  const submitted = state.status === 'success';
 
   if (!product) return null;
 
@@ -158,8 +156,8 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
                 <>
                   {/* Product preview */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid #E5E5E5' }}>
-                    <div style={{ width: 60, height: 60, borderRadius: 10, overflow: 'hidden', flexShrink: 0, backgroundColor: '#F7F5F2' }}>
-                      <img src={product.images[0]} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <div style={{ position: 'relative', width: 60, height: 60, borderRadius: 10, overflow: 'hidden', flexShrink: 0, backgroundColor: '#F7F5F2' }}>
+                      <Image src={product.images[0]} alt={product.name} fill sizes="60px" style={{ objectFit: 'cover' }} />
                     </div>
                     <div>
                       <p style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 2 }}>Drop a Hint</p>
@@ -168,13 +166,16 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
                     </div>
                   </div>
 
-                  <form onSubmit={handleSubmit}>
+                  <form action={formAction}>
+                    <Honeypot />
+                    <input type="hidden" name="productName" value={product.name} />
+
                     {/* Recipient */}
                     <div style={{ marginBottom: 24 }}>
                       <p style={{ fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#1C1C1C', marginBottom: 16 }}>Recipient</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                        <FloatingInput id="r-name" label="First Name" value={form.recipientFirstName} onChange={set('recipientFirstName')} required />
-                        <FloatingInput id="r-email" label="Email Address" type="email" value={form.recipientEmail} onChange={set('recipientEmail')} required />
+                        <FloatingInput id="r-name" name="recipientFirstName" label="First Name" onChange={setRecipientName} error={state.errors?.recipientFirstName} required />
+                        <FloatingInput id="r-email" name="recipientEmail" label="Email Address" type="email" error={state.errors?.recipientEmail} required />
                       </div>
                     </div>
 
@@ -184,13 +185,16 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
                     <div style={{ marginBottom: 28 }}>
                       <p style={{ fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#1C1C1C', marginBottom: 16 }}>Your Details</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                        <FloatingInput id="s-name" label="First Name" value={form.senderFirstName} onChange={set('senderFirstName')} required />
-                        <FloatingInput id="s-email" label="Email Address" type="email" value={form.senderEmail} onChange={set('senderEmail')} required />
+                        <FloatingInput id="s-name" name="senderFirstName" label="First Name" error={state.errors?.senderFirstName} required />
+                        <FloatingInput id="s-email" name="senderEmail" label="Email Address" type="email" error={state.errors?.senderEmail} required />
                       </div>
                     </div>
 
-                    <button
-                      type="submit"
+                    {state.status === 'error' && !state.errors && (
+                      <p role="alert" style={{ color: '#C0392B', fontSize: 12, marginBottom: 16 }}>{state.message}</p>
+                    )}
+
+                    <SubmitButton
                       style={{
                         width: '100%',
                         padding: '16px',
@@ -199,19 +203,18 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
                         fontSize: 12,
                         letterSpacing: '0.18em',
                         textTransform: 'uppercase',
-                        fontFamily: 'Inter, sans-serif',
+                        fontFamily: 'var(--font-sans)',
                         border: 'none',
                         borderRadius: 2,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         gap: 8,
-                        cursor: 'pointer',
                       }}
                     >
                       <Send size={14} strokeWidth={1.5} />
                       Send Hint
-                    </button>
+                    </SubmitButton>
                   </form>
                 </>
               ) : (
@@ -224,7 +227,7 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
                   <div style={{ width: 56, height: 56, borderRadius: '50%', backgroundColor: '#F7F5F2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>🌸</div>
                   <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 26, color: '#1C1C1C' }}>Hint Sent!</h3>
                   <p style={{ fontSize: 13, color: '#8A8A8A', lineHeight: 1.7, maxWidth: 280 }}>
-                    We've sent a beautiful hint to <strong style={{ color: '#1C1C1C', fontWeight: 400 }}>{form.recipientFirstName || 'them'}</strong>. Fingers crossed they take the hint! 🌹
+                    We&apos;ve sent a beautiful hint to <strong style={{ color: '#1C1C1C', fontWeight: 400 }}>{recipientName || 'them'}</strong>. Fingers crossed they take the hint! 🌹
                   </p>
                   <button
                     onClick={onClose}

@@ -1,6 +1,10 @@
 'use client';
 
+import { useActionState } from 'react';
 import { motion, Variants } from 'framer-motion';
+import { submitCustomRequest } from '@/app/actions/submissions';
+import { initialFormState } from '@/lib/form-state';
+import { FieldError, Honeypot, SubmitButton } from '@/components/forms/FormBits';
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -13,6 +17,8 @@ const staggerContainer: Variants = {
 };
 
 export default function CustomRequestSection() {
+  const [state, formAction] = useActionState(submitCustomRequest, initialFormState);
+
   return (
     <section
       id="custom-request"
@@ -75,32 +81,60 @@ export default function CustomRequestSection() {
             variants={fadeUp}
             className="flex flex-col gap-6"
           >
-            <form className="flex flex-col gap-5" onSubmit={(e) => e.preventDefault()}>
+            {state.status === 'success' ? (
+              <div
+                role="status"
+                className="flex flex-col gap-3 border border-[#E5E2DB] bg-[#FDFDFD] p-8 rounded-[2px]"
+              >
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C9A96E]">Request received</p>
+                <h3 className="text-[20px] font-bold text-[#1C1C1C]">Thank you</h3>
+                <p className="text-[14px] text-[#555555] leading-relaxed">
+                  One of our florists will be in touch within one business day to talk
+                  through your vision.
+                </p>
+              </div>
+            ) : (
+            <form action={formAction} className="flex flex-col gap-5">
+              <Honeypot />
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Full Name</label>
+                  <label htmlFor="cr-name" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Full Name</label>
                   <input
+                    id="cr-name"
+                    name="name"
                     type="text"
+                    required
+                    autoComplete="name"
                     placeholder="Jane Doe"
                     className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] placeholder:text-[#BBBBBB] focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors rounded-none"
                   />
+                  <FieldError messages={state.errors?.name} />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Phone or Email</label>
+                  <label htmlFor="cr-contact" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Phone or Email</label>
                   <input
+                    id="cr-contact"
+                    name="contact"
                     type="text"
+                    required
                     placeholder="contact@example.com"
                     className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] placeholder:text-[#BBBBBB] focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors rounded-none"
                   />
+                  <FieldError messages={state.errors?.contact} />
                 </div>
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Inquiry Type</label>
+                <label htmlFor="cr-type" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Inquiry Type</label>
                 <div className="relative">
-                  <select className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] appearance-none focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors cursor-pointer rounded-none">
-                    <option value="" disabled selected hidden>Select type...</option>
+                  <select
+                    id="cr-type"
+                    name="inquiryType"
+                    defaultValue=""
+                    className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] appearance-none focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors cursor-pointer rounded-none"
+                  >
+                    <option value="" disabled hidden>Select type...</option>
                     <option>Custom Bouquet</option>
                     <option>Wedding &amp; Bridal</option>
                     <option>Corporate Event</option>
@@ -113,18 +147,24 @@ export default function CustomRequestSection() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Date of Event</label>
+                  <label htmlFor="cr-date" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Date of Event</label>
                   <input
-                    type="text"
-                    placeholder="DD.MM.YYYY"
+                    id="cr-date"
+                    name="eventDate"
+                    type="date"
                     className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] placeholder:text-[#BBBBBB] focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors rounded-none"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Estimated Budget</label>
+                  <label htmlFor="cr-budget" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Estimated Budget</label>
                   <div className="relative">
-                    <select className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] appearance-none focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors cursor-pointer rounded-none">
-                      <option value="" disabled selected hidden>Select budget...</option>
+                    <select
+                      id="cr-budget"
+                      name="budget"
+                      defaultValue=""
+                      className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] appearance-none focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors cursor-pointer rounded-none"
+                    >
+                      <option value="" disabled hidden>Select budget...</option>
                       <option>$100 – $300</option>
                       <option>$300 – $1,000</option>
                       <option>$1,000 – $5,000</option>
@@ -136,24 +176,28 @@ export default function CustomRequestSection() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Your Vision / Details</label>
+                <label htmlFor="cr-details" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Your Vision / Details</label>
                 <textarea
+                  id="cr-details"
+                  name="details"
                   placeholder="Tell us about the occasion, preferred colors, or specific flowers..."
                   rows={3}
                   className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] placeholder:text-[#BBBBBB] focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors resize-none rounded-none"
                 />
               </div>
 
+              {state.status === 'error' && (
+                <p role="alert" className="text-[#C0392B] text-[12px]">{state.message}</p>
+              )}
+
               <div className="pt-2">
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center bg-[#1C1C1C] text-[#FDFDFD] text-[11px] font-bold uppercase tracking-[0.1em] px-10 py-3.5 rounded-[2px] hover:bg-[#C9A96E] transition-colors duration-300"
-                >
+                <SubmitButton className="inline-flex items-center justify-center bg-[#1C1C1C] text-[#FDFDFD] text-[11px] font-bold uppercase tracking-[0.1em] px-10 py-3.5 rounded-[2px] hover:bg-[#C9A96E] transition-colors duration-300">
                   Submit Request
-                </button>
+                </SubmitButton>
               </div>
 
             </form>
+            )}
           </motion.div>
 
         </div>

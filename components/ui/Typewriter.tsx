@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface TypewriterProps {
   words: string[];
@@ -8,52 +8,77 @@ interface TypewriterProps {
   delayBetweenWords?: number;
   cursor?: boolean;
   className?: string;
+  'aria-hidden'?: boolean | 'true' | 'false';
 }
 
+/**
+ * Types words out one character at a time.
+ *
+ * Purely decorative: callers should render the real text alongside it (e.g. in
+ * a visually-hidden span) so crawlers and assistive tech never depend on this
+ * component having run.
+ */
 export function Typewriter({
   words,
   speed = 80,
   delayBetweenWords = 2000,
   cursor = true,
   className = '',
+  'aria-hidden': ariaHidden,
 }: TypewriterProps) {
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [currentText, setCurrentText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [text, setText] = useState('');
+
+  // Kept in a ref so a new array literal from the parent doesn't restart the
+  // animation on every render.
+  const wordsRef = useRef(words);
+  useEffect(() => {
+    wordsRef.current = words;
+  }, [words]);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    const list = wordsRef.current;
+    if (list.length === 0) return;
 
-    const handleType = () => {
-      const fullWord = words[currentWordIndex];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+    let timer: ReturnType<typeof setTimeout>;
 
-      if (isDeleting) {
-        setCurrentText((prev) => prev.slice(0, -1));
-        timer = setTimeout(handleType, speed / 2); // Delete faster
-      } else {
-        setCurrentText((prev) => fullWord.slice(0, prev.length + 1));
-        timer = setTimeout(handleType, speed);
-      }
+    const tick = () => {
+      const word = list[wordIndex];
 
-      if (!isDeleting && currentText === fullWord) {
-        // If there is only one word, stop typing and don't delete
-        if (words.length > 1) {
-          timer = setTimeout(() => setIsDeleting(true), delayBetweenWords);
+      if (!deleting) {
+        charIndex += 1;
+        setText(word.slice(0, charIndex));
+
+        if (charIndex === word.length) {
+          // A single word settles and stays put.
+          if (list.length === 1) return;
+          deleting = true;
+          timer = setTimeout(tick, delayBetweenWords);
+          return;
         }
-      } else if (isDeleting && currentText === '') {
-        setIsDeleting(false);
-        setCurrentWordIndex((prev) => (prev + 1) % words.length);
+        timer = setTimeout(tick, speed);
+        return;
       }
+
+      charIndex -= 1;
+      setText(word.slice(0, charIndex));
+
+      if (charIndex === 0) {
+        deleting = false;
+        wordIndex = (wordIndex + 1) % list.length;
+      }
+      timer = setTimeout(tick, speed / 2);
     };
 
-    timer = setTimeout(handleType, speed);
-
+    timer = setTimeout(tick, speed);
     return () => clearTimeout(timer);
-  }, [currentText, isDeleting, currentWordIndex, words, speed, delayBetweenWords]);
+  }, [speed, delayBetweenWords]);
 
   return (
-    <span className={className}>
-      {currentText}
+    <span className={className} aria-hidden={ariaHidden}>
+      {text}
       {cursor && <span className="animate-pulse">|</span>}
     </span>
   );

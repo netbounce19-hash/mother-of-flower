@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, Variants } from 'framer-motion';
+import { site } from '@/lib/site';
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -36,30 +37,35 @@ export default function LocationSection() {
               <div className="flex flex-col gap-1">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C9A96E] mb-2">Address</p>
                 <p className="text-[14px] font-medium text-[#1C1C1C] leading-relaxed">
-                  7710 Eastgate Rd<br />Henderson, NV 89011
+                  {site.address.line1}<br />{site.address.line2}
                 </p>
               </div>
 
               <div className="flex flex-col gap-1">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C9A96E] mb-2">Hours</p>
                 <p className="text-[14px] font-medium text-[#1C1C1C] leading-relaxed">
-                  Mon – Sat, 9am – 7pm<br />Sun, 9am – 5pm
+                  {site.hours.display}
                 </p>
               </div>
 
               <div className="flex flex-col gap-1">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C9A96E] mb-2">Contact</p>
-                <p className="text-[14px] font-medium text-[#1C1C1C]">+1 (702) 555-0198</p>
                 <a
-                  href="mailto:orders@motherofflower.com"
+                  href={site.phone.href}
+                  className="text-[14px] font-medium text-[#1C1C1C] hover:text-[#C9A96E] transition-colors"
+                >
+                  {site.phone.display}
+                </a>
+                <a
+                  href={`mailto:${site.email}`}
                   className="text-[14px] font-medium text-[#8A8A8A] hover:text-[#C9A96E] transition-colors"
                 >
-                  orders@motherofflower.com
+                  {site.email}
                 </a>
               </div>
 
               <a
-                href="https://maps.google.com/?q=7710+Eastgate+Rd,+Henderson,+NV+89011"
+                href={site.address.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center mt-2 border border-[#1C1C1C] text-[#1C1C1C] text-[11px] font-bold uppercase tracking-[0.1em] px-7 py-3 rounded-[2px] hover:bg-[#1C1C1C] hover:text-[#FDFDFD] transition-colors duration-300 w-fit"
@@ -97,7 +103,9 @@ export default function LocationSection() {
           className="mt-16 pt-10 border-t border-[#E8E8E8] text-center"
         >
           <p className="text-[13px] italic text-[#8A8A8A] max-w-2xl mx-auto leading-relaxed">
-            "We're always here to guide you through the ordering process or help you to make a decision on what composition would be the best fit for your occasion. Don't be shy and reach out."
+            &ldquo;We&apos;re always here to guide you through the ordering process or help
+            you decide which composition best fits your occasion. Don&apos;t be shy —
+            reach out.&rdquo;
           </p>
         </motion.div>
 

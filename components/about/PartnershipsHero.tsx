@@ -1,16 +1,20 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 export default function PartnershipsHero() {
   return (
     <section className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center bg-[#1C1C1C] overflow-hidden">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        <img
+        <Image
           src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2000&auto=format&fit=crop"
-          alt="Partnerships Background"
-          className="w-full h-full object-cover"
+          alt=""
+          fill
+          sizes="100vw"
+          preload
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-[#1C1C1C]/40 backdrop-blur-[2px]"></div>
       </div>
