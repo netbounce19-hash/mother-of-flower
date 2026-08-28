@@ -5,8 +5,8 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="w-full border-t border-[#E5E5E5] bg-[#FDFDFD]">
-      <div style={{ maxWidth: 1100, margin: '0 auto', paddingLeft: '5vw', paddingRight: '5vw' }}>
+    <footer className="w-full border-t border-[#E5E2DB] bg-[#FDFDFD]">
+      <div className="site-container">
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 py-16">
@@ -29,7 +29,7 @@ export default function Footer() {
 
           {/* Links */}
           <div className="flex flex-col gap-3 md:items-center">
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8A8A8A] mb-1">Explore</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#6B6B6B] mb-1">Explore</p>
             {[
               { label: 'Collections', href: '/catalog' },
               { label: 'Occasions', href: '/#occasions' },
@@ -40,7 +40,7 @@ export default function Footer() {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-[13px] text-[#8A8A8A] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
+                className="text-[13px] text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
               >
                 {item.label}
               </a>
@@ -49,27 +49,27 @@ export default function Footer() {
 
           {/* Contact */}
           <div className="flex flex-col gap-3 md:items-end">
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8A8A8A] mb-1">Get in Touch</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#6B6B6B] mb-1">Get in Touch</p>
             <a
               href={`mailto:${site.email}`}
-              className="text-[13px] text-[#8A8A8A] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
+              className="text-[13px] text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
             >
               {site.email}
             </a>
             <a
               href={site.phone.href}
-              className="text-[13px] text-[#8A8A8A] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
+              className="text-[13px] text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
             >
               {site.phone.display}
             </a>
-            <p className="text-[13px] text-[#8A8A8A]">{site.address.line2}</p>
-            <p className="text-[13px] text-[#8A8A8A]">{site.hours.short}</p>
+            <p className="text-[13px] text-[#6B6B6B]">{site.address.line2}</p>
+            <p className="text-[13px] text-[#6B6B6B]">{site.hours.short}</p>
             <div className="flex gap-5 mt-2">
               <a
                 href={site.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#8A8A8A] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
+                className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
               >
                 Instagram
               </a>
@@ -79,8 +79,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-[#E5E5E5] py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[11px] text-[#AAAAAA] tracking-wide">
+        <div className="border-t border-[#E5E2DB] py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-[11px] text-[#6B6B6B] tracking-wide">
             © {year} MotherOfFlower. All rights reserved.
           </p>
           <div className="flex gap-6">
@@ -92,7 +92,7 @@ export default function Footer() {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-[11px] text-[#AAAAAA] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
+                className="text-[11px] text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
               >
                 {item.label}
               </a>

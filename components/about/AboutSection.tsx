@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, Variants } from 'framer-motion';
-import Image from 'next/image';
+import Link from 'next/link';
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -18,8 +18,8 @@ export default function AboutSection() {
     <section id="about" className="w-full flex flex-col bg-[#FDFDFD]">
       
       {/* Block 1: Quality & Delivery */}
-      <div className="w-full" style={{ padding: '120px 5vw 120px 10vw' }}>
-        <div className="grid grid-cols-1 md:grid-cols-2 items-center" style={{ maxWidth: 1200, gap: '8vw', margin: '0 auto' }}>
+      <div className="w-full site-section">
+        <div className="site-container grid grid-cols-1 md:grid-cols-2 items-center gap-12 md:gap-[8vw]">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -49,7 +49,7 @@ export default function AboutSection() {
                 href="https://www.instagram.com/mother_of_flower/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-[10px] md:text-[11px] tracking-[0.2em] uppercase text-[#8A8A8A] hover:text-[#1C1C1C] transition-colors pb-1 border-b border-[#8A8A8A]/30 hover:border-[#1C1C1C]"
+                className="text-[10px] md:text-[11px] tracking-[0.2em] uppercase text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors pb-1 border-b border-[#8A8A8A]/30 hover:border-[#1C1C1C]"
               >
                 Follow us on Instagram ↗
               </a>
@@ -102,146 +102,48 @@ export default function AboutSection() {
         </div>
       </div>
 
-      {/* Block 3: Partnerships & Collaborations (Cream Theme) */}
-      <div className="w-full text-[#1C1C1C]" style={{ backgroundColor: '#F7F5F2', padding: '120px 5vw 120px 10vw' }}>
-        <div className="mx-auto flex flex-col" style={{ maxWidth: 1200, gap: '100px' }}>
-          
-          {/* Section 1: Intro & Hero */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-            className="flex flex-col gap-12"
+      {/*
+        The full partnerships pitch (intro, hero image, "What our partners
+        get") used to be repeated here verbatim from /sotrud — the same five
+        bullet points word for word, which Google reads as duplicate content.
+        The canonical version now lives only on /sotrud; this band keeps the
+        route discoverable from the homepage.
+      */}
+      <div className="w-full text-[#1C1C1C] site-section" style={{ backgroundColor: '#F7F5F2' }}>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-100px' }}
+          variants={staggerContainer}
+          className="site-container flex flex-col items-center text-center gap-6"
+        >
+          <motion.p variants={fadeUp} className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E]">
+            Partnerships
+          </motion.p>
+
+          <motion.h2
+            variants={fadeUp}
+            className="font-serif leading-[1.1]"
+            style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', fontWeight: 400 }}
           >
-            <motion.h2 
-              variants={fadeUp} 
-              className="font-sans tracking-wide uppercase text-center"
-              style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 700 }}
+            Partner with Mother of Flower
+          </motion.h2>
+
+          <motion.p variants={fadeUp} className="text-[15px] font-medium leading-[1.8] text-[#333333] max-w-[560px]">
+            Hotels, resorts, restaurants, event planners and design studios across
+            Las Vegas work with us on preferred terms, with a dedicated floral
+            concierge and same-day support.
+          </motion.p>
+
+          <motion.div variants={fadeUp} className="pt-2">
+            <Link
+              href="/sotrud"
+              className="inline-flex items-center justify-center bg-[#1C1C1C] text-[#FDFDFD] text-[13px] font-bold uppercase tracking-[0.04em] px-12 py-[18px] rounded-[2px] no-underline hover:bg-[#C9A96E] focus-visible:bg-[#C9A96E] transition-colors duration-300"
             >
-              Partner with Mother of Flower
-            </motion.h2>
-            
-            {/* Hero Image */}
-            <motion.div variants={fadeUp} style={{ position: 'relative', width: '100%', aspectRatio: '21/9', overflow: 'hidden', backgroundColor: '#E5E5E5' }}>
-              <Image
-                src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2000&auto=format&fit=crop"
-                alt="Event table setup in nature"
-                fill
-                sizes="(max-width: 1200px) 100vw, 1200px"
-                style={{ objectFit: 'cover' }}
-              />
-            </motion.div>
-
-            {/* Intro Text Grid */}
-            <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-2 mt-4" style={{ gap: '6vw' }}>
-              <div className="flex flex-col gap-6">
-                <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
-                  Whether you&apos;re a luxury boutique, a hotel concierge, or an event planner, we provide priority service tailored to your volume and needs. 
-                </p>
-                <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
-                  Mother of Flower is a registered vendor with many top venues in Las Vegas, making coordination seamless and swift.
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-6">
-                <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
-                  We understand the pace of high-end hospitality. From last-minute VIP requests to weekly lobby installations, our team is equipped to execute flawlessly on short timelines.
-                </p>
-                <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
-                  Partnering with us means you have a dedicated floral concierge. We remember your preferences, invoice smoothly, and ensure every arrangement reflects the caliber of your own brand.
-                </p>
-              </div>
-            </motion.div>
+              Become a Partner →
+            </Link>
           </motion.div>
-
-          {/* Section 2: What partners get */}
-          <div className="grid grid-cols-1 md:grid-cols-2 items-center" style={{ gap: '8vw' }}>
-            
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={fadeUp}
-              style={{ width: '100%', maxWidth: '460px', margin: '0 auto' }}
-              className="order-2 md:order-1"
-            >
-              <div className="bg-[#FDFDFD] p-[6%] pb-[20%] shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.12)] transition-shadow duration-500 rounded-[2px]">
-                <Image
-                  src="/images/pink_flowers_chair.webp"
-                  alt="Pink flowers on chair"
-                  width={1024}
-                  height={1024}
-                  sizes="(max-width: 768px) 88vw, 460px"
-                  style={{ width: '100%', height: 'auto', display: 'block' }}
-                />
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={staggerContainer}
-              className="flex flex-col gap-10 order-1 md:order-2"
-            >
-              <motion.h3 variants={fadeUp} className="font-sans text-[16px] font-bold tracking-wide uppercase text-[#1C1C1C]">
-                What our partners get:
-              </motion.h3>
-              
-              <motion.ul variants={fadeUp} className="flex flex-col gap-6 text-[15px] font-medium text-[#333333]">
-                <li className="flex items-start gap-4">
-                  <span className="text-[#C9A96E] mt-1 text-[12px]">✦</span>
-                  <span className="leading-[1.6]">Preferred commercial terms</span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-[#C9A96E] mt-1 text-[12px]">✦</span>
-                  <span className="leading-[1.6]">Complimentary samples</span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-[#C9A96E] mt-1 text-[12px]">✦</span>
-                  <span className="leading-[1.6]">Flexible adaptation to your project — palette tweaks, scaling, composition updates</span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-[#C9A96E] mt-1 text-[12px]">✦</span>
-                  <span className="leading-[1.6]">Support at every stage: from selection to technical consultation</span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-[#C9A96E] mt-1 text-[12px]">✦</span>
-                  <span className="leading-[1.6]">Custom ideas within the Mother of Flower aesthetic</span>
-                </li>
-              </motion.ul>
-
-              <motion.div variants={fadeUp} className="pt-10 border-t border-[#E5E5E5] flex flex-col gap-6">
-                <p className="text-[15px] text-[#8A8A8A] leading-[1.6]">
-                  To become our partner, fill out the contact form. We&apos;ll get back within one business day to discuss collaboration opportunities.
-                </p>
-                <a
-                  href="#custom-request"
-                  className="inline-flex items-center justify-center transition-all duration-300 w-fit"
-                  style={{ 
-                    backgroundColor: '#1C1C1C', 
-                    color: '#FDFDFD',
-                    padding: '18px 48px',
-                    fontSize: '13px',
-                    letterSpacing: '0.04em',
-                    textTransform: 'uppercase',
-                    fontWeight: 700
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#C9A96E';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#1C1C1C';
-                  }}
-                >
-                  Become a Partner →
-                </a>
-              </motion.div>
-            </motion.div>
-
-          </div>
-        </div>
+        </motion.div>
       </div>
 
     </section>

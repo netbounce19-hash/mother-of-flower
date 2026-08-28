@@ -7,6 +7,7 @@ import { ShoppingBag, X, Menu, Phone, MapPin, Clock, MessageCircle, Sparkles } f
 import { useCart } from '@/contexts/CartContext';
 import OrderCallModal from '@/components/modals/OrderCallModal';
 import { site } from '@/lib/site';
+import { useOverlay } from '@/hooks/useOverlay';
 
 const navLinks = [
   { label: 'Collections', href: '/catalog' },
@@ -33,6 +34,7 @@ export default function Navbar() {
   const [isOrderCallOpen, setIsOrderCallOpen] = useState(false);
   const [showDeliveryAlert, setShowDeliveryAlert] = useState(true);
   const { cartCount, setIsCartOpen } = useCart();
+  const menuRef = useOverlay<HTMLDivElement>(menuOpen, () => setMenuOpen(false));
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -53,7 +55,7 @@ export default function Navbar() {
           height: 72,
           transition: 'background-color 0.4s, border-color 0.4s, backdrop-filter 0.4s',
           backgroundColor: scrolled ? 'rgba(253,253,253,0.96)' : 'rgba(0, 0, 0, 0.2)',
-          borderBottom: scrolled ? '1px solid #E5E5E5' : '1px solid rgba(253,253,253,0.12)',
+          borderBottom: scrolled ? '1px solid #E5E2DB' : '1px solid rgba(253,253,253,0.12)',
           backdropFilter: scrolled ? 'blur(14px)' : 'blur(8px)',
           WebkitBackdropFilter: scrolled ? 'blur(14px)' : 'blur(8px)',
         }}
@@ -149,13 +151,18 @@ export default function Navbar() {
         {menuOpen && (
           <motion.div
             key="mobile-menu"
+            ref={menuRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+            tabIndex={-1}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
             style={{ position: 'fixed', inset: 0, zIndex: 60, backgroundColor: '#FDFDFD', display: 'flex', flexDirection: 'column' }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 24px', height: 74, borderBottom: '1px solid #F0EFEA' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 24px', height: 74, borderBottom: '1px solid #F7F5F2' }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1 }}>
                 <span style={{ fontFamily: "var(--font-serif)", fontSize: 21, fontWeight: 500, letterSpacing: '0.04em', color: '#1C1C1C' }}>
                   Mother of Flower
@@ -235,7 +242,7 @@ export default function Navbar() {
               </div>
 
               {/* Address and Hours Info */}
-              <div className="flex flex-col gap-1.5 text-[12px] text-[#8A8A8A] pt-2">
+              <div className="flex flex-col gap-1.5 text-[12px] text-[#6B6B6B] pt-2">
                 <div className="flex items-center gap-2 text-[#444444]">
                   <MapPin size={13} className="text-[#C9A96E]" />
                   <span>{site.address.line1}, {site.address.line2}</span>
@@ -261,15 +268,15 @@ export default function Navbar() {
             className="fixed bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-6 z-40 w-[92vw] max-w-[440px] bg-[#1C1C1C]/95 backdrop-blur-md text-[#FDFDFD] p-3.5 pl-4 pr-3 rounded-xl shadow-[0_16px_40px_rgba(0,0,0,0.35)] border border-[#333333] flex items-center justify-between gap-3"
           >
             <div className="flex items-center gap-2.5 min-w-0">
-              <span className="text-[#C9A96E] flex-shrink-0">
+              <span className="text-[#8A6A2E] flex-shrink-0">
                 <Sparkles size={16} />
               </span>
-              <div className="text-[11.5px] md:text-[12px] leading-tight text-[#E8E8E8]">
+              <div className="text-[11.5px] md:text-[12px] leading-tight text-[#E5E2DB]">
                 <span>Same-Day Luxury Delivery in Las Vegas &amp; Henderson · Order Before 2 PM</span>
                 <span className="mx-1.5 text-[#C9A96E]">✦</span>
                 <a
                   href={site.phone.href}
-                  className="font-bold text-[#C9A96E] hover:underline whitespace-nowrap"
+                  className="font-bold text-[#8A6A2E] hover:underline whitespace-nowrap"
                 >
                   {site.phone.display}
                 </a>
@@ -279,7 +286,7 @@ export default function Navbar() {
             <button
               onClick={() => setShowDeliveryAlert(false)}
               aria-label="Close notification"
-              className="text-[#8A8A8A] hover:text-[#FDFDFD] p-1.5 rounded-full hover:bg-white/10 transition-colors flex-shrink-0 cursor-pointer"
+              className="text-[#6B6B6B] hover:text-[#FDFDFD] p-1.5 rounded-full hover:bg-white/10 transition-colors flex-shrink-0 cursor-pointer"
             >
               <X size={15} />
             </button>

@@ -20,12 +20,8 @@ export default function CustomRequestSection() {
   const [state, formAction] = useActionState(submitCustomRequest, initialFormState);
 
   return (
-    <section
-      id="custom-request"
-      className="w-full bg-[#FAF9F6]"
-      style={{ padding: '100px 5vw' }}
-    >
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <section id="custom-request" className="w-full bg-[#FAF8F4] site-section">
+      <div className="site-container">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20 lg:gap-28 items-start">
 
           {/* Left Column: Copy */}
@@ -37,10 +33,10 @@ export default function CustomRequestSection() {
             className="flex flex-col gap-8"
           >
             <motion.div variants={fadeUp} className="flex flex-col gap-5">
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#8A8A8A]">
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#6B6B6B]">
                 Bespoke Services
               </p>
-              <h2 className="font-sans text-[clamp(2rem,3.5vw,3rem)] font-bold leading-[1.1] text-[#1C1C1C]">
+              <h2 className="font-serif text-[clamp(2rem,3.5vw,3rem)] font-normal leading-[1.1] text-[#1C1C1C]">
                 Custom Design &<br />Event Styling
               </h2>
               <p className="text-[15px] font-medium leading-[1.75] text-[#555555] max-w-[440px]">
@@ -49,7 +45,7 @@ export default function CustomRequestSection() {
             </motion.div>
 
             <motion.div variants={fadeUp} className="flex flex-col gap-3">
-              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#8A8A8A] mb-1">
+              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#6B6B6B] mb-1">
                 What we offer
               </p>
               <ul className="flex flex-col gap-2.5 text-[14px] font-medium text-[#444444] leading-relaxed">
@@ -86,7 +82,7 @@ export default function CustomRequestSection() {
                 role="status"
                 className="flex flex-col gap-3 border border-[#E5E2DB] bg-[#FDFDFD] p-8 rounded-[2px]"
               >
-                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C9A96E]">Request received</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E]">Request received</p>
                 <h3 className="text-[20px] font-bold text-[#1C1C1C]">Thank you</h3>
                 <p className="text-[14px] text-[#555555] leading-relaxed">
                   One of our florists will be in touch within one business day to talk
@@ -99,7 +95,7 @@ export default function CustomRequestSection() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="cr-name" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Full Name</label>
+                  <label htmlFor="cr-name" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#6B6B6B]">Full Name</label>
                   <input
                     id="cr-name"
                     name="name"
@@ -112,7 +108,7 @@ export default function CustomRequestSection() {
                   <FieldError messages={state.errors?.name} />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="cr-contact" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Phone or Email</label>
+                  <label htmlFor="cr-contact" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#6B6B6B]">Phone or Email</label>
                   <input
                     id="cr-contact"
                     name="contact"
@@ -126,7 +122,7 @@ export default function CustomRequestSection() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label htmlFor="cr-type" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Inquiry Type</label>
+                <label htmlFor="cr-type" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#6B6B6B]">Inquiry Type</label>
                 <div className="relative">
                   <select
                     id="cr-type"
@@ -141,13 +137,13 @@ export default function CustomRequestSection() {
                     <option>Residential / Hotel Styling</option>
                     <option>Other</option>
                   </select>
-                  <span className="absolute right-0 top-1/2 -translate-y-1/2 text-[#8A8A8A] pointer-events-none text-[9px]">▼</span>
+                  <span className="absolute right-0 top-1/2 -translate-y-1/2 text-[#6B6B6B] pointer-events-none text-[9px]">▼</span>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="cr-date" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Date of Event</label>
+                  <label htmlFor="cr-date" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#6B6B6B]">Date of Event</label>
                   <input
                     id="cr-date"
                     name="eventDate"
@@ -156,7 +152,7 @@ export default function CustomRequestSection() {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="cr-budget" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Estimated Budget</label>
+                  <label htmlFor="cr-budget" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#6B6B6B]">Estimated Budget</label>
                   <div className="relative">
                     <select
                       id="cr-budget"
@@ -170,13 +166,13 @@ export default function CustomRequestSection() {
                       <option>$1,000 – $5,000</option>
                       <option>$5,000+</option>
                     </select>
-                    <span className="absolute right-0 top-1/2 -translate-y-1/2 text-[#8A8A8A] pointer-events-none text-[9px]">▼</span>
+                    <span className="absolute right-0 top-1/2 -translate-y-1/2 text-[#6B6B6B] pointer-events-none text-[9px]">▼</span>
                   </div>
                 </div>
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label htmlFor="cr-details" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A8A8A]">Your Vision / Details</label>
+                <label htmlFor="cr-details" className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#6B6B6B]">Your Vision / Details</label>
                 <textarea
                   id="cr-details"
                   name="details"

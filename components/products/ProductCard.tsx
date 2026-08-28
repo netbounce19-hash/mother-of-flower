@@ -5,6 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { Product } from '@/types';
+import { useWishlist } from '@/contexts/WishlistContext';
 
 interface ProductCardProps {
   product: Product;
@@ -13,8 +14,8 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, index, onClick }: ProductCardProps) {
-  const [liked, setLiked] = useState(false);
-  const [added, setAdded] = useState(false);
+  const { isSaved, toggle } = useWishlist();
+  const liked = isSaved(product.id);
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -47,9 +48,8 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0, transition: { duration: 0.7, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] } }}
       viewport={{ once: true, margin: '-60px' }}
-      className="group cursor-pointer bg-[#FDFDFD] flex flex-col shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-shadow duration-500 rounded-[2px]"
+      className="group relative bg-[#FDFDFD] flex flex-col shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] focus-within:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-shadow duration-500 rounded-[2px]"
       style={{ padding: '6.5%', paddingBottom: 0 }}
-      onClick={() => onClick(product)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -91,26 +91,44 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
       <div className="flex flex-col justify-center" style={{ minHeight: '110px', padding: '0 1%' }}>
         <div className="flex items-center justify-between gap-4">
           <h3 className="font-sans text-[14px] font-bold tracking-wide uppercase text-graphite group-hover:opacity-75 transition-opacity duration-300">
-            {product.name}
-          </h3>
-          <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+            {/*
+              The card used to be a bare <article onClick>, which mouse users
+              could open and keyboard users could not. The title is now the
+              real control; its ::after stretches over the whole card so the
+              card stays clickable with exactly one stop in the tab order.
+            */}
             <button
-              onClick={() => setAdded(!added)}
+              type="button"
+              onClick={() => onClick(product)}
+              className="text-left after:absolute after:inset-0 after:content-[''] after:rounded-[2px] focus:outline-none focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-[#C9A96E]"
+            >
+              {product.name}
+              <span className="sr-only"> — view details</span>
+            </button>
+          </h3>
+          <div className="relative z-10 flex items-center gap-1">
+            <button
+              type="button"
+              aria-label={`Choose options for ${product.name}`}
+              onClick={() => onClick(product)}
               className="p-2 rounded-full hover:bg-[#F7F5F2] transition-colors duration-200"
-              style={{ color: added ? '#C9A96E' : '#8A8A8A' }}
+              style={{ color: '#6B6B6B' }}
             >
               <ShoppingBag size={15} strokeWidth={1.8} />
             </button>
             <button
-              onClick={() => setLiked(!liked)}
+              type="button"
+              aria-label={liked ? `Remove ${product.name} from favourites` : `Save ${product.name} to favourites`}
+              aria-pressed={liked}
+              onClick={() => toggle(product.id)}
               className="p-2 rounded-full hover:bg-[#F7F5F2] transition-colors duration-200"
-              style={{ color: liked ? '#E02424' : '#8A8A8A' }}
+              style={{ color: liked ? '#E02424' : '#6B6B6B' }}
             >
               <Heart size={15} fill={liked ? '#E02424' : 'none'} strokeWidth={1.8} />
             </button>
           </div>
         </div>
-        <p className="font-sans text-[14px] font-bold tracking-wide text-[#8A8A8A] mt-1 uppercase">
+        <p className="font-sans text-[14px] font-bold tracking-wide text-[#6B6B6B] mt-1 uppercase">
           ${product.price.toLocaleString()}
         </p>
       </div>

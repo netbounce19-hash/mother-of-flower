@@ -9,6 +9,7 @@ import { submitOrder } from '@/app/actions/submissions';
 import { initialFormState } from '@/lib/form-state';
 import { DELIVERY_FEE, TAX_RATE } from '@/lib/pricing';
 import { FieldError, Honeypot, SubmitButton } from '@/components/forms/FormBits';
+import { useOverlay } from '@/hooks/useOverlay';
 
 interface FieldProps {
   id: string;
@@ -37,13 +38,13 @@ function FloatingInput({ id, name, label, type = 'text', required, isTextArea, e
           fontSize: lifted ? 10 : 13,
           letterSpacing: lifted ? '0.2em' : '0.02em',
           textTransform: lifted ? 'uppercase' : 'none',
-          color: '#8A8A8A',
+          color: '#6B6B6B',
           transition: 'all 0.2s',
           pointerEvents: 'none',
         }}
       >
         {label}
-        {required && <span style={{ color: '#C9A96E', marginLeft: 2 }}>*</span>}
+        {required && <span style={{ color: '#8A6A2E', marginLeft: 2 }}>*</span>}
       </label>
       {isTextArea ? (
         <textarea
@@ -56,7 +57,7 @@ function FloatingInput({ id, name, label, type = 'text', required, isTextArea, e
           rows={2}
           style={{
             width: '100%', backgroundColor: 'transparent', border: 'none',
-            borderBottom: `1px solid ${focused ? '#1C1C1C' : '#E5E5E5'}`,
+            borderBottom: `1px solid ${focused ? '#1C1C1C' : '#E5E2DB'}`,
             outline: 'none', padding: '8px 0', fontSize: 14, color: '#1C1C1C',
             transition: 'border-color 0.2s', fontFamily: 'var(--font-sans)', resize: 'none'
           }}
@@ -72,7 +73,7 @@ function FloatingInput({ id, name, label, type = 'text', required, isTextArea, e
           onChange={(e) => setHasValue(e.target.value.length > 0)}
           style={{
             width: '100%', backgroundColor: 'transparent', border: 'none',
-            borderBottom: `1px solid ${focused ? '#1C1C1C' : '#E5E5E5'}`,
+            borderBottom: `1px solid ${focused ? '#1C1C1C' : '#E5E2DB'}`,
             outline: 'none', padding: '8px 0', fontSize: 14, color: '#1C1C1C',
             transition: 'border-color 0.2s', fontFamily: 'var(--font-sans)'
           }}
@@ -113,11 +114,11 @@ export default function CartSidebar() {
     setIsCartOpen(false);
   };
 
+  const panelRef = useOverlay<HTMLDivElement>(isCartOpen, handleClose);
+
   return (
     <AnimatePresence>
       {isCartOpen && (
-        <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -127,17 +128,24 @@ export default function CartSidebar() {
             className="fixed inset-0 bg-[#1C1C1C]/40 backdrop-blur-sm z-[100]"
           />
 
-          {/* Sidebar */}
+        )}
+
+        {isCartOpen && (
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Your bag"
+            tabIndex={-1}
             className="fixed top-0 right-0 bottom-0 w-full md:w-[480px] z-[110] shadow-2xl flex flex-col"
             style={{ backgroundColor: '#FDFDFD' }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-[#E5E5E5]" style={{ padding: '24px 32px', backgroundColor: '#FDFDFD' }}>
+            <div className="flex items-center justify-between border-b border-[#E5E2DB]" style={{ padding: '24px 32px', backgroundColor: '#FDFDFD' }}>
               <h2 className="font-serif text-[28px] leading-none" style={{ color: '#1C1C1C' }}>Your Bag</h2>
               <button
                 onClick={handleClose}
@@ -153,7 +161,7 @@ export default function CartSidebar() {
               <div className="flex-1 flex flex-col items-center justify-center text-center gap-4" style={{ padding: '32px' }} role="status">
                 <div className="w-14 h-14 rounded-full flex items-center justify-center text-[24px]" style={{ backgroundColor: '#F7F5F2' }}>🌸</div>
                 <h3 className="font-serif text-[26px]" style={{ color: '#1C1C1C' }}>Order received</h3>
-                <p className="text-[13px] leading-relaxed max-w-[280px]" style={{ color: '#8A8A8A' }}>
+                <p className="text-[13px] leading-relaxed max-w-[280px]" style={{ color: '#6B6B6B' }}>
                   Thank you. Our manager will call you shortly to confirm availability
                   and arrange payment.
                 </p>
@@ -174,7 +182,7 @@ export default function CartSidebar() {
             {/* Content (Scrollable) */}
             <div className="flex-1 overflow-y-auto" style={{ padding: '32px' }}>
               {items.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full gap-4" style={{ color: '#8A8A8A' }}>
+                <div className="flex flex-col items-center justify-center h-full gap-4" style={{ color: '#6B6B6B' }}>
                   <ShoppingBag size={48} strokeWidth={1} />
                   <p className="font-sans text-[12px] uppercase tracking-[0.2em]">Your bag is empty</p>
                   <button
@@ -202,18 +210,18 @@ export default function CartSidebar() {
                               ${(item.product.price * item.quantity).toLocaleString()}
                             </p>
                           </div>
-                          <p className="text-[12px] mb-1" style={{ color: '#8A8A8A' }}>Size: {item.size}</p>
-                          <p className="text-[12px] mb-1" style={{ color: '#8A8A8A' }}>Box: {item.boxColor}</p>
-                          <p className="text-[12px]" style={{ color: '#8A8A8A' }}>Delivery: {item.date === 'tomorrow' ? 'Tomorrow' : 'Scheduled'}</p>
+                          <p className="text-[12px] mb-1" style={{ color: '#6B6B6B' }}>Size: {item.size}</p>
+                          <p className="text-[12px] mb-1" style={{ color: '#6B6B6B' }}>Box: {item.boxColor}</p>
+                          <p className="text-[12px]" style={{ color: '#6B6B6B' }}>Delivery: {item.date === 'tomorrow' ? 'Tomorrow' : 'Scheduled'}</p>
                           
                           <div className="flex items-center justify-between mt-auto">
-                            <div className="flex items-center border border-[#E5E5E5] rounded-full px-2 py-1">
+                            <div className="flex items-center border border-[#E5E2DB] rounded-full px-2 py-1">
                               <button
                                 type="button"
                                 aria-label="Decrease quantity"
                                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
                                 className="p-1 hover:text-[#1C1C1C] transition-colors"
-                                style={{ color: '#8A8A8A' }}
+                                style={{ color: '#6B6B6B' }}
                               >
                                 <Minus size={12} strokeWidth={1.5} />
                               </button>
@@ -225,7 +233,7 @@ export default function CartSidebar() {
                                 aria-label="Increase quantity"
                                 onClick={() => updateQuantity(item.id, item.quantity + 1)}
                                 className="p-1 hover:text-[#1C1C1C] transition-colors"
-                                style={{ color: '#8A8A8A' }}
+                                style={{ color: '#6B6B6B' }}
                               >
                                 <Plus size={12} strokeWidth={1.5} />
                               </button>
@@ -234,7 +242,7 @@ export default function CartSidebar() {
                               type="button"
                               onClick={() => removeFromCart(item.id)}
                               className="hover:text-[#E02424] transition-colors p-2"
-                              style={{ color: '#8A8A8A' }}
+                              style={{ color: '#6B6B6B' }}
                               aria-label="Remove item"
                             >
                               <Trash2 size={16} strokeWidth={1.5} />
@@ -245,7 +253,7 @@ export default function CartSidebar() {
                     ))}
                   </div>
 
-                  <div className="h-px w-full bg-[#E5E5E5]" />
+                  <div className="h-px w-full bg-[#E5E2DB]" />
 
                   {/* Shipping Method */}
                   <div className="flex flex-col gap-4">
@@ -259,7 +267,7 @@ export default function CartSidebar() {
                           onClick={() => setShippingMethod(method)}
                           className="flex-1 p-5 rounded-sm border transition-all duration-300 text-left relative overflow-hidden"
                           style={{
-                            borderColor: shippingMethod === method ? '#1C1C1C' : '#E5E5E5',
+                            borderColor: shippingMethod === method ? '#1C1C1C' : '#E5E2DB',
                             backgroundColor: shippingMethod === method ? '#FDFDFD' : '#F7F5F2'
                           }}
                         >
@@ -269,13 +277,13 @@ export default function CartSidebar() {
                             </div>
                           )}
                           <p className="font-serif text-[18px] mb-1 capitalize" style={{ color: '#1C1C1C' }}>{method}</p>
-                          <p className="font-sans text-[12px]" style={{ color: '#8A8A8A' }}>{method === 'delivery' ? '$25.00' : 'Free'}</p>
+                          <p className="font-sans text-[12px]" style={{ color: '#6B6B6B' }}>{method === 'delivery' ? '$25.00' : 'Free'}</p>
                         </button>
                       ))}
                     </div>
                   </div>
 
-                  <div className="h-px w-full bg-[#E5E5E5]" />
+                  <div className="h-px w-full bg-[#E5E2DB]" />
 
                   {/* Recipient Details */}
                   <div className="flex flex-col gap-6">
@@ -295,17 +303,17 @@ export default function CartSidebar() {
 
             {/* Footer / Checkout */}
             {items.length > 0 && (
-              <div className="border-t border-[#E5E5E5] pb-safe" style={{ backgroundColor: '#F7F5F2', padding: '24px 32px 32px' }}>
+              <div className="border-t border-[#E5E2DB] pb-safe" style={{ backgroundColor: '#F7F5F2', padding: '24px 32px 32px' }}>
                 <div className="flex justify-between mb-2">
-                  <span className="text-[13px]" style={{ color: '#8A8A8A' }}>Subtotal</span>
+                  <span className="text-[13px]" style={{ color: '#6B6B6B' }}>Subtotal</span>
                   <span className="text-[13px]" style={{ color: '#1C1C1C' }}>${cartTotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between mb-2">
-                  <span className="text-[13px]" style={{ color: '#8A8A8A' }}>Shipping</span>
+                  <span className="text-[13px]" style={{ color: '#6B6B6B' }}>Shipping</span>
                   <span className="text-[13px]" style={{ color: '#1C1C1C' }}>${shippingCost.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between mb-5">
-                  <span className="text-[13px]" style={{ color: '#8A8A8A' }}>Taxes (est)</span>
+                  <span className="text-[13px]" style={{ color: '#6B6B6B' }}>Taxes (est)</span>
                   <span className="text-[13px]" style={{ color: '#1C1C1C' }}>${taxes.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between mb-6">
@@ -325,7 +333,7 @@ export default function CartSidebar() {
                   Place Order
                 </SubmitButton>
 
-                <p className="text-[11px] mt-3 leading-relaxed text-center" style={{ color: '#8A8A8A' }}>
+                <p className="text-[11px] mt-3 leading-relaxed text-center" style={{ color: '#6B6B6B' }}>
                   No payment is taken now — we confirm availability by phone first.
                 </p>
               </div>
@@ -333,7 +341,6 @@ export default function CartSidebar() {
             </form>
             )}
           </motion.div>
-        </>
       )}
     </AnimatePresence>
   );

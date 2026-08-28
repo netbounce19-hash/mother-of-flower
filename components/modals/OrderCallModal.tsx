@@ -4,6 +4,7 @@ import { X, Phone } from 'lucide-react';
 import { submitCallRequest } from '@/app/actions/submissions';
 import { initialFormState } from '@/lib/form-state';
 import { FieldError, Honeypot, SubmitButton } from '@/components/forms/FormBits';
+import { useOverlay } from '@/hooks/useOverlay';
 
 interface OrderCallModalProps {
   isOpen: boolean;
@@ -14,14 +15,13 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
   const [whatsapp, setWhatsapp] = useState(false);
   const [telegram, setTelegram] = useState(false);
   const [state, formAction] = useActionState(submitCallRequest, initialFormState);
+  const panelRef = useOverlay<HTMLDivElement>(isOpen, onClose);
 
   const submitted = state.status === 'success';
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <>
-          {/* Backdrop */}
           <motion.div
             key="order-backdrop"
             initial={{ opacity: 0 }}
@@ -33,9 +33,16 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
             onClick={onClose}
           />
 
-          {/* Modal */}
+        )}
+
+        {isOpen && (
           <motion.div
             key="order-panel"
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Order a call"
+            tabIndex={-1}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -80,15 +87,15 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
             <div style={{ overflowY: 'auto', flex: 1, padding: '36px 40px' }}>
               {!submitted ? (
                 <>
-                  <div style={{ marginBottom: 32, borderBottom: '1px solid #E5E5E5', paddingBottom: 24 }}>
-                    <p style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 6 }}>Contact Us</p>
+                  <div style={{ marginBottom: 32, borderBottom: '1px solid #E5E2DB', paddingBottom: 24 }}>
+                    <p style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6B6B6B', marginBottom: 6 }}>Contact Us</p>
                     <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 22, fontWeight: 700, color: '#1C1C1C', lineHeight: 1.2 }}>We will call you back</h3>
                   </div>
 
                   <form action={formAction} className="flex flex-col gap-6">
                     <Honeypot />
                     <div className="flex flex-col gap-1">
-                      <label htmlFor="oc-name" className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Name <span className="text-[#C9A96E]">*</span></label>
+                      <label htmlFor="oc-name" className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Name <span className="text-[#8A6A2E]">*</span></label>
                       <input
                         id="oc-name"
                         name="name"
@@ -102,7 +109,7 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
                     </div>
 
                     <div className="flex flex-col gap-1">
-                      <label htmlFor="oc-phone" className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Phone Number <span className="text-[#C9A96E]">*</span></label>
+                      <label htmlFor="oc-phone" className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Phone Number <span className="text-[#8A6A2E]">*</span></label>
                       <input
                         id="oc-phone"
                         name="phone"
@@ -179,9 +186,9 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
                       Order a call
                     </SubmitButton>
 
-                    <p className="text-[11px] text-[#8A8A8A] mt-2 leading-relaxed">
+                    <p className="text-[11px] text-[#6B6B6B] mt-2 leading-relaxed">
                       By submitting this form you agree to our{' '}
-                      <a href="/privacy" className="text-[#1C1C1C] hover:text-[#C9A96E] transition-colors underline decoration-[#E5E5E5] hover:decoration-[#C9A96E] underline-offset-4">
+                      <a href="/privacy" className="text-[#1C1C1C] hover:text-[#8A6A2E] transition-colors underline decoration-[#E5E2DB] hover:decoration-[#C9A96E] underline-offset-4">
                         Privacy Policy
                       </a>{' '}
                       and consent to being contacted about your enquiry. We never sell your data.
@@ -197,7 +204,7 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
                 >
                   <div style={{ width: 56, height: 56, borderRadius: '50%', backgroundColor: '#F7F5F2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, marginBottom: 8 }}>✨</div>
                   <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 26, fontWeight: 700, color: '#1C1C1C' }}>Thank You!</h3>
-                  <p style={{ fontSize: 13, color: '#8A8A8A', lineHeight: 1.7, maxWidth: 280 }}>
+                  <p style={{ fontSize: 13, color: '#6B6B6B', lineHeight: 1.7, maxWidth: 280 }}>
                     We&apos;ve received your request. Our manager will call you back shortly.
                   </p>
                   <button
@@ -218,7 +225,6 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
               )}
             </div>
           </motion.div>
-        </>
       )}
     </AnimatePresence>
   );

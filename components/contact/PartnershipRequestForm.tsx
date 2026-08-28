@@ -21,8 +21,8 @@ export default function PartnershipRequestForm() {
   const [callState, callAction] = useActionState(submitCallRequest, initialFormState);
 
   return (
-    <section id="partnership-request" className="w-full bg-[#FAF9F6]" style={{ padding: '120px 5vw' }}>
-      <div className="mx-auto" style={{ maxWidth: 1200 }}>
+    <section id="partnership-request" className="w-full bg-[#FAF8F4] site-section">
+      <div className="site-container">
         
         <motion.div
           initial="hidden"
@@ -31,13 +31,13 @@ export default function PartnershipRequestForm() {
           variants={staggerContainer}
           className="flex flex-col text-center mb-14 gap-4"
         >
-          <motion.p variants={fadeUp} className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C9A96E]">
+          <motion.p variants={fadeUp} className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E]">
             Become a Partner
           </motion.p>
-          <motion.h2 variants={fadeUp} className="font-sans text-[clamp(1.6rem,2.5vw,2.2rem)] font-bold uppercase tracking-tight text-[#1C1C1C]">
+          <motion.h2 variants={fadeUp} className="font-serif text-[clamp(2rem,3.5vw,2.8rem)] font-normal leading-[1.1] text-[#1C1C1C]">
             Let&apos;s discuss the details
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-[#8A8A8A] text-[14px] font-medium max-w-xl mx-auto leading-relaxed">
+          <motion.p variants={fadeUp} className="text-[#6B6B6B] text-[14px] font-medium max-w-xl mx-auto leading-relaxed">
             Fill out the contact form and we&apos;ll get back within one business day to discuss collaboration opportunities.
           </motion.p>
         </motion.div>
@@ -52,12 +52,12 @@ export default function PartnershipRequestForm() {
             variants={fadeUp}
             className="lg:col-span-3 flex flex-col gap-8 bg-[#FDFDFD] p-8 md:p-12 shadow-[0_10px_40px_rgba(0,0,0,0.04)] rounded-[2px]"
           >
-            <h3 className="text-[18px] font-bold uppercase tracking-wide text-[#1C1C1C] border-b border-[#E5E5E5] pb-4">
+            <h3 className="text-[18px] font-bold uppercase tracking-wide text-[#1C1C1C] border-b border-[#E5E2DB] pb-4">
               Submit a Request
             </h3>
             {partnerState.status === 'success' ? (
               <div role="status" className="flex flex-col gap-3">
-                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C9A96E]">Request received</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E]">Request received</p>
                 <h4 className="text-[20px] font-bold text-[#1C1C1C]">Thank you</h4>
                 <p className="text-[14px] text-[#555555] leading-relaxed">
                   We&apos;ll get back to you within one business day to discuss the details.
@@ -188,7 +188,7 @@ export default function PartnershipRequestForm() {
             <form action={callAction} className="flex flex-col gap-6">
               <Honeypot />
               <div className="flex flex-col gap-1">
-                <label htmlFor="cb-name" className="text-[11px] font-bold tracking-wide uppercase text-[#8A8A8A]">Your Name</label>
+                <label htmlFor="cb-name" className="text-[11px] font-bold tracking-wide uppercase text-[#6B6B6B]">Your Name</label>
                 <input
                   id="cb-name"
                   name="name"
@@ -202,7 +202,7 @@ export default function PartnershipRequestForm() {
               </div>
 
               <div className="flex flex-col gap-1">
-                <label htmlFor="cb-phone" className="text-[11px] font-bold tracking-wide uppercase text-[#8A8A8A]">Phone Number</label>
+                <label htmlFor="cb-phone" className="text-[11px] font-bold tracking-wide uppercase text-[#6B6B6B]">Phone Number</label>
                 <input
                   id="cb-phone"
                   name="phone"
@@ -244,7 +244,7 @@ export default function PartnershipRequestForm() {
                 </SubmitButton>
                 <p className="text-[10px] text-[#5A5A5A] leading-relaxed mt-2 text-center">
                   By submitting this form you agree to our{' '}
-                  <a href="/privacy" className="text-[#8A8A8A] hover:text-[#C9A96E] transition-colors underline underline-offset-4">
+                  <a href="/privacy" className="text-[#6B6B6B] hover:text-[#8A6A2E] transition-colors underline underline-offset-4">
                     Privacy Policy
                   </a>.
                 </p>

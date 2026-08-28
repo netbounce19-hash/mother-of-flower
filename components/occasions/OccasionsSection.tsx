@@ -167,12 +167,8 @@ const occasions = [
 
 export default function OccasionsSection() {
   return (
-    <section
-      id="occasions"
-      className="w-full bg-[#FAF8F4] scroll-mt-[72px]"
-      style={{ padding: '100px 5vw' }}
-    >
-      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+    <section id="occasions" className="w-full bg-surface site-section">
+      <div className="site-container">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -183,7 +179,7 @@ export default function OccasionsSection() {
           {/* Section Header */}
           <motion.div variants={fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#C9A96E] mb-2">
+              <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#8A6A2E] mb-2">
                 Curated For Your Moments
               </p>
               <h2 className="font-serif text-[clamp(2.2rem,4vw,3.4rem)] font-normal leading-[1.08] text-[#1C1C1C]">
@@ -204,20 +200,20 @@ export default function OccasionsSection() {
               <Link
                 key={occasion.title}
                 href={occasion.href}
-                className="group flex flex-col bg-[#FDFDFD] p-8 md:p-9 rounded-[3px] border border-[#E8E4DC] hover:border-[#C9A96E]/50 hover:shadow-[0_16px_40px_rgba(201,169,110,0.12)] transition-all duration-500 no-underline"
+                className="group flex flex-col bg-[#FDFDFD] p-8 md:p-9 rounded-[3px] border border-[#E5E2DB] hover:border-[#C9A96E]/50 hover:shadow-[0_16px_40px_rgba(201,169,110,0.12)] transition-all duration-500 no-underline"
               >
                 {/* Large Symbolic Icon Badge */}
-                <div className="w-16 h-16 rounded-2xl bg-[#F7F5F0] group-hover:bg-[#C9A96E]/10 border border-[#EAE6DE] group-hover:border-[#C9A96E]/30 flex items-center justify-center mb-6 transition-colors duration-400">
+                <div className="w-16 h-16 rounded-2xl bg-[#F7F5F2] group-hover:bg-[#C9A96E]/10 border border-[#E5E2DB] group-hover:border-[#C9A96E]/30 flex items-center justify-center mb-6 transition-colors duration-400">
                   {occasion.symbol}
                 </div>
 
                 {/* Subtitle */}
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C9A96E] mb-1">
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E] mb-1">
                   {occasion.subtitle}
                 </span>
 
                 {/* Title */}
-                <h3 className="font-serif text-[22px] font-normal text-[#1C1C1C] group-hover:text-[#C9A96E] transition-colors duration-300 mb-3">
+                <h3 className="font-serif text-[22px] font-normal text-[#1C1C1C] group-hover:text-[#8A6A2E] transition-colors duration-300 mb-3">
                   {occasion.title}
                 </h3>
 
@@ -227,7 +223,7 @@ export default function OccasionsSection() {
                 </p>
 
                 {/* Bottom Arrow Link */}
-                <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[#1C1C1C] group-hover:text-[#C9A96E] transition-colors mt-auto pt-4 border-t border-[#F0ECE4]">
+                <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[#1C1C1C] group-hover:text-[#8A6A2E] transition-colors mt-auto pt-4 border-t border-[#E5E2DB]">
                   <span>Explore Collection</span>
                   <span className="transform group-hover:translate-x-1 transition-transform">→</span>
                 </div>

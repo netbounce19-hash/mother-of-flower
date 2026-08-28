@@ -15,8 +15,8 @@ const staggerContainer: Variants = {
 
 export default function PartnershipsContent() {
   return (
-    <section className="w-full bg-[#FDFDFD] text-[#1C1C1C]" style={{ padding: '100px 5vw' }}>
-      <div className="mx-auto flex flex-col" style={{ maxWidth: 1200, gap: '100px' }}>
+    <section className="w-full bg-[#FDFDFD] text-[#1C1C1C] site-section">
+      <div className="site-container flex flex-col" style={{ gap: '100px' }}>
         
         {/* Intro Grid */}
         <motion.div
@@ -28,7 +28,7 @@ export default function PartnershipsContent() {
           style={{ gap: '6vw' }}
         >
           <motion.div variants={fadeUp} className="flex flex-col gap-6">
-            <h2 className="font-sans text-[20px] md:text-[24px] font-bold uppercase tracking-wide">
+            <h2 className="font-serif text-[clamp(1.6rem,2.6vw,2.1rem)] font-normal leading-[1.15]">
               Who we collaborate with
             </h2>
             <p className="text-[15px] font-medium leading-[1.8] text-[#333333]">
@@ -58,7 +58,7 @@ export default function PartnershipsContent() {
             variants={fadeUp}
             className="order-2 md:order-1"
           >
-            <div className="bg-[#FAF9F6] p-[6%] shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.12)] transition-shadow duration-500 rounded-[2px]">
+            <div className="bg-[#FAF8F4] p-[6%] shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.12)] transition-shadow duration-500 rounded-[2px]">
               <Image
                 src="/images/pink_flowers_chair.webp"
                 alt="Pink flowers on chair"

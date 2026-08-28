@@ -18,15 +18,6 @@ const EXACT_PRICES = [
   600, 650, 700, 750, 800,
 ];
 
-const SECTION_STYLE: React.CSSProperties = {
-  maxWidth: 1280,
-  margin: '0 auto',
-  paddingLeft: 'clamp(20px, 5vw, 72px)',
-  paddingRight: 'clamp(20px, 5vw, 72px)',
-  paddingTop: 80,
-  paddingBottom: 100,
-};
-
 export default function ProductGrid({ onProductClick }: ProductGridProps) {
   const [selectedPrice, setSelectedPrice] = useState<number | null>(null);
 
@@ -36,8 +27,8 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
   }, [selectedPrice]);
 
   return (
-    <div style={{ width: '100%' }}>
-      <section id="catalog" style={SECTION_STYLE}>
+    <div style={{ width: '100%', backgroundColor: '#FDFDFD' }}>
+      <section id="catalog" className="site-container site-section">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -47,7 +38,7 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
           style={{ marginBottom: 40, display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 32, flexWrap: 'wrap' }}
         >
           <div>
-            <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#C9A96E', marginBottom: 12 }}>
+            <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A6A2E', marginBottom: 12 }}>
               The Collection
             </p>
             <h2 style={{ fontFamily: "var(--font-serif)", fontWeight: 500, fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', color: '#1C1C1C', lineHeight: 1.05 }}>
@@ -75,7 +66,7 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
             {selectedPrice !== null && (
               <button
                 onClick={() => setSelectedPrice(null)}
-                className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#C9A96E] hover:text-[#1C1C1C] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#8A6A2E] hover:text-[#1C1C1C] transition-colors cursor-pointer"
               >
                 <RotateCcw size={12} /> Show all bouquets
               </button>
@@ -108,8 +99,8 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
                     isSelected
                       ? 'bg-[#C9A96E] text-[#FDFDFD] border-[#C9A96E] shadow-sm scale-105'
                       : hasItems
-                      ? 'bg-[#FDFDFD] text-[#1C1C1C] border-[#E5E2DB] hover:border-[#C9A96E] hover:text-[#C9A96E]'
-                      : 'bg-[#FAF9F6] text-[#777777] border-[#EAE7E1] hover:border-[#1C1C1C] hover:text-[#1C1C1C]'
+                      ? 'bg-[#FDFDFD] text-[#1C1C1C] border-[#E5E2DB] hover:border-[#C9A96E] hover:text-[#8A6A2E]'
+                      : 'bg-[#FAF8F4] text-[#666666] border-[#E5E2DB] hover:border-[#1C1C1C] hover:text-[#1C1C1C]'
                   }`}
                 >
                   ${price}
@@ -127,7 +118,7 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center py-16 px-6 text-center bg-[#FAF9F6] border border-[#E5E2DB] rounded-[3px]"
+              className="flex flex-col items-center justify-center py-16 px-6 text-center bg-[#FAF8F4] border border-[#E5E2DB] rounded-[3px]"
             >
               <Sparkles size={28} className="text-[#C9A96E] mb-3" />
               <h3 className="font-serif text-[24px] text-[#1C1C1C] mb-2">

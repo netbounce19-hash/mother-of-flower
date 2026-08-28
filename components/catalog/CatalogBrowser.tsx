@@ -37,7 +37,7 @@ const PRICE_TIERS = [
 ];
 
 const COLORS = [
-  { name: 'White', hex: '#FFFFFF', border: '#E5E5E5' },
+  { name: 'White', hex: '#FFFFFF', border: '#E5E2DB' },
   { name: 'Pink', hex: '#EC4899', border: 'transparent' },
   { name: 'Red', hex: '#DC2626', border: 'transparent' },
   { name: 'Beige', hex: '#F5E6D3', border: 'transparent' },
@@ -61,7 +61,7 @@ function CatalogContent() {
   const [selectedExactPrice, setSelectedExactPrice] = useState<number | null>(null);
   const [selectedTierIndex, setSelectedTierIndex] = useState<number>(0);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
-  const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'name'>('featured');
+  const [sortBy, setSortBy] = useState<SortKey>('featured');
 
   // Filter & Sort Logic
   const filteredProducts = useMemo(() => {
@@ -123,13 +123,13 @@ function CatalogContent() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#FAF9F6] pb-24" style={{ paddingTop: 130 }}>
-      <div style={{ maxWidth: 1440, margin: '0 auto', paddingLeft: 'clamp(20px, 5vw, 72px)', paddingRight: 'clamp(20px, 5vw, 72px)' }}>
+    <div className="w-full min-h-screen bg-[#FAF8F4] pb-24" style={{ paddingTop: 130 }}>
+      <div className="site-container">
 
         {/* Page Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-[#E5E2DB]">
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#C9A96E] mb-2">
+            <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#8A6A2E] mb-2">
               Bespoke Floristry · Las Vegas
             </p>
             <h1 className="font-serif text-[clamp(2.4rem,4.5vw,3.6rem)] text-[#1C1C1C] leading-[1.08] font-normal">
@@ -141,7 +141,7 @@ function CatalogContent() {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             {/* Search */}
             <div className="relative flex items-center min-w-[240px]">
-              <Search size={15} className="absolute left-3.5 text-[#8A8A8A] pointer-events-none" />
+              <Search size={15} className="absolute left-3.5 text-[#6B6B6B] pointer-events-none" />
               <input
                 type="text"
                 placeholder="Search bouquets or flowers..."
@@ -152,7 +152,7 @@ function CatalogContent() {
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 text-[#8A8A8A] hover:text-[#1C1C1C]"
+                  className="absolute right-3 text-[#6B6B6B] hover:text-[#1C1C1C]"
                 >
                   <X size={14} />
                 </button>
@@ -163,7 +163,7 @@ function CatalogContent() {
             <div className="relative">
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
+                onChange={(e) => setSortBy(e.target.value as SortKey)}
                 className="w-full sm:w-auto appearance-none bg-[#FDFDFD] border border-[#E5E2DB] rounded-full px-5 py-2.5 pr-10 text-[13px] font-semibold text-[#1C1C1C] cursor-pointer focus:outline-none focus:border-[#1C1C1C]"
               >
                 <option value="featured">Sort: Curated / Featured</option>
@@ -171,7 +171,7 @@ function CatalogContent() {
                 <option value="price-desc">Price: High to Low</option>
                 <option value="name">Name: A to Z</option>
               </select>
-              <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8A8A8A] pointer-events-none" />
+              <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B6B6B] pointer-events-none" />
             </div>
 
             {/* Mobile Filter Toggle */}
@@ -188,7 +188,7 @@ function CatalogContent() {
         {/* Active Filter Chips */}
         {activeFiltersCount > 0 && (
           <div className="flex items-center flex-wrap gap-2 py-4 border-b border-[#E5E2DB]">
-            <span className="text-[12px] text-[#8A8A8A] font-medium mr-1">Active filters:</span>
+            <span className="text-[12px] text-[#6B6B6B] font-medium mr-1">Active filters:</span>
 
             {selectedCategory && selectedCategory !== 'All Bouquets' && (
               <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1C1C1C] text-[#FDFDFD] rounded-full text-[11px] font-semibold">
@@ -227,7 +227,7 @@ function CatalogContent() {
 
             <button
               onClick={resetAllFilters}
-              className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-[#8A8A8A] hover:text-[#1C1C1C] ml-2 underline underline-offset-4"
+              className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-[#6B6B6B] hover:text-[#1C1C1C] ml-2 underline underline-offset-4"
             >
               <RotateCcw size={11} /> Reset all
             </button>
@@ -299,7 +299,7 @@ function CatalogContent() {
                     exit={{ height: 0, opacity: 0 }}
                     className="overflow-hidden"
                   >
-                    <p className="text-[11px] text-[#8A8A8A] mt-1 mb-3">
+                    <p className="text-[11px] text-[#6B6B6B] mt-1 mb-3">
                       Select specific bouquet budget:
                     </p>
                     <div className="grid grid-cols-3 gap-1.5">
@@ -426,7 +426,7 @@ function CatalogContent() {
           {/* Main Grid Section */}
           <main className="flex-1">
             <div className="flex items-center justify-between mb-6">
-              <p className="text-[13px] font-semibold text-[#8A8A8A] uppercase tracking-wider">
+              <p className="text-[13px] font-semibold text-[#6B6B6B] uppercase tracking-wider">
                 Showing {filteredProducts.length} {filteredProducts.length === 1 ? 'Bouquet' : 'Bouquets'}
               </p>
             </div>
@@ -434,7 +434,7 @@ function CatalogContent() {
             {filteredProducts.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-[#FDFDFD] border border-[#E5E2DB] rounded-[3px]">
                 <p className="font-serif text-[26px] text-[#1C1C1C] mb-2">No arrangements found</p>
-                <p className="text-[14px] text-[#8A8A8A] max-w-[400px] mb-6">
+                <p className="text-[14px] text-[#6B6B6B] max-w-[400px] mb-6">
                   We couldn&apos;t find bouquets matching your exact filters. Try choosing a different price or resetting filters.
                 </p>
                 <button
@@ -487,7 +487,7 @@ function CatalogContent() {
                 </div>
                 <button
                   onClick={() => setMobileFilterOpen(false)}
-                  className="p-2 rounded-full hover:bg-[#F0EFEA]"
+                  className="p-2 rounded-full hover:bg-[#F7F5F2]"
                 >
                   <X size={20} />
                 </button>
@@ -498,7 +498,7 @@ function CatalogContent() {
 
                 {/* Categories */}
                 <div>
-                  <h3 className="text-[12px] font-bold uppercase tracking-wider text-[#8A8A8A] mb-3">Categories</h3>
+                  <h3 className="text-[12px] font-bold uppercase tracking-wider text-[#6B6B6B] mb-3">Categories</h3>
                   <div className="flex flex-wrap gap-2">
                     {CATEGORIES.map((cat) => {
                       const isSelected = selectedCategory === cat || (!selectedCategory && cat === 'All Bouquets');
@@ -509,7 +509,7 @@ function CatalogContent() {
                           className={`px-4 py-2 rounded-full text-[13px] font-semibold border transition-colors ${
                             isSelected
                               ? 'bg-[#1C1C1C] text-[#FDFDFD] border-[#1C1C1C]'
-                              : 'bg-[#FAF9F6] text-[#444] border-[#E5E2DB]'
+                              : 'bg-[#FAF8F4] text-[#444] border-[#E5E2DB]'
                           }`}
                         >
                           {cat}
@@ -521,7 +521,7 @@ function CatalogContent() {
 
                 {/* Exact Price */}
                 <div>
-                  <h3 className="text-[12px] font-bold uppercase tracking-wider text-[#8A8A8A] mb-3">Exact Price ($)</h3>
+                  <h3 className="text-[12px] font-bold uppercase tracking-wider text-[#6B6B6B] mb-3">Exact Price ($)</h3>
                   <div className="grid grid-cols-4 gap-2">
                     {EXACT_PRICES.map((price) => {
                       const isSelected = selectedExactPrice === price;
@@ -535,7 +535,7 @@ function CatalogContent() {
                           className={`py-2 text-[12px] font-bold rounded-md border text-center transition-colors ${
                             isSelected
                               ? 'bg-[#C9A96E] text-[#FDFDFD] border-[#C9A96E]'
-                              : 'bg-[#FAF9F6] text-[#444] border-[#E5E2DB]'
+                              : 'bg-[#FAF8F4] text-[#444] border-[#E5E2DB]'
                           }`}
                         >
                           ${price}
@@ -547,7 +547,7 @@ function CatalogContent() {
 
                 {/* Color */}
                 <div>
-                  <h3 className="text-[12px] font-bold uppercase tracking-wider text-[#8A8A8A] mb-3">Color Palette</h3>
+                  <h3 className="text-[12px] font-bold uppercase tracking-wider text-[#6B6B6B] mb-3">Color Palette</h3>
                   <div className="flex flex-wrap gap-3">
                     {COLORS.map((col) => {
                       const isSelected = selectedColor === col.name;
@@ -558,7 +558,7 @@ function CatalogContent() {
                           className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-[12px] font-semibold ${
                             isSelected
                               ? 'bg-[#1C1C1C] text-[#FDFDFD] border-[#1C1C1C]'
-                              : 'bg-[#FAF9F6] text-[#444] border-[#E5E2DB]'
+                              : 'bg-[#FAF8F4] text-[#444] border-[#E5E2DB]'
                           }`}
                         >
                           <div
@@ -575,7 +575,7 @@ function CatalogContent() {
               </div>
 
               {/* Drawer Footer */}
-              <div className="p-5 border-t border-[#E5E2DB] bg-[#FAF9F6] flex gap-3">
+              <div className="p-5 border-t border-[#E5E2DB] bg-[#FAF8F4] flex gap-3">
                 <button
                   onClick={resetAllFilters}
                   className="flex-1 py-3 border border-[#E5E2DB] text-[#1C1C1C] rounded-[3px] text-[12px] font-bold uppercase tracking-wider"
@@ -599,9 +599,11 @@ function CatalogContent() {
   );
 }
 
+type SortKey = 'featured' | 'price-asc' | 'price-desc' | 'name';
+
 export default function CatalogBrowser() {
   return (
-    <Suspense fallback={<div className="w-full min-h-screen bg-[#FAF9F6] pt-32 text-center">Loading collection...</div>}>
+    <Suspense fallback={<div className="w-full min-h-screen bg-[#FAF8F4] pt-32 text-center">Loading collection...</div>}>
       <CatalogContent />
     </Suspense>
   );

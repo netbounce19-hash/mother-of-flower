@@ -8,6 +8,7 @@ import { Product } from '@/types';
 import { submitDropHint } from '@/app/actions/submissions';
 import { initialFormState } from '@/lib/form-state';
 import { FieldError, Honeypot, SubmitButton } from '@/components/forms/FormBits';
+import { useOverlay } from '@/hooks/useOverlay';
 
 interface DropHintModalProps {
   product: Product | null;
@@ -45,13 +46,13 @@ function FloatingInput({ id, name, label, type = 'text', onChange, required, err
           fontSize: lifted ? 10 : 13,
           letterSpacing: lifted ? '0.2em' : '0.02em',
           textTransform: lifted ? 'uppercase' : 'none',
-          color: '#8A8A8A',
+          color: '#6B6B6B',
           transition: 'all 0.2s',
           pointerEvents: 'none',
         }}
       >
         {label}
-        {required && <span style={{ color: '#C9A96E', marginLeft: 2 }}>*</span>}
+        {required && <span style={{ color: '#8A6A2E', marginLeft: 2 }}>*</span>}
       </label>
       <input
         id={id}
@@ -68,7 +69,7 @@ function FloatingInput({ id, name, label, type = 'text', onChange, required, err
           width: '100%',
           backgroundColor: 'transparent',
           border: 'none',
-          borderBottom: `1px solid ${focused ? '#1C1C1C' : '#E5E5E5'}`,
+          borderBottom: `1px solid ${focused ? '#1C1C1C' : '#E5E2DB'}`,
           outline: 'none',
           padding: '8px 0',
           fontSize: 14,
@@ -86,6 +87,7 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
   // Kept only so the success message can address the recipient by name.
   const [recipientName, setRecipientName] = useState('');
   const [state, formAction] = useActionState(submitDropHint, initialFormState);
+  const panelRef = useOverlay<HTMLDivElement>(isOpen, onClose);
 
   const submitted = state.status === 'success';
 
@@ -94,8 +96,6 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
   return (
     <AnimatePresence>
       {isOpen && (
-        <>
-          {/* Backdrop */}
           <motion.div
             key="hint-backdrop"
             initial={{ opacity: 0 }}
@@ -107,9 +107,16 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
             onClick={onClose}
           />
 
-          {/* Modal */}
+        )}
+
+        {isOpen && (
           <motion.div
             key="hint-panel"
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Drop a hint"
+            tabIndex={-1}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -155,14 +162,14 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
               {!submitted ? (
                 <>
                   {/* Product preview */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid #E5E5E5' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid #E5E2DB' }}>
                     <div style={{ position: 'relative', width: 60, height: 60, borderRadius: 10, overflow: 'hidden', flexShrink: 0, backgroundColor: '#F7F5F2' }}>
                       <Image src={product.images[0]} alt={product.name} fill sizes="60px" style={{ objectFit: 'cover' }} />
                     </div>
                     <div>
-                      <p style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 2 }}>Drop a Hint</p>
+                      <p style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6B6B6B', marginBottom: 2 }}>Drop a Hint</p>
                       <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 18, color: '#1C1C1C', lineHeight: 1.2 }}>{product.name}</h3>
-                      <p style={{ fontSize: 12, color: '#8A8A8A', marginTop: 2 }}>{product.currency} {product.price.toLocaleString()}</p>
+                      <p style={{ fontSize: 12, color: '#6B6B6B', marginTop: 2 }}>{product.currency} {product.price.toLocaleString()}</p>
                     </div>
                   </div>
 
@@ -179,7 +186,7 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
                       </div>
                     </div>
 
-                    <div style={{ width: '100%', height: 1, backgroundColor: '#E5E5E5', marginBottom: 24 }} />
+                    <div style={{ width: '100%', height: 1, backgroundColor: '#E5E2DB', marginBottom: 24 }} />
 
                     {/* Sender */}
                     <div style={{ marginBottom: 28 }}>
@@ -226,12 +233,12 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
                 >
                   <div style={{ width: 56, height: 56, borderRadius: '50%', backgroundColor: '#F7F5F2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>🌸</div>
                   <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 26, color: '#1C1C1C' }}>Hint Sent!</h3>
-                  <p style={{ fontSize: 13, color: '#8A8A8A', lineHeight: 1.7, maxWidth: 280 }}>
+                  <p style={{ fontSize: 13, color: '#6B6B6B', lineHeight: 1.7, maxWidth: 280 }}>
                     We&apos;ve sent a beautiful hint to <strong style={{ color: '#1C1C1C', fontWeight: 400 }}>{recipientName || 'them'}</strong>. Fingers crossed they take the hint! 🌹
                   </p>
                   <button
                     onClick={onClose}
-                    style={{ marginTop: 8, padding: '10px 28px', border: '1px solid #E5E5E5', borderRadius: 9999, fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#1C1C1C', backgroundColor: 'transparent', cursor: 'pointer' }}
+                    style={{ marginTop: 8, padding: '10px 28px', border: '1px solid #E5E2DB', borderRadius: 9999, fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#1C1C1C', backgroundColor: 'transparent', cursor: 'pointer' }}
                   >
                     Close
                   </button>
@@ -239,7 +246,6 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
               )}
             </div>
           </motion.div>
-        </>
       )}
     </AnimatePresence>
   );

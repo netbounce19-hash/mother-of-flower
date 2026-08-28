@@ -38,7 +38,7 @@ const orderSteps = [
 export default function HowToOrder() {
   return (
     <section id="how-to-order" className="w-full bg-[#FAF8F4] py-[80px] md:py-[100px] scroll-mt-[72px]">
-      <div className="w-full max-w-[1100px] mx-auto px-6 md:px-12">
+      <div className="site-container">
 
         <motion.div
           initial="hidden"
@@ -49,10 +49,10 @@ export default function HowToOrder() {
         >
           {/* ── Header ── */}
           <div className="flex flex-col items-center gap-3 text-center">
-            <motion.p variants={fadeUp} className="text-[#C9A96E] text-[11px] font-semibold uppercase tracking-[0.25em]">
+            <motion.p variants={fadeUp} className="text-[#8A6A2E] text-[11px] font-semibold uppercase tracking-[0.25em]">
               Payment
             </motion.p>
-            <motion.h2 variants={fadeUp} className="text-[#1C1C1C] text-[clamp(1.6rem,3vw,2.25rem)] font-bold tracking-tight uppercase">
+            <motion.h2 variants={fadeUp} className="font-serif text-[#1C1C1C] text-[clamp(2rem,3.5vw,2.8rem)] font-normal leading-[1.1]">
               How To Order
             </motion.h2>
             <motion.div variants={fadeUp} className="w-8 h-[1.5px] bg-[#C9A96E]" />

@@ -35,7 +35,7 @@ export default function PartnershipsHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-[#FDFDFD] font-sans text-[clamp(1.8rem,3.5vw,3rem)] font-bold tracking-tight uppercase max-w-2xl"
+          className="text-[#FDFDFD] font-serif text-[clamp(2.2rem,4vw,3.4rem)] font-normal leading-[1.1] max-w-3xl"
         >
           Partner with Mother of Flower
         </motion.h1>

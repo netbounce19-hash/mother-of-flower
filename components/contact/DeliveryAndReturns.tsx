@@ -15,8 +15,8 @@ const staggerContainer: Variants = {
 
 export default function DeliveryAndReturns() {
   return (
-    <section id="delivery" className="w-full bg-[#FDFDFD] py-[80px] md:py-[100px] border-t border-[#E8E2D9] scroll-mt-[72px]">
-      <div className="w-full max-w-[1100px] mx-auto px-6 md:px-12">
+    <section id="delivery" className="w-full bg-[#FDFDFD] py-[80px] md:py-[100px] border-t border-[#E5E2DB] scroll-mt-[72px]">
+      <div className="site-container">
 
         <motion.div
           initial="hidden"
@@ -29,7 +29,7 @@ export default function DeliveryAndReturns() {
           {/* ── Delivery ── */}
           <motion.div variants={fadeUp} className="flex flex-col gap-7">
             <div className="flex flex-col gap-3">
-              <p className="text-[#C9A96E] text-[11px] font-semibold uppercase tracking-[0.25em]">
+              <p className="text-[#8A6A2E] text-[11px] font-semibold uppercase tracking-[0.25em]">
                 Logistics
               </p>
               <h2 className="text-[#1C1C1C] text-[20px] font-bold tracking-wide uppercase">
@@ -53,7 +53,7 @@ export default function DeliveryAndReturns() {
           {/* ── Returns ── */}
           <motion.div variants={fadeUp} className="flex flex-col gap-7">
             <div className="flex flex-col gap-3">
-              <p className="text-[#C9A96E] text-[11px] font-semibold uppercase tracking-[0.25em]">
+              <p className="text-[#8A6A2E] text-[11px] font-semibold uppercase tracking-[0.25em]">
                 Policy
               </p>
               <h2 className="text-[#1C1C1C] text-[20px] font-bold tracking-wide uppercase">
@@ -71,13 +71,13 @@ export default function DeliveryAndReturns() {
               <p>
                 Natural variations in shade, size, and shape of flowers are not considered defects, as they are inherent to fresh botanical materials.
               </p>
-              <p className="text-[#8A8A8A] text-[13px] border-t border-[#E8E2D9] pt-4">
+              <p className="text-[#6B6B6B] text-[13px] border-t border-[#E5E2DB] pt-4">
                 To report an issue:{' '}
-                <a href={`mailto:${site.email}`} className="text-[#1C1C1C] hover:text-[#C9A96E] transition-colors duration-300">
+                <a href={`mailto:${site.email}`} className="text-[#1C1C1C] hover:text-[#8A6A2E] transition-colors duration-300">
                   {site.email}
                 </a>{' '}
                 or call{' '}
-                <a href={site.phone.href} className="text-[#1C1C1C] hover:text-[#C9A96E] transition-colors duration-300">
+                <a href={site.phone.href} className="text-[#1C1C1C] hover:text-[#8A6A2E] transition-colors duration-300">
                   {site.phone.display}
                 </a>
               </p>

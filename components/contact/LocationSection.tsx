@@ -15,8 +15,8 @@ const staggerContainer: Variants = {
 
 export default function LocationSection() {
   return (
-    <section id="locations" className="w-full bg-[#FAF9F6]" style={{ padding: '0 5vw 100px' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <section id="locations" className="w-full bg-[#FAF8F4]" style={{ paddingBottom: 'clamp(72px, 9vw, 112px)' }}>
+      <div className="site-container">
 
         {/* Location Card */}
         <motion.div
@@ -24,41 +24,41 @@ export default function LocationSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
-          className="bg-[#FDFDFD] border border-[#E8E8E8] rounded-[2px] shadow-[0_8px_32px_rgba(0,0,0,0.04)] overflow-hidden"
+          className="bg-[#FDFDFD] border border-[#E5E2DB] rounded-[2px] shadow-[0_8px_32px_rgba(0,0,0,0.04)] overflow-hidden"
         >
           <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr]">
 
             {/* Details (Left) */}
             <motion.div
               variants={fadeUp}
-              className="flex flex-col border-b lg:border-b-0 lg:border-r border-[#EEEEEE]"
+              className="flex flex-col border-b lg:border-b-0 lg:border-r border-[#E5E2DB]"
               style={{ gap: 28, padding: '40px 40px' }}
             >
               <div className="flex flex-col gap-1">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C9A96E] mb-2">Address</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E] mb-2">Address</p>
                 <p className="text-[14px] font-medium text-[#1C1C1C] leading-relaxed">
                   {site.address.line1}<br />{site.address.line2}
                 </p>
               </div>
 
               <div className="flex flex-col gap-1">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C9A96E] mb-2">Hours</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E] mb-2">Hours</p>
                 <p className="text-[14px] font-medium text-[#1C1C1C] leading-relaxed">
                   {site.hours.display}
                 </p>
               </div>
 
               <div className="flex flex-col gap-1">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C9A96E] mb-2">Contact</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E] mb-2">Contact</p>
                 <a
                   href={site.phone.href}
-                  className="text-[14px] font-medium text-[#1C1C1C] hover:text-[#C9A96E] transition-colors"
+                  className="text-[14px] font-medium text-[#1C1C1C] hover:text-[#8A6A2E] transition-colors"
                 >
                   {site.phone.display}
                 </a>
                 <a
                   href={`mailto:${site.email}`}
-                  className="text-[14px] font-medium text-[#8A8A8A] hover:text-[#C9A96E] transition-colors"
+                  className="text-[14px] font-medium text-[#6B6B6B] hover:text-[#8A6A2E] transition-colors"
                 >
                   {site.email}
                 </a>
@@ -100,9 +100,9 @@ export default function LocationSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUp}
-          className="mt-16 pt-10 border-t border-[#E8E8E8] text-center"
+          className="mt-16 pt-10 border-t border-[#E5E2DB] text-center"
         >
-          <p className="text-[13px] italic text-[#8A8A8A] max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[13px] italic text-[#6B6B6B] max-w-2xl mx-auto leading-relaxed">
             &ldquo;We&apos;re always here to guide you through the ordering process or help
             you decide which composition best fits your occasion. Don&apos;t be shy —
             reach out.&rdquo;

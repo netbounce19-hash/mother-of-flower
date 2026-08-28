@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, Volume2, VolumeX, Heart, MessageCircle, Send, Bookmark, X, Music } from 'lucide-react';
+import { Play, Volume2, VolumeX, Heart, MessageCircle, Send, Bookmark, X, Music } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
@@ -349,15 +349,8 @@ export default function InstagramReels() {
   };
 
   return (
-    <section style={{ width: '100%', backgroundColor: '#FAF9F6', paddingTop: 90, paddingBottom: 100 }}>
-      <div
-        style={{
-          maxWidth: 1280,
-          margin: '0 auto',
-          paddingLeft: 'clamp(20px, 5vw, 72px)',
-          paddingRight: 'clamp(20px, 5vw, 72px)',
-        }}
-      >
+    <section className="w-full bg-surface site-section">
+      <div className="site-container">
         {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -383,7 +376,7 @@ export default function InstagramReels() {
             <Instagram size={24} color="#fff" strokeWidth={1.8} />
           </div>
 
-          <p style={{ fontSize: 10, letterSpacing: '0.35em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12, fontWeight: 500 }}>
+          <p style={{ fontSize: 10, letterSpacing: '0.35em', textTransform: 'uppercase', color: '#6B6B6B', marginBottom: 12, fontWeight: 500 }}>
             FOLLOW OUR STORY
           </p>
           <h2
@@ -398,7 +391,7 @@ export default function InstagramReels() {
           >
             @mother_of_flower
           </h2>
-          <p style={{ fontSize: 14, color: '#8A8A8A', lineHeight: 1.7, maxWidth: 460 }}>
+          <p style={{ fontSize: 14, color: '#6B6B6B', lineHeight: 1.7, maxWidth: 460 }}>
             Behind every bouquet is a story of luxury, design, and detail. Explore our Reels and find your floral inspiration.
           </p>
         </motion.div>
@@ -648,7 +641,7 @@ export default function InstagramReels() {
                     position: 'absolute',
                     top: 16,
                     right: 16,
-                    color: '#8A8A8A',
+                    color: '#6B6B6B',
                     padding: 4,
                     zIndex: 10,
                   }}
@@ -664,7 +657,7 @@ export default function InstagramReels() {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     padding: '16px 20px',
-                    borderBottom: '1px solid #F0EFEA',
+                    borderBottom: '1px solid #F7F5F2',
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -698,7 +691,7 @@ export default function InstagramReels() {
                         mother_of_flower
                         <span style={{ width: 4, height: 4, borderRadius: '50%', backgroundColor: '#C9A96E' }} />
                       </span>
-                      <span style={{ fontSize: 11, color: '#8A8A8A' }}>Las Vegas, Nevada</span>
+                      <span style={{ fontSize: 11, color: '#6B6B6B' }}>Las Vegas, Nevada</span>
                     </div>
                   </div>
 
@@ -752,7 +745,7 @@ export default function InstagramReels() {
                         <span style={{ fontWeight: 600, marginRight: 6 }}>mother_of_flower</span>
                         {selectedReel.caption}
                       </p>
-                      <span style={{ fontSize: 10, color: '#8A8A8A' }}>2d</span>
+                      <span style={{ fontSize: 10, color: '#6B6B6B' }}>2d</span>
                     </div>
                   </div>
 
@@ -764,14 +757,14 @@ export default function InstagramReels() {
                           width: 28,
                           height: 28,
                           borderRadius: '50%',
-                          backgroundColor: '#F0EFEA',
+                          backgroundColor: '#F7F5F2',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           flexShrink: 0,
                           fontSize: 10,
                           fontWeight: 500,
-                          color: '#8A8A8A',
+                          color: '#6B6B6B',
                           textTransform: 'uppercase',
                         }}
                       >
@@ -782,7 +775,7 @@ export default function InstagramReels() {
                           <span style={{ fontWeight: 600, marginRight: 6 }}>{comment.user}</span>
                           {comment.text}
                         </p>
-                        <span style={{ fontSize: 10, color: '#8A8A8A' }}>1d</span>
+                        <span style={{ fontSize: 10, color: '#6B6B6B' }}>1d</span>
                       </div>
                     </div>
                   ))}
@@ -813,7 +806,7 @@ export default function InstagramReels() {
                           <span style={{ fontWeight: 600, marginRight: 6 }}>{comment.user}</span>
                           {comment.text}
                         </p>
-                        <span style={{ fontSize: 10, color: '#8A8A8A' }}>Just now</span>
+                        <span style={{ fontSize: 10, color: '#6B6B6B' }}>Just now</span>
                       </div>
                     </div>
                   ))}
@@ -822,7 +815,7 @@ export default function InstagramReels() {
                 {/* Bottom interactive action layout */}
                 <div
                   style={{
-                    borderTop: '1px solid #F0EFEA',
+                    borderTop: '1px solid #F7F5F2',
                     padding: '16px 20px',
                     backgroundColor: '#FFF',
                   }}
@@ -860,7 +853,7 @@ export default function InstagramReels() {
                   </div>
 
                   {/* Music Track */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#8A8A8A', fontSize: 11, marginBottom: 16 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#6B6B6B', fontSize: 11, marginBottom: 16 }}>
                     <Music size={11} />
                     <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {selectedReel.music}
@@ -874,7 +867,7 @@ export default function InstagramReels() {
                       display: 'flex',
                       alignItems: 'center',
                       gap: 12,
-                      borderTop: '1px solid #FAF9F6',
+                      borderTop: '1px solid #FAF8F4',
                       paddingTop: 12,
                     }}
                   >

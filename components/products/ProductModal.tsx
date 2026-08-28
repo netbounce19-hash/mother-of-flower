@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight, Calendar, Check } from 'lucide-react';
 import { Product, SizeOption, BoxColor } from '@/types';
 import DropHintModal from '@/components/modals/DropHintModal';
 import { useCart } from '@/contexts/CartContext';
+import { useOverlay } from '@/hooks/useOverlay';
 
 interface ProductModalProps {
   product: Product | null;
@@ -51,14 +52,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
   const activeSize = selectedSize ?? product?.sizes[0] ?? 'Classic';
   const activeBox = selectedBox ?? product?.boxColors[0] ?? 'Warm White';
 
-  useEffect(() => {
-    if (product) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => { document.body.style.overflow = ''; };
-  }, [product]);
+  const panelRef = useOverlay<HTMLDivElement>(Boolean(product) && !hintOpen, onClose);
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -91,8 +85,6 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
     <>
       <AnimatePresence>
         {product && (
-          <>
-            {/* Backdrop */}
             <motion.div
               key="modal-backdrop"
               initial={{ opacity: 0 }}
@@ -104,9 +96,16 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
               onClick={onClose}
             />
 
-            {/* Panel */}
+          )}
+
+          {product && (
             <motion.div
               key="modal-panel"
+              ref={panelRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={product.name}
+              tabIndex={-1}
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 30 }}
@@ -130,24 +129,29 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   className="relative w-full md:w-[46%] flex-shrink-0 overflow-hidden"
                   style={{ minHeight: '280px', backgroundColor: '#F7F5F2' }}
                 >
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={imageIndex}
-                      initial={{ opacity: 0, scale: 1.04 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className="absolute inset-0"
-                    >
-                      <Image
-                        src={product.images[imageIndex]}
-                        alt={product.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 46vw"
-                        className="object-cover"
-                      />
-                    </motion.div>
-                  </AnimatePresence>
+                  {/*
+                    Deliberately not wrapped in AnimatePresence. A nested
+                    AnimatePresence inside this panel stopped the panel's own
+                    exit from completing, leaving a zero-height dialog in the
+                    DOM whose controls were still reachable by keyboard.
+                    Re-keying on imageIndex replays the fade-in, which is all
+                    this transition ever needed.
+                  */}
+                  <motion.div
+                    key={imageIndex}
+                    initial={{ opacity: 0, scale: 1.04 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={product.images[imageIndex]}
+                      alt={product.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 46vw"
+                      className="object-cover"
+                    />
+                  </motion.div>
 
                   {product.images.length > 1 && (
                     <>
@@ -190,7 +194,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   style={{ padding: '2rem 2.5rem', paddingBottom: '2rem' }}
                 >
                   {/* SKU */}
-                  <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>
+                  <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#6B6B6B', marginBottom: 12 }}>
                     {product.sku}
                   </p>
 
@@ -205,14 +209,14 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                     {product.currency} {product.price.toLocaleString()}
                   </p>
 
-                  <div style={{ width: '100%', height: 1, backgroundColor: '#E5E5E5', marginBottom: 24 }} />
+                  <div style={{ width: '100%', height: 1, backgroundColor: '#E5E2DB', marginBottom: 24 }} />
 
                   {/* Description */}
                   <p style={{ fontSize: 14, color: '#333333', fontWeight: 500, lineHeight: 1.7, marginBottom: 28 }}>{product.description}</p>
 
                   {/* Choose Date */}
                   <div style={{ marginBottom: 24 }}>
-                    <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>Delivery Date</p>
+                    <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#6B6B6B', marginBottom: 12 }}>Delivery Date</p>
                     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                       {(['tomorrow', 'calendar'] as const).map((d) => (
                         <button
@@ -224,7 +228,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                             fontSize: 13,
                             fontWeight: 600,
                             letterSpacing: '0.02em',
-                            border: `1px solid ${selectedDate === d ? '#1C1C1C' : '#E5E5E5'}`,
+                            border: `1px solid ${selectedDate === d ? '#1C1C1C' : '#E5E2DB'}`,
                             backgroundColor: selectedDate === d ? '#1C1C1C' : 'transparent',
                             color: selectedDate === d ? '#FDFDFD' : '#1C1C1C',
                             display: 'inline-flex',
@@ -243,7 +247,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
                   {/* Size */}
                   <div style={{ marginBottom: 24 }}>
-                    <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>Size</p>
+                    <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#6B6B6B', marginBottom: 12 }}>Size</p>
                     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                       {product.sizes.map((size) => (
                         <button
@@ -255,7 +259,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                             fontSize: 13,
                             fontWeight: 600,
                             letterSpacing: '0.02em',
-                            border: `1px solid ${activeSize === size ? '#1C1C1C' : '#E5E5E5'}`,
+                            border: `1px solid ${activeSize === size ? '#1C1C1C' : '#E5E2DB'}`,
                             backgroundColor: activeSize === size ? '#1C1C1C' : 'transparent',
                             color: activeSize === size ? '#FDFDFD' : '#1C1C1C',
                             transition: 'all 0.2s',
@@ -270,7 +274,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
                   {/* Box Color */}
                   <div style={{ marginBottom: 32 }}>
-                    <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: 12 }}>Box</p>
+                    <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#6B6B6B', marginBottom: 12 }}>Box</p>
                     <div style={{ display: 'flex', gap: 12 }}>
                       {BOX_COLORS.filter((bc) => product.boxColors.includes(bc.label)).map((bc) => (
                         <button
@@ -283,7 +287,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                             borderRadius: 4,
                             backgroundColor: bc.hex,
                             border: `2px solid ${activeBox === bc.label ? '#1C1C1C' : 'transparent'}`,
-                            outline: activeBox === bc.label ? 'none' : '1px solid #E5E5E5',
+                            outline: activeBox === bc.label ? 'none' : '1px solid #E5E2DB',
                             transform: activeBox === bc.label ? 'scale(1.12)' : 'scale(1)',
                             transition: 'all 0.2s',
                             cursor: 'pointer',
@@ -339,13 +343,13 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                         fontFamily: 'var(--font-sans)',
                         backgroundColor: 'transparent',
                         color: '#1C1C1C',
-                        border: '1px solid #E5E5E5',
+                        border: '1px solid #E5E2DB',
                         borderRadius: 2,
                         transition: 'border-color 0.3s',
                         cursor: 'pointer',
                       }}
                       onMouseEnter={e => (e.currentTarget.style.borderColor = '#1C1C1C')}
-                      onMouseLeave={e => (e.currentTarget.style.borderColor = '#E5E5E5')}
+                      onMouseLeave={e => (e.currentTarget.style.borderColor = '#E5E2DB')}
                     >
                       Drop a Hint
                     </button>
@@ -353,7 +357,6 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 </div>
               </div>
             </motion.div>
-          </>
         )}
       </AnimatePresence>
 
