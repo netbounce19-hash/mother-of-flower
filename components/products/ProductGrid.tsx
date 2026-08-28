@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { products } from '@/data/products';
 import { Product } from '@/types';
 import ProductCard from './ProductCard';
-import { RotateCcw, Sparkles } from 'lucide-react';
+import { RotateCcw, Sparkles, X, Info } from 'lucide-react';
 
 interface ProductGridProps {
   onProductClick: (product: Product) => void;
@@ -29,6 +29,7 @@ const SECTION_STYLE: React.CSSProperties = {
 
 export default function ProductGrid({ onProductClick }: ProductGridProps) {
   const [selectedPrice, setSelectedPrice] = useState<number | null>(null);
+  const [showPriceNotification, setShowPriceNotification] = useState(true);
 
   const displayedProducts = useMemo(() => {
     if (selectedPrice === null) return products;
@@ -36,7 +37,7 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
   }, [selectedPrice]);
 
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%', position: 'relative' }}>
       <section id="catalog" style={SECTION_STYLE}>
         {/* Section header */}
         <motion.div
@@ -59,7 +60,7 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
           </p>
         </motion.div>
 
-        {/* ── FILTER BY EXACT PRICE (FROM SCREENSHOT) ── */}
+        {/* ── FILTER BY EXACT PRICE ── */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -72,9 +73,13 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
               <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1C1C1C]">
                 Filter by Exact Price
               </span>
-              <span className="text-[11px] text-[#8A8A8A]">
-                (букеты по фиксированной цене)
-              </span>
+              <button
+                onClick={() => setShowPriceNotification(!showPriceNotification)}
+                title="Подробнее о букетах по фиксированной цене"
+                className="text-[#8A8A8A] hover:text-[#C9A96E] transition-colors p-0.5 cursor-pointer"
+              >
+                <Info size={14} />
+              </button>
             </div>
 
             {selectedPrice !== null && (
@@ -209,6 +214,40 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
           )}
         </AnimatePresence>
       </section>
+
+      {/* ── ВСПЛЫВАЮЩЕЕ ОПОВЕЩЕНИЕ С КНОПКОЙ ЗАКРЫТЬ ── */}
+      <AnimatePresence>
+        {showPriceNotification && (
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed bottom-6 right-6 z-40 max-w-[340px] md:max-w-[380px] bg-[#1C1C1C] text-[#FDFDFD] p-4 rounded-xl shadow-[0_16px_40px_rgba(0,0,0,0.3)] border border-[#333] flex items-start gap-3 backdrop-blur-md"
+          >
+            <div className="w-8 h-8 rounded-full bg-[#C9A96E]/20 text-[#C9A96E] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <Sparkles size={15} />
+            </div>
+
+            <div className="flex-1 pr-2">
+              <p className="text-[12px] font-bold text-[#C9A96E] uppercase tracking-wider mb-1">
+                Букеты по фиксированной цене
+              </p>
+              <p className="text-[13px] text-[#E0E0E0] leading-relaxed">
+                Выберите точную сумму в фильтре, и мы покажем готовые композиции или соберем авторский букет под ваш бюджет.
+              </p>
+            </div>
+
+            <button
+              onClick={() => setShowPriceNotification(false)}
+              aria-label="Закрыть оповещение"
+              className="text-[#8A8A8A] hover:text-[#FDFDFD] p-1 rounded-full hover:bg-white/10 transition-colors flex-shrink-0 cursor-pointer"
+            >
+              <X size={15} />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
