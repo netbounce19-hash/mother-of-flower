@@ -63,7 +63,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
           src={product.images[0]}
           alt={product.name}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover"
         />
 
@@ -114,7 +114,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
             <Link
               href={`/catalog/${productSlug(product)}`}
               aria-label={`Choose options for ${product.name}`}
-              className="p-2 rounded-full hover:bg-[#F7F5F2] transition-colors duration-200 inline-flex"
+              className="tap-target p-2 rounded-full hover:bg-[#F7F5F2] transition-colors duration-200 inline-flex"
               style={{ color: '#6B6B6B' }}
             >
               <ShoppingBag size={15} strokeWidth={1.8} />
@@ -124,7 +124,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
               aria-label={liked ? `Remove ${product.name} from favourites` : `Save ${product.name} to favourites`}
               aria-pressed={liked}
               onClick={() => toggle(product.id)}
-              className="p-2 rounded-full hover:bg-[#F7F5F2] transition-colors duration-200"
+              className="tap-target p-2 rounded-full hover:bg-[#F7F5F2] transition-colors duration-200"
               style={{ color: liked ? '#E02424' : '#6B6B6B' }}
             >
               <Heart size={15} fill={liked ? '#E02424' : 'none'} strokeWidth={1.8} />

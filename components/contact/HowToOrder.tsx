@@ -53,7 +53,7 @@ export default function HowToOrder() {
         >
           {/* ── Header ── */}
           <div className="flex flex-col items-center gap-3 text-center">
-            <motion.p variants={fadeUp} className="text-[#8A6A2E] text-[11px] font-semibold uppercase tracking-[0.25em]">
+            <motion.p variants={fadeUp} className="text-[#8A6A2E] text-[12px] font-semibold uppercase tracking-[0.25em]">
               Payment
             </motion.p>
             <motion.h2 variants={fadeUp} className="font-serif text-[#1C1C1C] text-[clamp(2rem,3.5vw,2.8rem)] font-normal leading-[1.1]">

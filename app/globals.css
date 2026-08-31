@@ -151,3 +151,62 @@
 }
 .range-thumb::-webkit-slider-runnable-track { background: transparent; }
 .range-thumb::-moz-range-track { background: transparent; }
+
+/* ── Focus ring (WCAG 2.4.7) ──────────────────────────
+   Deliberately unlayered: 19 components carry `focus:outline-none`, and a
+   layered rule would lose to those utilities. A two-tone indicator (dark
+   outline + light halo) stays visible on both the cream and graphite
+   surfaces, so one rule covers the whole site. */
+:focus-visible {
+  outline: 2px solid #1C1C1C;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(253, 253, 253, 0.95);
+  border-radius: 2px;
+}
+
+/* Skip link — visible only once focused. */
+.skip-link {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -120%);
+  z-index: 200;
+  padding: 12px 24px;
+  background: #1C1C1C;
+  color: #FDFDFD;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 0 0 4px 4px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+.skip-link:focus-visible {
+  transform: translate(-50%, 0);
+}
+
+/* ── Tap targets (WCAG 2.5.8) ─────────────────────────
+   Grows the hit area to 44x44 with a pseudo-element, leaving the icon at its
+   designed size. Applied to the small icon buttons on cards and in the nav. */
+.tap-target {
+  position: relative;
+}
+.tap-target::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  transform: translate(-50%, -50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

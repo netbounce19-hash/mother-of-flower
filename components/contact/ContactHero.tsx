@@ -23,7 +23,7 @@ export default function ContactHero() {
         />
 
         <div className="relative z-10 flex flex-col items-center gap-6 px-6">
-          <p className="text-[#8A6A2E] text-[10px] uppercase tracking-[0.35em] font-semibold">
+          <p className="text-[#8A6A2E] text-[12px] uppercase tracking-[0.35em] font-semibold">
             Las Vegas
           </p>
 
@@ -63,6 +63,7 @@ export default function ContactHero() {
         transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className="site-container"
       >
+        <h2 className="sr-only">Contact details</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#E5E2DB] border border-[#E5E2DB] rounded-[3px] overflow-hidden">
           {[
             {
@@ -105,7 +106,7 @@ export default function ContactHero() {
               <div className="w-9 h-9 flex items-center justify-center rounded-full bg-[#C9A96E]/10 text-[#8A6A2E]">
                 {item.icon}
               </div>
-              <h3 className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#6B6B6B]">
+              <h3 className="text-[12px] font-semibold uppercase tracking-[0.18em] text-[#6B6B6B]">
                 {item.label}
               </h3>
               <p className="text-[#333333] text-[13px] leading-relaxed">

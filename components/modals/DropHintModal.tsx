@@ -43,7 +43,7 @@ function FloatingInput({ id, name, label, type = 'text', onChange, required, err
           position: 'absolute',
           left: 0,
           top: lifted ? 0 : 20,
-          fontSize: lifted ? 10 : 13,
+          fontSize: lifted ? 12 : 14,
           letterSpacing: lifted ? '0.2em' : '0.02em',
           textTransform: lifted ? 'uppercase' : 'none',
           color: '#6B6B6B',
@@ -167,7 +167,7 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
                       <Image src={product.images[0]} alt={product.name} fill sizes="60px" style={{ objectFit: 'cover' }} />
                     </div>
                     <div>
-                      <p style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6B6B6B', marginBottom: 2 }}>Drop a Hint</p>
+                      <p style={{ fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6B6B6B', marginBottom: 2 }}>Drop a Hint</p>
                       <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 18, color: '#1C1C1C', lineHeight: 1.2 }}>{product.name}</h3>
                       <p style={{ fontSize: 12, color: '#6B6B6B', marginTop: 2 }}>{product.currency} {product.price.toLocaleString()}</p>
                     </div>
@@ -179,7 +179,7 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
 
                     {/* Recipient */}
                     <div style={{ marginBottom: 24 }}>
-                      <p style={{ fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#1C1C1C', marginBottom: 16 }}>Recipient</p>
+                      <p style={{ fontSize: 12, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#1C1C1C', marginBottom: 16 }}>Recipient</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                         <FloatingInput id="r-name" name="recipientFirstName" label="First Name" onChange={setRecipientName} error={state.errors?.recipientFirstName} required />
                         <FloatingInput id="r-email" name="recipientEmail" label="Email Address" type="email" error={state.errors?.recipientEmail} required />
@@ -190,7 +190,7 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
 
                     {/* Sender */}
                     <div style={{ marginBottom: 28 }}>
-                      <p style={{ fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#1C1C1C', marginBottom: 16 }}>Your Details</p>
+                      <p style={{ fontSize: 12, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#1C1C1C', marginBottom: 16 }}>Your Details</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                         <FloatingInput id="s-name" name="senderFirstName" label="First Name" error={state.errors?.senderFirstName} required />
                         <FloatingInput id="s-email" name="senderEmail" label="Email Address" type="email" error={state.errors?.senderEmail} required />
@@ -238,7 +238,7 @@ export default function DropHintModal({ product, isOpen, onClose }: DropHintModa
                   </p>
                   <button
                     onClick={onClose}
-                    style={{ marginTop: 8, padding: '10px 28px', border: '1px solid #E5E2DB', borderRadius: 9999, fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#1C1C1C', backgroundColor: 'transparent', cursor: 'pointer' }}
+                    style={{ marginTop: 8, padding: '10px 28px', border: '1px solid #E5E2DB', borderRadius: 9999, fontSize: 12, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#1C1C1C', backgroundColor: 'transparent', cursor: 'pointer' }}
                   >
                     Close
                   </button>

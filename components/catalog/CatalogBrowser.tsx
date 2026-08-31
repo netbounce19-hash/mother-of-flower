@@ -23,7 +23,16 @@ const SORT_LABELS: Record<SortKey, string> = {
 /** Options are derived from the catalogue, never hardcoded. */
 const FACETS = catalogFacets();
 
-function CatalogContent() {
+export interface CatalogInitialFilters {
+  category: string | null;
+  color: string | null;
+  search: string;
+  sort: string | null;
+  from: string | null;
+  to: string | null;
+}
+
+function CatalogContent({ initial }: { initial: CatalogInitialFilters }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -34,13 +43,15 @@ function CatalogContent() {
   // Reading from searchParams rather than useState means a filtered view can
   // be copied and shared, Back undoes the last filter, and a reload keeps the
   // selection. Previously only the incoming ?category was honoured.
-  const category = searchParams.get('category');
-  const color = searchParams.get('color');
-  const search = searchParams.get('q') ?? '';
-  const sortParam = searchParams.get('sort');
+  // During the server render searchParams is empty, so fall back to the values
+  // the page resolved; on the client the URL is the source of truth.
+  const category = searchParams.get('category') ?? initial.category;
+  const color = searchParams.get('color') ?? initial.color;
+  const search = searchParams.get('q') ?? initial.search;
+  const sortParam = searchParams.get('sort') ?? initial.sort;
   const sortBy: SortKey = (sortParam && sortParam in SORT_LABELS ? sortParam : 'featured') as SortKey;
-  const priceFrom = Number(searchParams.get('from') ?? FACETS.priceMin);
-  const priceTo = Number(searchParams.get('to') ?? FACETS.priceMax);
+  const priceFrom = Number(searchParams.get('from') ?? initial.from ?? FACETS.priceMin);
+  const priceTo = Number(searchParams.get('to') ?? initial.to ?? FACETS.priceMax);
 
   const filterState: CatalogFilterState = { category, color, priceFrom, priceTo };
 
@@ -136,8 +147,8 @@ function CatalogContent() {
             </h2>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <div className="relative flex items-center min-w-[240px]">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 w-full md:w-auto min-w-0">
+            <div className="relative flex items-center flex-1 min-w-0 sm:min-w-[200px]">
               <Search size={15} className="absolute left-3.5 text-[#6B6B6B] pointer-events-none" aria-hidden="true" />
               <label htmlFor="catalog-search" className="sr-only">Search bouquets</label>
               <input
@@ -237,7 +248,7 @@ function CatalogContent() {
             <CatalogFilters facets={FACETS} state={filterState} onChange={handleFilterChange} />
           </aside>
 
-          <main id="main" className="flex-1">
+          <div className="flex-1">
             <div className="flex items-center justify-between mb-6">
               {/* Announced to screen readers whenever the filters change. */}
               <p
@@ -270,7 +281,7 @@ function CatalogContent() {
                 ))}
               </div>
             )}
-          </main>
+          </div>
         </div>
       </div>
 
@@ -349,7 +360,7 @@ function CatalogContent() {
   );
 }
 
-export default function CatalogBrowser() {
+export default function CatalogBrowser({ initial }: { initial: CatalogInitialFilters }) {
   return (
     <Suspense
       fallback={
@@ -358,7 +369,7 @@ export default function CatalogBrowser() {
         </div>
       }
     >
-      <CatalogContent />
+      <CatalogContent initial={initial} />
     </Suspense>
   );
 }

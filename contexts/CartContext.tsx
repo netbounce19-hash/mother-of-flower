@@ -19,6 +19,8 @@ export interface CartItem {
 
 interface CartContextType {
   items: CartItem[];
+  /** Latest cart change, announced in a live region by CartAnnouncer. */
+  announcement: string;
   isCartOpen: boolean;
   setIsCartOpen: (isOpen: boolean) => void;
   addToCart: (item: Omit<CartItem, 'id'>) => void;
@@ -56,6 +58,7 @@ function readStoredCart(): CartItem[] {
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [announcement, setAnnouncement] = useState('');
   const hydrated = useRef(false);
 
   // The stored cart has to be read *after* mount, not in the state
@@ -101,16 +104,29 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       return [...prev, { ...newItem, id: `cart_item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}` }];
     });
+    // Screen readers get no feedback from a drawer sliding open, so state the
+    // outcome explicitly.
+    setAnnouncement(
+      `${newItem.product.name}, ${newItem.size}, added to your bag.`
+    );
     setIsCartOpen(true);
   };
 
   const removeFromCart = (id: string) => {
-    setItems((prev) => prev.filter((i) => i.id !== id));
+    setItems((prev) => {
+      const gone = prev.find((i) => i.id === id);
+      if (gone) setAnnouncement(`${gone.product.name} removed from your bag.`);
+      return prev.filter((i) => i.id !== id);
+    });
   };
 
   const updateQuantity = (id: string, quantity: number) => {
     if (quantity < 1) return;
-    setItems((prev) => prev.map((i) => (i.id === id ? { ...i, quantity } : i)));
+    setItems((prev) => {
+      const item = prev.find((i) => i.id === id);
+      if (item) setAnnouncement(`${item.product.name}, quantity ${quantity}.`);
+      return prev.map((i) => (i.id === id ? { ...i, quantity } : i));
+    });
   };
 
   const clearCart = () => setItems([]);
@@ -128,6 +144,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     <CartContext.Provider
       value={{
         items,
+        announcement,
         isCartOpen,
         setIsCartOpen,
         addToCart,

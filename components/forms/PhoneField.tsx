@@ -37,7 +37,7 @@ export default function PhoneField({
   error,
   defaultValue = '',
   className,
-  labelClassName = 'text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]',
+  labelClassName = 'text-[12px] font-bold tracking-wide uppercase text-[#5A5A5A]',
 }: PhoneFieldProps) {
   const [value, setValue] = useState(formatUsPhone(defaultValue));
 

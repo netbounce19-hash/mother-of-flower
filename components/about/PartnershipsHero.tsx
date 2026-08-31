@@ -26,7 +26,7 @@ export default function PartnershipsHero() {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col items-center gap-3"
         >
-          <p className="text-[#C9A96E] text-[11px] uppercase tracking-[0.25em] font-semibold">
+          <p className="text-[#C9A96E] text-[12px] uppercase tracking-[0.25em] font-semibold">
             Partnerships
           </p>
           <div style={{ width: 32, height: 1, backgroundColor: '#C9A96E', opacity: 0.6 }} />

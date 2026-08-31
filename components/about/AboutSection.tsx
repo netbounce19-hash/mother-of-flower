@@ -40,7 +40,7 @@ export default function AboutSection() {
                 href="https://www.instagram.com/mother_of_flower/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-[10px] md:text-[11px] tracking-[0.2em] uppercase text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors pb-1 border-b border-[#8A8A8A]/30 hover:border-[#1C1C1C]"
+                className="text-[12px] md:text-[12px] tracking-[0.2em] uppercase text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors pb-1 border-b border-[#8A8A8A]/30 hover:border-[#1C1C1C]"
               >
                 Follow us on Instagram ↗
               </a>
@@ -108,7 +108,7 @@ export default function AboutSection() {
           variants={staggerContainer}
           className="site-container flex flex-col items-center text-center gap-6"
         >
-          <motion.p variants={fadeUp} className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E]">
+          <motion.p variants={fadeUp} className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E]">
             Partnerships
           </motion.p>
 

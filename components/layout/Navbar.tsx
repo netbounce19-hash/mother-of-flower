@@ -67,7 +67,7 @@ export default function Navbar() {
               Mother of Flower
             </span>
             <div style={{ height: '1px', width: '100%', backgroundColor: scrolled ? '#1C1C1C' : '#FDFDFD', margin: '5px 0', opacity: scrolled ? 0.2 : 0.4, transition: 'background-color 0.4s, opacity 0.4s' }} />
-            <span className="text-[8px] md:text-[9.5px]" style={{ fontFamily: "var(--font-sans)", fontWeight: 600, letterSpacing: '0.3em', color: scrolled ? '#5A5A5A' : '#EAEAEA', textTransform: 'uppercase', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
+            <span className="text-[12px] md:text-[12px]" style={{ fontFamily: "var(--font-sans)", fontWeight: 600, letterSpacing: '0.3em', color: scrolled ? '#5A5A5A' : '#EAEAEA', textTransform: 'uppercase', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
               Las Vegas
             </span>
           </Link>
@@ -96,7 +96,7 @@ export default function Navbar() {
               className="hidden lg:inline-flex items-center gap-2 px-5 py-2 rounded-full border transition-all duration-300 bg-transparent"
               style={{
                 borderColor: scrolled ? '#1C1C1C' : 'rgba(253,253,253,0.85)',
-                fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
+                fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
                 color: scrolled ? '#1C1C1C' : '#FDFDFD', textDecoration: 'none',
                 textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.3)',
                 boxShadow: scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.1)',
@@ -123,11 +123,12 @@ export default function Navbar() {
             <button
               aria-label="Shopping bag"
               onClick={() => setIsCartOpen(true)}
+              className="tap-target"
               style={{ position: 'relative', padding: 8, color: scrolled ? '#1C1C1C' : '#FDFDFD', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.4s' }}
             >
               <ShoppingBag size={22} strokeWidth={1.6} style={{ filter: scrolled ? 'none' : 'drop-shadow(0 2px 10px rgba(0,0,0,0.4))' }} />
               {cartCount > 0 && (
-                <span style={{ position: 'absolute', top: 4, right: 4, width: 16, height: 16, borderRadius: '50%', backgroundColor: '#C9A96E', color: '#FDFDFD', fontSize: 10, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ position: 'absolute', top: 4, right: 4, width: 16, height: 16, borderRadius: '50%', backgroundColor: '#C9A96E', color: '#1C1C1C', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {cartCount}
                 </span>
               )}
@@ -137,7 +138,7 @@ export default function Navbar() {
             <button
               aria-label="Open menu"
               style={{ padding: 8, color: scrolled ? '#1C1C1C' : '#FDFDFD', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.4s' }}
-              className="lg:hidden"
+              className="tap-target lg:hidden"
               onClick={() => setMenuOpen(true)}
             >
               <Menu size={22} strokeWidth={1.6} style={{ filter: scrolled ? 'none' : 'drop-shadow(0 2px 10px rgba(0,0,0,0.4))' }} />
@@ -168,7 +169,7 @@ export default function Navbar() {
                   Mother of Flower
                 </span>
                 <div style={{ height: '1px', width: '100%', backgroundColor: '#1C1C1C', margin: '4px 0', opacity: 0.2 }} />
-                <span style={{ fontFamily: "var(--font-sans)", fontSize: 9, fontWeight: 600, letterSpacing: '0.3em', color: '#5A5A5A', textTransform: 'uppercase' }}>
+                <span style={{ fontFamily: "var(--font-sans)", fontSize: 12, fontWeight: 600, letterSpacing: '0.3em', color: '#5A5A5A', textTransform: 'uppercase' }}>
                   Las Vegas
                 </span>
               </div>
@@ -226,7 +227,7 @@ export default function Navbar() {
                     href="https://wa.me/17252242454"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 py-2.5 px-3 border border-[#E5E2DB] rounded-[3px] text-[11px] font-bold uppercase tracking-wider text-[#1C1C1C] hover:bg-[#FAF8F4]"
+                    className="flex-1 flex items-center justify-center gap-2 py-2.5 px-3 border border-[#E5E2DB] rounded-[3px] text-[12px] font-bold uppercase tracking-wider text-[#1C1C1C] hover:bg-[#FAF8F4]"
                   >
                     <MessageCircle size={13} color="#25D366" /> WhatsApp
                   </a>
@@ -234,7 +235,7 @@ export default function Navbar() {
                     href="https://t.me/motherofflower"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 py-2.5 px-3 border border-[#E5E2DB] rounded-[3px] text-[11px] font-bold uppercase tracking-wider text-[#1C1C1C] hover:bg-[#FAF8F4]"
+                    className="flex-1 flex items-center justify-center gap-2 py-2.5 px-3 border border-[#E5E2DB] rounded-[3px] text-[12px] font-bold uppercase tracking-wider text-[#1C1C1C] hover:bg-[#FAF8F4]"
                   >
                     <MessageCircle size={13} color="#0088cc" /> Telegram
                   </a>
@@ -268,15 +269,15 @@ export default function Navbar() {
             className="fixed bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-6 z-40 w-[92vw] max-w-[440px] bg-[#1C1C1C]/95 backdrop-blur-md text-[#FDFDFD] p-3.5 pl-4 pr-3 rounded-xl shadow-[0_16px_40px_rgba(0,0,0,0.35)] border border-[#333333] flex items-center justify-between gap-3"
           >
             <div className="flex items-center gap-2.5 min-w-0">
-              <span className="text-[#8A6A2E] flex-shrink-0">
+              <span className="text-[#C9A96E] flex-shrink-0">
                 <Sparkles size={16} />
               </span>
-              <div className="text-[11.5px] md:text-[12px] leading-tight text-[#E5E2DB]">
+              <div className="text-[13px] leading-snug text-[#F0EDE6]">
                 <span>Same-Day Luxury Delivery in Las Vegas &amp; Henderson · Order Before 2 PM</span>
                 <span className="mx-1.5 text-[#C9A96E]">✦</span>
                 <a
                   href={site.phone.href}
-                  className="font-bold text-[#8A6A2E] hover:underline whitespace-nowrap"
+                  className="font-bold text-[#C9A96E] hover:underline whitespace-nowrap"
                 >
                   {site.phone.display}
                 </a>

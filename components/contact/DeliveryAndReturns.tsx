@@ -30,7 +30,7 @@ export default function DeliveryAndReturns() {
           {/* ── Delivery ── */}
           <motion.div variants={fadeUp} className="flex flex-col gap-7">
             <div className="flex flex-col gap-3">
-              <p className="text-[#8A6A2E] text-[11px] font-semibold uppercase tracking-[0.25em]">
+              <p className="text-[#8A6A2E] text-[12px] font-semibold uppercase tracking-[0.25em]">
                 Logistics
               </p>
               <h2 className="text-[#1C1C1C] text-[20px] font-bold tracking-wide uppercase">
@@ -54,7 +54,7 @@ export default function DeliveryAndReturns() {
           {/* ── Returns ── */}
           <motion.div variants={fadeUp} className="flex flex-col gap-7">
             <div className="flex flex-col gap-3">
-              <p className="text-[#8A6A2E] text-[11px] font-semibold uppercase tracking-[0.25em]">
+              <p className="text-[#8A6A2E] text-[12px] font-semibold uppercase tracking-[0.25em]">
                 Policy
               </p>
               <h2 className="text-[#1C1C1C] text-[20px] font-bold tracking-wide uppercase">

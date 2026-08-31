@@ -65,7 +65,7 @@ export default function LegalPage({
                   <ul key={i} className="flex flex-col gap-2.5 pl-1">
                     {block.map((li) => (
                       <li key={li} className="flex items-start gap-3 text-[#444444] text-[15px] leading-[1.8]">
-                        <span className="text-[#C9A96E] mt-[7px] text-[10px] leading-none" aria-hidden="true">✦</span>
+                        <span className="text-[#C9A96E] mt-[7px] text-[12px] leading-none" aria-hidden="true">✦</span>
                         <span>{li}</span>
                       </li>
                     ))}

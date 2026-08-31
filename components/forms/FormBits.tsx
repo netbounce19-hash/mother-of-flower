@@ -18,7 +18,7 @@ export function Honeypot() {
 export function FieldError({ messages }: { messages?: string[] }) {
   if (!messages?.length) return null;
   return (
-    <span className="text-[#C0392B] text-[11px] mt-1 tracking-wide" role="alert">
+    <span className="text-[#C0392B] text-[12px] mt-1 tracking-wide" role="alert">
       {messages[0]}
     </span>
   );

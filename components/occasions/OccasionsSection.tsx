@@ -200,7 +200,7 @@ export default function OccasionsSection() {
           {/* Section Header */}
           <motion.div variants={fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#8A6A2E] mb-2">
+              <p className="text-[12px] font-bold uppercase tracking-[0.25em] text-[#8A6A2E] mb-2">
                 Curated For Your Moments
               </p>
               <h2 className="font-serif text-[clamp(2.2rem,4vw,3.4rem)] font-normal leading-[1.08] text-[#1C1C1C]">
@@ -229,7 +229,7 @@ export default function OccasionsSection() {
                 </div>
 
                 {/* Subtitle */}
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E] mb-1">
+                <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E] mb-1">
                   {occasion.subtitle}
                 </span>
 
@@ -244,7 +244,7 @@ export default function OccasionsSection() {
                 </p>
 
                 {/* Bottom Arrow Link */}
-                <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[#1C1C1C] group-hover:text-[#8A6A2E] transition-colors mt-auto pt-4 border-t border-[#E5E2DB]">
+                <div className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-[0.14em] text-[#1C1C1C] group-hover:text-[#8A6A2E] transition-colors mt-auto pt-4 border-t border-[#E5E2DB]">
                   <span>Explore Collection</span>
                   <span className="transform group-hover:translate-x-1 transition-transform">→</span>
                 </div>

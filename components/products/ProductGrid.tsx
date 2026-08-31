@@ -55,14 +55,14 @@ export default function ProductGrid() {
           className="mb-12 pb-6 border-b border-[#E5E2DB]"
         >
           <div className="flex items-center justify-between gap-4 mb-3 flex-wrap">
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1C1C1C]">
+            <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#1C1C1C]">
               Filter by Exact Price
             </span>
 
             {selectedPrice !== null && (
               <button
                 onClick={() => setSelectedPrice(null)}
-                className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#8A6A2E] hover:text-[#1C1C1C] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wider text-[#8A6A2E] hover:text-[#1C1C1C] transition-colors cursor-pointer"
               >
                 <RotateCcw size={12} /> Show all bouquets
               </button>

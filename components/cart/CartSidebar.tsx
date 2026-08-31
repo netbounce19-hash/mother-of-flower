@@ -42,7 +42,7 @@ function FloatingInput({ id, name, label, type = 'text', required, isTextArea, e
           position: 'absolute',
           left: 0,
           top: lifted ? 0 : 20,
-          fontSize: lifted ? 10 : 13,
+          fontSize: lifted ? 12 : 14,
           letterSpacing: lifted ? '0.2em' : '0.02em',
           textTransform: lifted ? 'uppercase' : 'none',
           color: '#6B6B6B',
@@ -188,7 +188,7 @@ export default function CartSidebar() {
                 </p>
                 <button
                   onClick={handleClose}
-                  className="mt-4 border-b pb-1 text-[11px] tracking-[0.15em] uppercase hover:opacity-50 transition-opacity"
+                  className="mt-4 border-b pb-1 text-[12px] tracking-[0.15em] uppercase hover:opacity-50 transition-opacity"
                   style={{ borderColor: '#1C1C1C', color: '#1C1C1C' }}
                 >
                   Continue Shopping
@@ -209,7 +209,7 @@ export default function CartSidebar() {
                   <button
                     type="button"
                     onClick={handleClose}
-                    className="mt-4 border-b pb-1 text-[11px] tracking-[0.15em] uppercase hover:opacity-50 transition-opacity"
+                    className="mt-4 border-b pb-1 text-[12px] tracking-[0.15em] uppercase hover:opacity-50 transition-opacity"
                     style={{ borderColor: '#1C1C1C', color: '#1C1C1C' }}
                   >
                     Continue Shopping
@@ -283,7 +283,7 @@ export default function CartSidebar() {
 
                   {/* Shipping Method */}
                   <div className="flex flex-col gap-4">
-                    <h3 className="font-sans text-[11px] tracking-[0.2em] uppercase" style={{ color: '#1C1C1C' }}>Delivery Method</h3>
+                    <h3 className="font-sans text-[12px] tracking-[0.2em] uppercase" style={{ color: '#1C1C1C' }}>Delivery Method</h3>
                     <div className="flex gap-4">
                       {(['delivery', 'pickup'] as const).map((method) => (
                         <button
@@ -313,7 +313,7 @@ export default function CartSidebar() {
 
                   {/* Buyer's own details — this is who we call to confirm. */}
                   <div className="flex flex-col gap-6">
-                    <h3 className="font-sans text-[11px] tracking-[0.2em] uppercase" style={{ color: '#1C1C1C' }}>Your Contact Details</h3>
+                    <h3 className="font-sans text-[12px] tracking-[0.2em] uppercase" style={{ color: '#1C1C1C' }}>Your Contact Details</h3>
                     <div className="flex flex-col gap-4">
                       <FloatingInput id="c-cust-name" name="customerName" defaultValue={state.values?.customerName} label="Your Name" autoComplete="name" error={state.errors?.customerName} required />
                       <FloatingInput id="c-cust-phone" name="customerPhone" defaultValue={state.values?.customerPhone} label="Your Phone Number" type="tel" autoComplete="tel" error={state.errors?.customerPhone} required />
@@ -339,7 +339,7 @@ export default function CartSidebar() {
 
                   {/* Recipient Details */}
                   <div className="flex flex-col gap-6">
-                    <h3 className="font-sans text-[11px] tracking-[0.2em] uppercase" style={{ color: '#1C1C1C' }}>
+                    <h3 className="font-sans text-[12px] tracking-[0.2em] uppercase" style={{ color: '#1C1C1C' }}>
                       {sameAsRecipient ? 'Delivery Details' : 'Recipient Details'}
                     </h3>
                     <div className="flex flex-col gap-4">
@@ -396,7 +396,7 @@ export default function CartSidebar() {
                   Place Order
                 </SubmitButton>
 
-                <p className="text-[11px] mt-3 leading-relaxed text-center" style={{ color: '#6B6B6B' }}>
+                <p className="text-[12px] mt-3 leading-relaxed text-center" style={{ color: '#6B6B6B' }}>
                   {/* TODO(payments): swap for the provider's checkout once connected. */}
                   No payment is taken on this site. We confirm availability by phone,
                   then agree the payment method with you.

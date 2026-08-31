@@ -200,7 +200,7 @@ export default function CatalogFilters({
             />
           </div>
 
-          <p className="text-[11px] text-[#6B6B6B]">
+          <p className="text-[12px] text-[#6B6B6B]">
             Bouquets from ${facets.priceMin} to ${facets.priceMax}
           </p>
         </div>

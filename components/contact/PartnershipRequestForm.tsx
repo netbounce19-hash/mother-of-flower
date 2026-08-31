@@ -32,7 +32,7 @@ export default function PartnershipRequestForm() {
           variants={staggerContainer}
           className="flex flex-col text-center mb-14 gap-4"
         >
-          <motion.p variants={fadeUp} className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E]">
+          <motion.p variants={fadeUp} className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E]">
             Become a Partner
           </motion.p>
           <motion.h2 variants={fadeUp} className="font-serif text-[clamp(2rem,3.5vw,2.8rem)] font-normal leading-[1.1] text-[#1C1C1C]">
@@ -58,7 +58,7 @@ export default function PartnershipRequestForm() {
             </h3>
             {partnerState.status === 'success' ? (
               <div role="status" className="flex flex-col gap-3">
-                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E]">Request received</p>
+                <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E]">Request received</p>
                 <h4 className="text-[20px] font-bold text-[#1C1C1C]">Thank you</h4>
                 <p className="text-[14px] text-[#555555] leading-relaxed">
                   We&apos;ll get back to you within one business day to discuss the details.
@@ -69,10 +69,11 @@ export default function PartnershipRequestForm() {
               <Honeypot />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="pr-company" className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Company Name</label>
+                  <label htmlFor="pr-company" className="text-[12px] font-bold tracking-wide uppercase text-[#5A5A5A]">Company Name</label>
                   <input
                     id="pr-company"
                     name="companyName"
+                    defaultValue={partnerState.values?.companyName}
                     type="text"
                     required
                     autoComplete="organization"
@@ -82,10 +83,11 @@ export default function PartnershipRequestForm() {
                   <FieldError messages={partnerState.errors?.companyName} />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="pr-name" className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Contact Person</label>
+                  <label htmlFor="pr-name" className="text-[12px] font-bold tracking-wide uppercase text-[#5A5A5A]">Contact Person</label>
                   <input
                     id="pr-name"
                     name="name"
+                    defaultValue={partnerState.values?.name}
                     type="text"
                     required
                     autoComplete="name"
@@ -99,10 +101,11 @@ export default function PartnershipRequestForm() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <PhoneField id="pr-phone" name="phone" label="Phone Number" required error={partnerState.errors?.phone} defaultValue={partnerState.values?.phone} />
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="pr-email" className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Email Address</label>
+                  <label htmlFor="pr-email" className="text-[12px] font-bold tracking-wide uppercase text-[#5A5A5A]">Email Address</label>
                   <input
                     id="pr-email"
                     name="email"
+                    defaultValue={partnerState.values?.email}
                     type="email"
                     required
                     autoComplete="email"
@@ -114,11 +117,13 @@ export default function PartnershipRequestForm() {
               </div>
 
               <div className="flex flex-col gap-1">
-                <label htmlFor="pr-details" className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Project Details / Venue Description</label>
+                <label htmlFor="pr-details" className="text-[12px] font-bold tracking-wide uppercase text-[#5A5A5A]">Project Details / Venue Description</label>
                 <textarea
                   id="pr-details"
                   name="details"
+                  defaultValue={partnerState.values?.details}
                   placeholder="Tell us about your venue, typical volume, or specific event needs..."
+                  maxLength={2000}
                   rows={4}
                   className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors resize-none rounded-none"
                 />
@@ -177,7 +182,7 @@ export default function PartnershipRequestForm() {
             <form action={callAction} className="flex flex-col gap-6">
               <Honeypot />
               <div className="flex flex-col gap-1">
-                <label htmlFor="cb-name" className="text-[11px] font-bold tracking-wide uppercase text-[#6B6B6B]">Your Name</label>
+                <label htmlFor="cb-name" className="text-[12px] font-bold tracking-wide uppercase text-[#6B6B6B]">Your Name</label>
                 <input
                   id="cb-name"
                   name="name"
@@ -197,7 +202,7 @@ export default function PartnershipRequestForm() {
                   required
                   error={callState.errors?.phone}
                   defaultValue={callState.values?.phone}
-                  labelClassName="text-[11px] font-bold tracking-wide uppercase text-[#8A8A8A]"
+                  labelClassName="text-[12px] font-bold tracking-wide uppercase text-[#8A8A8A]"
                   className="w-full bg-transparent border-b border-[#333333] py-2 text-[14px] text-[#FDFDFD] placeholder:text-[#8A8A8A] focus:outline-none focus:border-[#FDFDFD] transition-colors rounded-none"
                 />
 
@@ -228,7 +233,7 @@ export default function PartnershipRequestForm() {
                 >
                   We Will Call You Back
                 </SubmitButton>
-                <p className="text-[10px] text-[#5A5A5A] leading-relaxed mt-2 text-center">
+                <p className="text-[12px] text-[#5A5A5A] leading-relaxed mt-2 text-center">
                   By submitting this form you agree to our{' '}
                   <a href="/privacy" className="text-[#6B6B6B] hover:text-[#8A6A2E] transition-colors underline underline-offset-4">
                     Privacy Policy

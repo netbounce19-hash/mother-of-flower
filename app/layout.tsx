@@ -5,6 +5,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { Providers } from '@/components/providers/Providers';
 import CartSidebar from '@/components/cart/CartSidebar';
+import CartAnnouncer from '@/components/cart/CartAnnouncer';
 import { site } from '@/lib/site';
 
 const playfair = Playfair_Display({
@@ -73,10 +74,14 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
         />
+        {/* First thing in the tab order: jump past the header on every page. */}
+        <a href="#main" className="skip-link">Skip to content</a>
+
         <Providers>
           <Navbar />
           <CartSidebar />
-          <main>{children}</main>
+          <CartAnnouncer />
+          <main id="main" tabIndex={-1}>{children}</main>
           <Footer />
         </Providers>
       </body>

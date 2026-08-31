@@ -35,21 +35,21 @@ export default function LocationSection() {
               style={{ gap: 28, padding: '40px 40px' }}
             >
               <div className="flex flex-col gap-1">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E] mb-2">Address</p>
+                <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E] mb-2">Address</p>
                 <p className="text-[14px] font-medium text-[#1C1C1C] leading-relaxed">
                   {site.address.line1}<br />{site.address.line2}
                 </p>
               </div>
 
               <div className="flex flex-col gap-1">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E] mb-2">Hours</p>
+                <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E] mb-2">Hours</p>
                 <p className="text-[14px] font-medium text-[#1C1C1C] leading-relaxed">
                   {site.hours.display}
                 </p>
               </div>
 
               <div className="flex flex-col gap-1">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E] mb-2">Contact</p>
+                <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E] mb-2">Contact</p>
                 <a
                   href={site.phone.href}
                   className="text-[14px] font-medium text-[#1C1C1C] hover:text-[#8A6A2E] transition-colors"
@@ -68,7 +68,7 @@ export default function LocationSection() {
                 href={site.address.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center mt-2 border border-[#1C1C1C] text-[#1C1C1C] text-[11px] font-bold uppercase tracking-[0.1em] px-7 py-3 rounded-[2px] hover:bg-[#1C1C1C] hover:text-[#FDFDFD] transition-colors duration-300 w-fit"
+                className="inline-flex items-center justify-center mt-2 border border-[#1C1C1C] text-[#1C1C1C] text-[12px] font-bold uppercase tracking-[0.1em] px-7 py-3 rounded-[2px] hover:bg-[#1C1C1C] hover:text-[#FDFDFD] transition-colors duration-300 w-fit"
               >
                 Get Directions
               </a>

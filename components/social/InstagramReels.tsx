@@ -69,7 +69,7 @@ function PostCard({
         />
       )}
 
-      <span className="absolute inset-0 bg-gradient-to-t from-[#1C1C1C]/70 via-transparent to-transparent" />
+      <span className="absolute inset-0 bg-gradient-to-t from-[#1C1C1C]/90 via-[#1C1C1C]/25 to-transparent" />
 
       <span className="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#FDFDFD]/85 flex items-center justify-center">
         <Play size={13} strokeWidth={2} className="ml-0.5 text-[#1C1C1C]" aria-hidden="true" />

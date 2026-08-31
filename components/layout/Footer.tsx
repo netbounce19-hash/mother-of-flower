@@ -18,7 +18,7 @@ export default function Footer() {
                 Mother of Flower
               </span>
               <div style={{ height: '1px', width: '100%', backgroundColor: '#1C1C1C', margin: '6px 0', opacity: 0.2 }} />
-              <span style={{ fontFamily: 'var(--font-sans)', fontSize: 9, fontWeight: 500, letterSpacing: '0.3em', color: '#5A5A5A', textTransform: 'uppercase' }}>
+              <span style={{ fontFamily: 'var(--font-sans)', fontSize: 12, fontWeight: 500, letterSpacing: '0.3em', color: '#5A5A5A', textTransform: 'uppercase' }}>
                 Las Vegas
               </span>
             </Link>
@@ -29,7 +29,7 @@ export default function Footer() {
 
           {/* Links */}
           <div className="flex flex-col gap-3 md:items-center">
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#6B6B6B] mb-1">Explore</p>
+            <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-[#6B6B6B] mb-1">Explore</p>
             {[
               { label: 'Collections', href: '/catalog' },
               { label: 'Occasions', href: '/#occasions' },
@@ -49,7 +49,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div className="flex flex-col gap-3 md:items-end">
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#6B6B6B] mb-1">Get in Touch</p>
+            <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-[#6B6B6B] mb-1">Get in Touch</p>
             <a
               href={`mailto:${site.email}`}
               className="text-[13px] text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
@@ -69,7 +69,7 @@ export default function Footer() {
                 href={site.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
+                className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
               >
                 Instagram
               </a>
@@ -80,7 +80,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-[#E5E2DB] py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[11px] text-[#6B6B6B] tracking-wide">
+          <p className="text-[12px] text-[#6B6B6B] tracking-wide">
             © {year} MotherOfFlower. All rights reserved.
           </p>
           <div className="flex gap-6">
@@ -92,7 +92,7 @@ export default function Footer() {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-[11px] text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
+                className="text-[12px] text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors duration-200 no-underline"
               >
                 {item.label}
               </a>

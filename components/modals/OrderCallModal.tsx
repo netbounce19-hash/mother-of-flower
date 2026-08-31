@@ -88,17 +88,18 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
               {!submitted ? (
                 <>
                   <div style={{ marginBottom: 32, borderBottom: '1px solid #E5E2DB', paddingBottom: 24 }}>
-                    <p style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6B6B6B', marginBottom: 6 }}>Contact Us</p>
+                    <p style={{ fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6B6B6B', marginBottom: 6 }}>Contact Us</p>
                     <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 22, fontWeight: 700, color: '#1C1C1C', lineHeight: 1.2 }}>We will call you back</h3>
                   </div>
 
                   <form action={formAction} className="flex flex-col gap-6">
                     <Honeypot />
                     <div className="flex flex-col gap-1">
-                      <label htmlFor="oc-name" className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Name <span className="text-[#8A6A2E]">*</span></label>
+                      <label htmlFor="oc-name" className="text-[12px] font-bold tracking-wide uppercase text-[#5A5A5A]">Name <span className="text-[#8A6A2E]">*</span></label>
                       <input
                         id="oc-name"
                         name="name"
+                        defaultValue={state.values?.name}
                         type="text"
                         required
                         autoComplete="name"
@@ -111,7 +112,7 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
                     <PhoneField id="oc-phone" name="phone" label="Phone Number" required error={state.errors?.phone} defaultValue={state.values?.phone} />
 
                     <div className="flex flex-col gap-3 mt-2">
-                      <p className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Prefer WhatsApp? (Optional)</p>
+                      <p className="text-[12px] font-bold tracking-wide uppercase text-[#5A5A5A]">Prefer WhatsApp? (Optional)</p>
                       
                       <label className="flex items-center gap-3 cursor-pointer group w-fit">
                         <div className={`w-4 h-4 flex items-center justify-center transition-colors ${whatsapp ? 'bg-[#1C1C1C] border-[#1C1C1C]' : 'border border-[#D1D1D1] bg-transparent group-hover:border-[#8A8A8A]'}`}>
@@ -161,7 +162,7 @@ export default function OrderCallModal({ isOpen, onClose }: OrderCallModalProps)
                       Order a call
                     </SubmitButton>
 
-                    <p className="text-[11px] text-[#6B6B6B] mt-2 leading-relaxed">
+                    <p className="text-[12px] text-[#6B6B6B] mt-2 leading-relaxed">
                       By submitting this form you agree to our{' '}
                       <a href="/privacy" className="text-[#1C1C1C] hover:text-[#8A6A2E] transition-colors underline decoration-[#E5E2DB] hover:decoration-[#C9A96E] underline-offset-4">
                         Privacy Policy
