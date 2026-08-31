@@ -12,7 +12,7 @@ import { useOverlay } from '@/hooks/useOverlay';
 const navLinks = [
   { label: 'Collections', href: '/catalog' },
   { label: 'Weddings', href: '/catalog?category=Wedding+Bouquets' },
-  { label: 'Partnerships', href: '/sotrud' },
+  { label: 'Partnerships', href: '/partnerships' },
   { label: 'Occasions', href: '/#occasions' },
   { label: 'Contact', href: '/contact' },
 ];

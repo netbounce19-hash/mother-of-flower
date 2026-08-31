@@ -6,15 +6,15 @@ import PartnershipRequestForm from '@/components/contact/PartnershipRequestForm'
 export const metadata: Metadata = {
   title: 'Partnerships — Mother of Flower',
   description: 'Partner with Mother of Flower — luxury floral services for hotels, event planners, and businesses in Las Vegas.',
-  alternates: { canonical: '/sotrud' },
+  alternates: { canonical: '/partnerships' },
   openGraph: {
     title: 'Partnerships — Mother of Flower',
     description: 'Luxury floral services for hotels, event planners and businesses in Las Vegas.',
-    url: '/sotrud',
+    url: '/partnerships',
   },
 };
 
-export default function SotrudPage() {
+export default function PartnershipsPage() {
   return (
     // No <main> here — the root layout already provides one.
     <div className="flex min-h-screen flex-col items-center justify-between">

@@ -5,6 +5,7 @@ import { motion, Variants } from 'framer-motion';
 import { submitCallRequest, submitPartnership } from '@/app/actions/submissions';
 import { initialFormState } from '@/lib/form-state';
 import { FieldError, Honeypot, SubmitButton } from '@/components/forms/FormBits';
+import PhoneField from '@/components/forms/PhoneField';
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -96,19 +97,7 @@ export default function PartnershipRequestForm() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex flex-col gap-1">
-                  <label htmlFor="pr-phone" className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Phone Number</label>
-                  <input
-                    id="pr-phone"
-                    name="phone"
-                    type="tel"
-                    required
-                    autoComplete="tel"
-                    placeholder="+1 (555) 000-0000"
-                    className="w-full bg-transparent border-b border-[#D1D1D1] py-2 text-[14px] text-[#1C1C1C] placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1C1C1C] hover:border-[#8A8A8A] transition-colors rounded-none"
-                  />
-                  <FieldError messages={partnerState.errors?.phone} />
-                </div>
+                <PhoneField id="pr-phone" name="phone" label="Phone Number" required error={partnerState.errors?.phone} defaultValue={partnerState.values?.phone} />
                 <div className="flex flex-col gap-1">
                   <label htmlFor="pr-email" className="text-[11px] font-bold tracking-wide uppercase text-[#5A5A5A]">Email Address</label>
                   <input
@@ -201,19 +190,16 @@ export default function PartnershipRequestForm() {
                 <FieldError messages={callState.errors?.name} />
               </div>
 
-              <div className="flex flex-col gap-1">
-                <label htmlFor="cb-phone" className="text-[11px] font-bold tracking-wide uppercase text-[#6B6B6B]">Phone Number</label>
-                <input
+              <PhoneField
                   id="cb-phone"
                   name="phone"
-                  type="tel"
+                  label="Phone Number"
                   required
-                  autoComplete="tel"
-                  placeholder="+1 (555) 000-0000"
-                  className="w-full bg-transparent border-b border-[#333333] py-2 text-[14px] text-[#FDFDFD] placeholder:text-[#5A5A5A] focus:outline-none focus:border-[#FDFDFD] hover:border-[#8A8A8A] transition-colors rounded-none"
+                  error={callState.errors?.phone}
+                  defaultValue={callState.values?.phone}
+                  labelClassName="text-[11px] font-bold tracking-wide uppercase text-[#8A8A8A]"
+                  className="w-full bg-transparent border-b border-[#333333] py-2 text-[14px] text-[#FDFDFD] placeholder:text-[#8A8A8A] focus:outline-none focus:border-[#FDFDFD] transition-colors rounded-none"
                 />
-                <FieldError messages={callState.errors?.phone} />
-              </div>
 
               {callState.status === 'error' && !callState.errors && (
                 <p role="alert" className="text-[#E8A5A5] text-[12px]">{callState.message}</p>

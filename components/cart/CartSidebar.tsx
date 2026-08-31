@@ -8,7 +8,9 @@ import { useCart } from '@/contexts/CartContext';
 import { submitOrder } from '@/app/actions/submissions';
 import { initialFormState } from '@/lib/form-state';
 import { DELIVERY_FEE, TAX_RATE } from '@/lib/pricing';
+import { DELIVERY_WINDOWS, formatShopDate } from '@/lib/delivery';
 import { FieldError, Honeypot, SubmitButton } from '@/components/forms/FormBits';
+import { formatUsPhone } from '@/components/forms/PhoneField';
 import { useOverlay } from '@/hooks/useOverlay';
 
 interface FieldProps {
@@ -19,12 +21,17 @@ interface FieldProps {
   required?: boolean;
   isTextArea?: boolean;
   error?: string[];
+  autoComplete?: string;
+  defaultValue?: string;
 }
 
 /** Uncontrolled — values are read from FormData when the order is submitted. */
-function FloatingInput({ id, name, label, type = 'text', required, isTextArea, error }: FieldProps) {
+function FloatingInput({ id, name, label, type = 'text', required, isTextArea, error, autoComplete, defaultValue }: FieldProps) {
   const [focused, setFocused] = useState(false);
-  const [hasValue, setHasValue] = useState(false);
+  const isPhone = type === 'tel';
+  // Phone fields are controlled so the mask can be applied as you type.
+  const [phone, setPhone] = useState(isPhone ? formatUsPhone(defaultValue ?? '') : '');
+  const [hasValue, setHasValue] = useState(Boolean(defaultValue));
   const lifted = focused || hasValue;
 
   return (
@@ -51,6 +58,8 @@ function FloatingInput({ id, name, label, type = 'text', required, isTextArea, e
           id={id}
           name={name}
           required={required}
+          defaultValue={defaultValue}
+          maxLength={1000}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           onChange={(e) => setHasValue(e.target.value.length > 0)}
@@ -68,9 +77,18 @@ function FloatingInput({ id, name, label, type = 'text', required, isTextArea, e
           name={name}
           type={type}
           required={required}
+          autoComplete={autoComplete}
+          inputMode={isPhone ? 'tel' : undefined}
+          placeholder={isPhone ? '+1 (725) 224-2454' : undefined}
+          {...(isPhone
+            ? { value: phone }
+            : { defaultValue })}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          onChange={(e) => setHasValue(e.target.value.length > 0)}
+          onChange={(e) => {
+            if (isPhone) setPhone(formatUsPhone(e.target.value));
+            setHasValue(e.target.value.length > 0);
+          }}
           style={{
             width: '100%', backgroundColor: 'transparent', border: 'none',
             borderBottom: `1px solid ${focused ? '#1C1C1C' : '#E5E2DB'}`,
@@ -87,6 +105,7 @@ function FloatingInput({ id, name, label, type = 'text', required, isTextArea, e
 export default function CartSidebar() {
   const { isCartOpen, setIsCartOpen, items, updateQuantity, removeFromCart, cartTotal, clearCart } = useCart();
   const [shippingMethod, setShippingMethod] = useState<'delivery' | 'pickup'>('delivery');
+  const [sameAsRecipient, setSameAsRecipient] = useState(false);
   const [state, formAction] = useActionState(submitOrder, initialFormState);
 
   const shippingCost = shippingMethod === 'delivery' ? DELIVERY_FEE : 0;
@@ -101,7 +120,9 @@ export default function CartSidebar() {
     size: item.size,
     boxColor: item.boxColor,
     quantity: item.quantity,
-    unitPrice: item.product.price,
+    unitPrice: item.unitPrice,
+    deliveryDate: item.deliveryDate,
+    deliveryWindow: item.deliveryWindow,
   }));
 
   const placed = state.status === 'success';
@@ -207,12 +228,17 @@ export default function CartSidebar() {
                           <div className="flex justify-between items-start gap-4 mb-2">
                             <h3 className="font-serif text-[20px] leading-tight" style={{ color: '#1C1C1C' }}>{item.product.name}</h3>
                             <p className="font-sans text-[14px] whitespace-nowrap mt-1" style={{ color: '#1C1C1C' }}>
-                              ${(item.product.price * item.quantity).toLocaleString()}
+                              ${(item.unitPrice * item.quantity).toLocaleString()}
                             </p>
                           </div>
                           <p className="text-[12px] mb-1" style={{ color: '#6B6B6B' }}>Size: {item.size}</p>
                           <p className="text-[12px] mb-1" style={{ color: '#6B6B6B' }}>Box: {item.boxColor}</p>
-                          <p className="text-[12px]" style={{ color: '#6B6B6B' }}>Delivery: {item.date === 'tomorrow' ? 'Tomorrow' : 'Scheduled'}</p>
+                          <p className="text-[12px]" style={{ color: '#6B6B6B' }}>
+                            {shippingMethod === 'pickup' ? 'Pickup' : 'Delivery'}: {formatShopDate(item.deliveryDate)}
+                            {shippingMethod === 'delivery' && item.deliveryWindow
+                              ? `, ${DELIVERY_WINDOWS.find((w) => w.key === item.deliveryWindow)?.label ?? item.deliveryWindow}`
+                              : ''}
+                          </p>
                           
                           <div className="flex items-center justify-between mt-auto">
                             <div className="flex items-center border border-[#E5E2DB] rounded-full px-2 py-1">
@@ -285,16 +311,53 @@ export default function CartSidebar() {
 
                   <div className="h-px w-full bg-[#E5E2DB]" />
 
+                  {/* Buyer's own details — this is who we call to confirm. */}
+                  <div className="flex flex-col gap-6">
+                    <h3 className="font-sans text-[11px] tracking-[0.2em] uppercase" style={{ color: '#1C1C1C' }}>Your Contact Details</h3>
+                    <div className="flex flex-col gap-4">
+                      <FloatingInput id="c-cust-name" name="customerName" defaultValue={state.values?.customerName} label="Your Name" autoComplete="name" error={state.errors?.customerName} required />
+                      <FloatingInput id="c-cust-phone" name="customerPhone" defaultValue={state.values?.customerPhone} label="Your Phone Number" type="tel" autoComplete="tel" error={state.errors?.customerPhone} required />
+                      <FloatingInput id="c-cust-email" name="customerEmail" defaultValue={state.values?.customerEmail} label="Your Email" type="email" autoComplete="email" error={state.errors?.customerEmail} required />
+                    </div>
+
+                    <label className="flex items-center gap-3 cursor-pointer w-fit">
+                      <input
+                        type="checkbox"
+                        name="sameAsRecipient"
+                        key={`same-${state.status}-${state.values?.sameAsRecipient ?? ''}`}
+                        checked={sameAsRecipient}
+                        onChange={(e) => setSameAsRecipient(e.target.checked)}
+                        className="w-4 h-4 accent-[#1C1C1C]"
+                      />
+                      <span className="text-[13px]" style={{ color: '#333333' }}>
+                        I am the recipient
+                      </span>
+                    </label>
+                  </div>
+
+                  <div className="h-px w-full bg-[#E5E2DB]" />
+
                   {/* Recipient Details */}
                   <div className="flex flex-col gap-6">
-                    <h3 className="font-sans text-[11px] tracking-[0.2em] uppercase" style={{ color: '#1C1C1C' }}>Recipient Details</h3>
+                    <h3 className="font-sans text-[11px] tracking-[0.2em] uppercase" style={{ color: '#1C1C1C' }}>
+                      {sameAsRecipient ? 'Delivery Details' : 'Recipient Details'}
+                    </h3>
                     <div className="flex flex-col gap-4">
-                      <FloatingInput id="c-name" name="recipientName" label="Recipient Name" error={state.errors?.recipientName} required />
-                      <FloatingInput id="c-phone" name="recipientPhone" label="Recipient Phone Number" type="tel" error={state.errors?.recipientPhone} required />
-                      {shippingMethod === 'delivery' && (
-                        <FloatingInput id="c-address" name="address" label="Delivery Address (Las Vegas Area)" error={state.errors?.address} isTextArea required />
+                      {/*
+                        When the buyer is the recipient we drop these two rather
+                        than mirror them into disabled inputs: the server copies
+                        the customer values across, so the two can never drift.
+                      */}
+                      {!sameAsRecipient && (
+                        <>
+                          <FloatingInput id="c-name" name="recipientName" defaultValue={state.values?.recipientName} label="Recipient Name" error={state.errors?.recipientName} required />
+                          <FloatingInput id="c-phone" name="recipientPhone" defaultValue={state.values?.recipientPhone} label="Recipient Phone Number" type="tel" error={state.errors?.recipientPhone} required />
+                        </>
                       )}
-                      <FloatingInput id="c-message" name="cardMessage" label="Card Message (Optional)" isTextArea />
+                      {shippingMethod === 'delivery' && (
+                        <FloatingInput id="c-address" name="address" defaultValue={state.values?.address} label="Delivery Address (Las Vegas Area)" error={state.errors?.address} isTextArea required />
+                      )}
+                      <FloatingInput id="c-message" name="cardMessage" defaultValue={state.values?.cardMessage} label="Card Message (Optional)" isTextArea />
                     </div>
                   </div>
                 </div>
@@ -334,7 +397,9 @@ export default function CartSidebar() {
                 </SubmitButton>
 
                 <p className="text-[11px] mt-3 leading-relaxed text-center" style={{ color: '#6B6B6B' }}>
-                  No payment is taken now — we confirm availability by phone first.
+                  {/* TODO(payments): swap for the provider's checkout once connected. */}
+                  No payment is taken on this site. We confirm availability by phone,
+                  then agree the payment method with you.
                 </p>
               </div>
             )}

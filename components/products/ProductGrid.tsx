@@ -2,14 +2,10 @@
 
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import { products } from '@/data/products';
-import { Product } from '@/types';
 import ProductCard from './ProductCard';
 import { RotateCcw, Sparkles } from 'lucide-react';
-
-interface ProductGridProps {
-  onProductClick: (product: Product) => void;
-}
 
 // Exact prices extracted from the user screenshot
 const EXACT_PRICES = [
@@ -18,7 +14,7 @@ const EXACT_PRICES = [
   600, 650, 700, 750, 800,
 ];
 
-export default function ProductGrid({ onProductClick }: ProductGridProps) {
+export default function ProductGrid() {
   const [selectedPrice, setSelectedPrice] = useState<number | null>(null);
 
   const displayedProducts = useMemo(() => {
@@ -152,7 +148,7 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
               style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '40px' }}
             >
               {displayedProducts.map((product, i) => (
-                <ProductCard key={product.id} product={product} index={i} onClick={onProductClick} />
+                <ProductCard key={product.id} product={product} index={i} />
               ))}
 
               {/* View Full Catalog Tile */}
@@ -164,7 +160,7 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
                 className="flex items-center justify-center w-full"
                 style={{ minHeight: '100%' }}
               >
-                <a
+                <Link
                   href="/catalog"
                   className="inline-flex items-center justify-center transition-all duration-300 w-fit group"
                   style={{
@@ -189,7 +185,7 @@ export default function ProductGrid({ onProductClick }: ProductGridProps) {
                   }}
                 >
                   View Full Catalog
-                </a>
+                </Link>
               </motion.div>
             </motion.div>
           )}

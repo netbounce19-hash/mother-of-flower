@@ -47,6 +47,13 @@ export const site = {
     instagram: 'https://www.instagram.com/mother_of_flower/',
   },
 
+  /**
+   * WhatsApp uses the same line as the phone number. There is no Telegram
+   * account yet, so the second button is a plain call instead of a dead link.
+   * TODO(contact): add `telegram: 'https://t.me/<handle>'` once one exists.
+   */
+  whatsapp: 'https://wa.me/17252242454',
+
   /** Cut-off for same-day delivery, referenced in the partnerships copy. */
   sameDayCutoff: '2 PM',
 } as const;

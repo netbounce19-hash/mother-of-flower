@@ -1,157 +1,158 @@
 'use client';
 
-import { useState, useMemo, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronUp, Search, SlidersHorizontal, X, RotateCcw } from 'lucide-react';
+import { Suspense, useCallback, useMemo, useState } from 'react';
+import Link from 'next/link';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronDown, RotateCcw, Search, SlidersHorizontal, X } from 'lucide-react';
 import { products } from '@/data/products';
-import { Product } from '@/types';
 import ProductCard from '@/components/products/ProductCard';
-import ProductModal from '@/components/products/ProductModal';
+import CatalogFilters, { CatalogFilterState } from '@/components/catalog/CatalogFilters';
+import { catalogFacets } from '@/lib/catalog';
+import { useOverlay } from '@/hooks/useOverlay';
 
-// Categories matching luxury florist standards & user requests
-const CATEGORIES = [
-  'All Bouquets',
-  'Wedding Bouquets',
-  'Bouquets',
-  'Bouquets in Vases',
-  'Ceremony Decor',
-  'Custom Packages',
-  'Sympathy Arrangements',
-];
+type SortKey = 'featured' | 'price-asc' | 'price-desc' | 'name';
 
-// Exact prices extracted from the user screenshot
-const EXACT_PRICES = [
-  120, 150, 160, 170, 200, 220, 250, 270, 290,
-  320, 350, 370, 400, 450, 500, 530, 550, 570,
-  600, 650, 700, 750, 800,
-];
+const SORT_LABELS: Record<SortKey, string> = {
+  featured: 'Sort: Curated / Featured',
+  'price-asc': 'Price: Low to High',
+  'price-desc': 'Price: High to Low',
+  name: 'Name: A to Z',
+};
 
-// Price Range Tiers
-const PRICE_TIERS = [
-  { label: 'All Prices', min: 0, max: Infinity },
-  { label: 'Under $200', min: 0, max: 199 },
-  { label: '$200 – $400', min: 200, max: 400 },
-  { label: '$400 – $600', min: 401, max: 600 },
-  { label: '$600+', min: 601, max: Infinity },
-];
-
-const COLORS = [
-  { name: 'White', hex: '#FFFFFF', border: '#E5E2DB' },
-  { name: 'Pink', hex: '#EC4899', border: 'transparent' },
-  { name: 'Red', hex: '#DC2626', border: 'transparent' },
-  { name: 'Beige', hex: '#F5E6D3', border: 'transparent' },
-  { name: 'Blue', hex: '#3B82F6', border: 'transparent' },
-  { name: 'Gray', hex: '#A3A3A3', border: 'transparent' },
-];
+/** Options are derived from the catalogue, never hardcoded. */
+const FACETS = catalogFacets();
 
 function CatalogContent() {
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const initialCategoryParam = searchParams.get('category');
-
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [categoriesOpen, setCategoriesOpen] = useState(true);
-  const [exactPriceOpen, setExactPriceOpen] = useState(true);
-  const [priceTiersOpen, setPriceTiersOpen] = useState(false);
-  const [coloursOpen, setColoursOpen] = useState(true);
 
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(initialCategoryParam);
-  const [selectedExactPrice, setSelectedExactPrice] = useState<number | null>(null);
-  const [selectedTierIndex, setSelectedTierIndex] = useState<number>(0);
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
-  const [sortBy, setSortBy] = useState<SortKey>('featured');
 
-  // Filter & Sort Logic
+  // ── Filter state lives in the URL ──────────────────────────────────────
+  // Reading from searchParams rather than useState means a filtered view can
+  // be copied and shared, Back undoes the last filter, and a reload keeps the
+  // selection. Previously only the incoming ?category was honoured.
+  const category = searchParams.get('category');
+  const color = searchParams.get('color');
+  const search = searchParams.get('q') ?? '';
+  const sortParam = searchParams.get('sort');
+  const sortBy: SortKey = (sortParam && sortParam in SORT_LABELS ? sortParam : 'featured') as SortKey;
+  const priceFrom = Number(searchParams.get('from') ?? FACETS.priceMin);
+  const priceTo = Number(searchParams.get('to') ?? FACETS.priceMax);
+
+  const filterState: CatalogFilterState = { category, color, priceFrom, priceTo };
+
+  const setParams = useCallback(
+    (patch: Record<string, string | null>) => {
+      const next = new URLSearchParams(searchParams.toString());
+      for (const [key, value] of Object.entries(patch)) {
+        if (value === null || value === '') next.delete(key);
+        else next.set(key, value);
+      }
+      const query = next.toString();
+      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    },
+    [pathname, router, searchParams]
+  );
+
+  const handleFilterChange = useCallback(
+    (patch: Partial<CatalogFilterState>) => {
+      setParams({
+        ...('category' in patch ? { category: patch.category ?? null } : {}),
+        ...('color' in patch ? { color: patch.color ?? null } : {}),
+        ...('priceFrom' in patch
+          ? { from: patch.priceFrom === FACETS.priceMin ? null : String(patch.priceFrom) }
+          : {}),
+        ...('priceTo' in patch
+          ? { to: patch.priceTo === FACETS.priceMax ? null : String(patch.priceTo) }
+          : {}),
+      });
+    },
+    [setParams]
+  );
+
+  const resetAllFilters = useCallback(() => {
+    router.replace(pathname, { scroll: false });
+  }, [pathname, router]);
+
   const filteredProducts = useMemo(() => {
-    return products.filter((p) => {
-      // Search query
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchName = p.name.toLowerCase().includes(q);
-        const matchDesc = p.description.toLowerCase().includes(q);
-        const matchTag = p.tagline.toLowerCase().includes(q);
-        if (!matchName && !matchDesc && !matchTag) return false;
-      }
-
-      // Category
-      if (selectedCategory && selectedCategory !== 'All Bouquets') {
-        if (p.category !== selectedCategory) return false;
-      }
-
-      // Exact price filter
-      if (selectedExactPrice !== null) {
-        if (p.price !== selectedExactPrice) return false;
-      }
-
-      // Price tier filter (if exact price not selected)
-      if (selectedExactPrice === null && selectedTierIndex > 0) {
-        const tier = PRICE_TIERS[selectedTierIndex];
-        if (p.price < tier.min || p.price > tier.max) return false;
-      }
-
-      // Color filter
-      if (selectedColor) {
-        if (p.color && p.color.toLowerCase() !== selectedColor.toLowerCase()) {
-          return false;
+    return products
+      .filter((p) => {
+        if (search.trim()) {
+          const q = search.toLowerCase();
+          const hit =
+            p.name.toLowerCase().includes(q) ||
+            p.description.toLowerCase().includes(q) ||
+            p.tagline.toLowerCase().includes(q);
+          if (!hit) return false;
         }
-      }
-
-      return true;
-    }).sort((a, b) => {
-      if (sortBy === 'price-asc') return a.price - b.price;
-      if (sortBy === 'price-desc') return b.price - a.price;
-      if (sortBy === 'name') return a.name.localeCompare(b.name);
-      return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
-    });
-  }, [searchQuery, selectedCategory, selectedExactPrice, selectedTierIndex, selectedColor, sortBy]);
+        if (category && p.category !== category) return false;
+        if (color && (p.color ?? '').toLowerCase() !== color.toLowerCase()) return false;
+        if (p.price < priceFrom || p.price > priceTo) return false;
+        return true;
+      })
+      .sort((a, b) => {
+        if (sortBy === 'price-asc') return a.price - b.price;
+        if (sortBy === 'price-desc') return b.price - a.price;
+        if (sortBy === 'name') return a.name.localeCompare(b.name);
+        return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
+      });
+  }, [search, category, color, priceFrom, priceTo, sortBy]);
 
   const activeFiltersCount =
-    (selectedCategory && selectedCategory !== 'All Bouquets' ? 1 : 0) +
-    (selectedExactPrice !== null ? 1 : 0) +
-    (selectedTierIndex > 0 ? 1 : 0) +
-    (selectedColor ? 1 : 0) +
-    (searchQuery.trim() ? 1 : 0);
+    (category ? 1 : 0) +
+    (color ? 1 : 0) +
+    (priceFrom !== FACETS.priceMin || priceTo !== FACETS.priceMax ? 1 : 0) +
+    (search.trim() ? 1 : 0);
 
-  const resetAllFilters = () => {
-    setSelectedCategory(null);
-    setSelectedExactPrice(null);
-    setSelectedTierIndex(0);
-    setSelectedColor(null);
-    setSearchQuery('');
-  };
+  const drawerRef = useOverlay<HTMLDivElement>(mobileFilterOpen, () => setMobileFilterOpen(false));
 
   return (
     <div className="w-full min-h-screen bg-[#FAF8F4] pb-24" style={{ paddingTop: 130 }}>
       <div className="site-container">
 
+        {/* Breadcrumbs */}
+        <nav aria-label="Breadcrumb" className="mb-5">
+          <ol className="flex items-center gap-2 text-[12px] text-[#6B6B6B]">
+            <li>
+              <Link href="/" className="hover:text-[#1C1C1C] underline-offset-4 hover:underline">Home</Link>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page" className="text-[#1C1C1C] font-semibold">Collections</li>
+          </ol>
+        </nav>
+
         {/* Page Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-[#E5E2DB]">
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#8A6A2E] mb-2">
+            <p className="text-[12px] font-bold uppercase tracking-[0.25em] text-[#8A6A2E] mb-2">
               Bespoke Floristry · Las Vegas
             </p>
-            <h1 className="font-serif text-[clamp(2.4rem,4.5vw,3.6rem)] text-[#1C1C1C] leading-[1.08] font-normal">
+            {/* h2, not h1 — the page's single h1 lives in app/catalog/page.tsx */}
+            <h2 className="font-serif text-[clamp(2.4rem,4.5vw,3.6rem)] text-[#1C1C1C] leading-[1.08] font-normal">
               Curated Collections
-            </h1>
+            </h2>
           </div>
 
-          {/* Search bar & Sort Controls */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            {/* Search */}
             <div className="relative flex items-center min-w-[240px]">
-              <Search size={15} className="absolute left-3.5 text-[#6B6B6B] pointer-events-none" />
+              <Search size={15} className="absolute left-3.5 text-[#6B6B6B] pointer-events-none" aria-hidden="true" />
+              <label htmlFor="catalog-search" className="sr-only">Search bouquets</label>
               <input
-                type="text"
+                id="catalog-search"
+                type="search"
                 placeholder="Search bouquets or flowers..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-9 py-2.5 bg-[#FDFDFD] border border-[#E5E2DB] rounded-full text-[13px] text-[#1C1C1C] placeholder:text-[#999] focus:outline-none focus:border-[#1C1C1C] transition-colors"
+                value={search}
+                onChange={(e) => setParams({ q: e.target.value || null })}
+                className="w-full pl-10 pr-9 py-2.5 bg-[#FDFDFD] border border-[#E5E2DB] rounded-full text-[13px] text-[#1C1C1C] placeholder:text-[#6B6B6B] focus:outline-none focus:border-[#1C1C1C] transition-colors"
               />
-              {searchQuery && (
+              {search && (
                 <button
-                  onClick={() => setSearchQuery('')}
+                  type="button"
+                  aria-label="Clear search"
+                  onClick={() => setParams({ q: null })}
                   className="absolute right-3 text-[#6B6B6B] hover:text-[#1C1C1C]"
                 >
                   <X size={14} />
@@ -159,27 +160,27 @@ function CatalogContent() {
               )}
             </div>
 
-            {/* Sort Dropdown */}
             <div className="relative">
+              <label htmlFor="catalog-sort" className="sr-only">Sort bouquets</label>
               <select
+                id="catalog-sort"
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortKey)}
+                onChange={(e) => setParams({ sort: e.target.value === 'featured' ? null : e.target.value })}
                 className="w-full sm:w-auto appearance-none bg-[#FDFDFD] border border-[#E5E2DB] rounded-full px-5 py-2.5 pr-10 text-[13px] font-semibold text-[#1C1C1C] cursor-pointer focus:outline-none focus:border-[#1C1C1C]"
               >
-                <option value="featured">Sort: Curated / Featured</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-                <option value="name">Name: A to Z</option>
+                {(Object.keys(SORT_LABELS) as SortKey[]).map((key) => (
+                  <option key={key} value={key}>{SORT_LABELS[key]}</option>
+                ))}
               </select>
-              <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B6B6B] pointer-events-none" />
+              <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B6B6B] pointer-events-none" aria-hidden="true" />
             </div>
 
-            {/* Mobile Filter Toggle */}
             <button
+              type="button"
               onClick={() => setMobileFilterOpen(true)}
               className="lg:hidden flex items-center justify-center gap-2 bg-[#1C1C1C] text-[#FDFDFD] rounded-full px-5 py-2.5 text-[12px] font-bold uppercase tracking-wider"
             >
-              <SlidersHorizontal size={14} />
+              <SlidersHorizontal size={14} aria-hidden="true" />
               Filters {activeFiltersCount > 0 && `(${activeFiltersCount})`}
             </button>
           </div>
@@ -190,243 +191,59 @@ function CatalogContent() {
           <div className="flex items-center flex-wrap gap-2 py-4 border-b border-[#E5E2DB]">
             <span className="text-[12px] text-[#6B6B6B] font-medium mr-1">Active filters:</span>
 
-            {selectedCategory && selectedCategory !== 'All Bouquets' && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1C1C1C] text-[#FDFDFD] rounded-full text-[11px] font-semibold">
-                {selectedCategory}
-                <button onClick={() => setSelectedCategory(null)}><X size={12} /></button>
+            {category && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1C1C1C] text-[#FDFDFD] rounded-full text-[12px] font-semibold">
+                {category}
+                <button type="button" aria-label={`Remove ${category} filter`} onClick={() => setParams({ category: null })}><X size={12} /></button>
               </span>
             )}
 
-            {selectedExactPrice !== null && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C9A96E] text-[#FDFDFD] rounded-full text-[11px] font-semibold">
-                Price: ${selectedExactPrice}
-                <button onClick={() => setSelectedExactPrice(null)}><X size={12} /></button>
+            {(priceFrom !== FACETS.priceMin || priceTo !== FACETS.priceMax) && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1C1C1C] text-[#FDFDFD] rounded-full text-[12px] font-semibold">
+                ${priceFrom} – ${priceTo}
+                <button type="button" aria-label="Reset price range" onClick={() => setParams({ from: null, to: null })}><X size={12} /></button>
               </span>
             )}
 
-            {selectedExactPrice === null && selectedTierIndex > 0 && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1C1C1C] text-[#FDFDFD] rounded-full text-[11px] font-semibold">
-                {PRICE_TIERS[selectedTierIndex].label}
-                <button onClick={() => setSelectedTierIndex(0)}><X size={12} /></button>
+            {color && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1C1C1C] text-[#FDFDFD] rounded-full text-[12px] font-semibold">
+                Color: {color}
+                <button type="button" aria-label={`Remove ${color} filter`} onClick={() => setParams({ color: null })}><X size={12} /></button>
               </span>
             )}
 
-            {selectedColor && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1C1C1C] text-[#FDFDFD] rounded-full text-[11px] font-semibold">
-                Color: {selectedColor}
-                <button onClick={() => setSelectedColor(null)}><X size={12} /></button>
-              </span>
-            )}
-
-            {searchQuery && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1C1C1C] text-[#FDFDFD] rounded-full text-[11px] font-semibold">
-                &ldquo;{searchQuery}&rdquo;
-                <button onClick={() => setSearchQuery('')}><X size={12} /></button>
+            {search && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1C1C1C] text-[#FDFDFD] rounded-full text-[12px] font-semibold">
+                &ldquo;{search}&rdquo;
+                <button type="button" aria-label="Clear search" onClick={() => setParams({ q: null })}><X size={12} /></button>
               </span>
             )}
 
             <button
+              type="button"
               onClick={resetAllFilters}
-              className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-[#6B6B6B] hover:text-[#1C1C1C] ml-2 underline underline-offset-4"
+              className="inline-flex items-center gap-1 text-[12px] font-bold uppercase tracking-wider text-[#6B6B6B] hover:text-[#1C1C1C] ml-2 underline underline-offset-4"
             >
-              <RotateCcw size={11} /> Reset all
+              <RotateCcw size={11} aria-hidden="true" /> Reset all
             </button>
           </div>
         )}
 
         <div className="flex flex-col lg:flex-row gap-12 mt-8">
-
-          {/* Desktop Filter Sidebar */}
-          <aside className="hidden lg:flex w-[280px] flex-shrink-0 flex-col gap-6 lg:sticky lg:top-[120px] max-h-[calc(100vh-140px)] overflow-y-auto custom-scrollbar pr-3 pb-12">
-
-            {/* 1. Categories Accordion */}
-            <div className="border-b border-[#E5E2DB] pb-6">
-              <button
-                onClick={() => setCategoriesOpen(!categoriesOpen)}
-                className="w-full flex items-center justify-between text-[14px] font-bold uppercase tracking-wider text-[#1C1C1C] py-2"
-              >
-                Category
-                {categoriesOpen ? <ChevronUp size={15} color="#8A8A8A" /> : <ChevronDown size={15} color="#8A8A8A" />}
-              </button>
-
-              <AnimatePresence>
-                {categoriesOpen && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="flex flex-col gap-2.5 mt-3">
-                      {CATEGORIES.map((cat) => {
-                        const isSelected = selectedCategory === cat || (!selectedCategory && cat === 'All Bouquets');
-                        return (
-                          <button
-                            key={cat}
-                            onClick={() => setSelectedCategory(cat === 'All Bouquets' ? null : cat)}
-                            className={`text-left text-[14px] transition-colors flex items-center justify-between py-1 ${
-                              isSelected ? 'text-[#1C1C1C] font-bold' : 'text-[#666666] hover:text-[#1C1C1C] font-medium'
-                            }`}
-                          >
-                            <span>{cat}</span>
-                            {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-[#C9A96E]" />}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* 2. Exact Price Filter Accordion (From Screenshot: 120, 150, 200, 220, 320, 400, 650, 800...) */}
-            <div className="border-b border-[#E5E2DB] pb-6">
-              <div className="flex items-center justify-between py-2">
-                <button
-                  onClick={() => setExactPriceOpen(!exactPriceOpen)}
-                  className="flex-1 flex items-center justify-between text-[14px] font-bold uppercase tracking-wider text-[#1C1C1C]"
-                >
-                  <span>Filter by Exact Price</span>
-                  {exactPriceOpen ? <ChevronUp size={15} color="#8A8A8A" /> : <ChevronDown size={15} color="#8A8A8A" />}
-                </button>
-              </div>
-
-              <AnimatePresence>
-                {exactPriceOpen && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <p className="text-[11px] text-[#6B6B6B] mt-1 mb-3">
-                      Select specific bouquet budget:
-                    </p>
-                    <div className="grid grid-cols-3 gap-1.5">
-                      {EXACT_PRICES.map((price) => {
-                        const isSelected = selectedExactPrice === price;
-                        return (
-                          <button
-                            key={price}
-                            onClick={() => {
-                              setSelectedExactPrice(isSelected ? null : price);
-                              if (!isSelected) setSelectedTierIndex(0);
-                            }}
-                            className={`py-1.5 px-2 rounded-[3px] text-[12px] font-semibold transition-all text-center border ${
-                              isSelected
-                                ? 'bg-[#1C1C1C] text-[#FDFDFD] border-[#1C1C1C]'
-                                : 'bg-[#FDFDFD] text-[#444] border-[#E5E2DB] hover:border-[#1C1C1C] hover:text-[#1C1C1C]'
-                            }`}
-                          >
-                            ${price}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* 3. Price Tiers (Broad Brackets) */}
-            <div className="border-b border-[#E5E2DB] pb-6">
-              <button
-                onClick={() => setPriceTiersOpen(!priceTiersOpen)}
-                className="w-full flex items-center justify-between text-[14px] font-bold uppercase tracking-wider text-[#1C1C1C] py-2"
-              >
-                Price Range
-                {priceTiersOpen ? <ChevronUp size={15} color="#8A8A8A" /> : <ChevronDown size={15} color="#8A8A8A" />}
-              </button>
-
-              <AnimatePresence>
-                {priceTiersOpen && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="flex flex-col gap-2.5 mt-3">
-                      {PRICE_TIERS.map((tier, idx) => {
-                        const isSelected = selectedExactPrice === null && selectedTierIndex === idx;
-                        return (
-                          <button
-                            key={tier.label}
-                            onClick={() => {
-                              setSelectedTierIndex(idx);
-                              setSelectedExactPrice(null);
-                            }}
-                            className={`text-left text-[14px] transition-colors flex items-center justify-between py-1 ${
-                              isSelected ? 'text-[#1C1C1C] font-bold' : 'text-[#666666] hover:text-[#1C1C1C] font-medium'
-                            }`}
-                          >
-                            <span>{tier.label}</span>
-                            {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-[#C9A96E]" />}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* 4. Colour Accordion */}
-            <div className="border-b border-[#E5E2DB] pb-6">
-              <button
-                onClick={() => setColoursOpen(!coloursOpen)}
-                className="w-full flex items-center justify-between text-[14px] font-bold uppercase tracking-wider text-[#1C1C1C] py-2"
-              >
-                Palette / Colour
-                {coloursOpen ? <ChevronUp size={15} color="#8A8A8A" /> : <ChevronDown size={15} color="#8A8A8A" />}
-              </button>
-
-              <AnimatePresence>
-                {coloursOpen && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="flex flex-col gap-3 mt-4">
-                      {COLORS.map((col) => {
-                        const isSelected = selectedColor === col.name;
-                        return (
-                          <button
-                            key={col.name}
-                            onClick={() => setSelectedColor(isSelected ? null : col.name)}
-                            className="flex items-center gap-3 cursor-pointer group text-left"
-                          >
-                            <div
-                              className={`w-4 h-4 rounded-full border transition-all ${
-                                isSelected ? 'ring-2 ring-offset-2 ring-[#1C1C1C] scale-110' : ''
-                              }`}
-                              style={{
-                                backgroundColor: col.hex,
-                                borderColor: col.border !== 'transparent' ? col.border : col.hex,
-                              }}
-                            />
-                            <span className={`text-[14px] transition-colors ${
-                              isSelected ? 'text-[#1C1C1C] font-bold' : 'text-[#666] group-hover:text-[#1C1C1C]'
-                            }`}>
-                              {col.name}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
+          <aside
+            aria-label="Catalogue filters"
+            className="hidden lg:flex w-[280px] flex-shrink-0 flex-col gap-6 lg:sticky lg:top-[120px] max-h-[calc(100vh-140px)] overflow-y-auto custom-scrollbar pr-3 pb-12"
+          >
+            <CatalogFilters facets={FACETS} state={filterState} onChange={handleFilterChange} />
           </aside>
 
-          {/* Main Grid Section */}
-          <main className="flex-1">
+          <main id="main" className="flex-1">
             <div className="flex items-center justify-between mb-6">
-              <p className="text-[13px] font-semibold text-[#6B6B6B] uppercase tracking-wider">
+              {/* Announced to screen readers whenever the filters change. */}
+              <p
+                aria-live="polite"
+                className="text-[13px] font-semibold text-[#6B6B6B] uppercase tracking-wider"
+              >
                 Showing {filteredProducts.length} {filteredProducts.length === 1 ? 'Bouquet' : 'Bouquets'}
               </p>
             </div>
@@ -435,9 +252,11 @@ function CatalogContent() {
               <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-[#FDFDFD] border border-[#E5E2DB] rounded-[3px]">
                 <p className="font-serif text-[26px] text-[#1C1C1C] mb-2">No arrangements found</p>
                 <p className="text-[14px] text-[#6B6B6B] max-w-[400px] mb-6">
-                  We couldn&apos;t find bouquets matching your exact filters. Try choosing a different price or resetting filters.
+                  We couldn&apos;t find bouquets matching your filters. Try widening the
+                  price range or resetting them.
                 </p>
                 <button
+                  type="button"
                   onClick={resetAllFilters}
                   className="px-8 py-3 bg-[#1C1C1C] text-[#FDFDFD] text-[12px] font-bold uppercase tracking-wider rounded-[2px] hover:bg-[#C9A96E] transition-colors"
                 >
@@ -447,163 +266,98 @@ function CatalogContent() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-12">
                 {filteredProducts.map((product, i) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    index={i}
-                    onClick={setSelectedProduct}
-                  />
+                  <ProductCard key={product.id} product={product} index={i} />
                 ))}
               </div>
             )}
           </main>
-
         </div>
       </div>
 
-      {/* Mobile Filter Modal Drawer */}
+      {/* Mobile Filter Drawer */}
       <AnimatePresence>
         {mobileFilterOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setMobileFilterOpen(false)}
-              className="fixed inset-0 bg-[#1C1C1C]/50 backdrop-blur-sm z-[90] lg:hidden"
-            />
-            <motion.div
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '100%' }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed inset-x-0 bottom-0 top-[100px] bg-[#FDFDFD] rounded-t-2xl z-[100] flex flex-col lg:hidden shadow-2xl"
-            >
-              {/* Drawer Header */}
-              <div className="flex items-center justify-between p-5 border-b border-[#E5E2DB]">
-                <div className="flex items-center gap-2">
-                  <SlidersHorizontal size={16} />
-                  <span className="font-bold text-[16px] text-[#1C1C1C]">Filters &amp; Price</span>
-                </div>
-                <button
-                  onClick={() => setMobileFilterOpen(false)}
-                  className="p-2 rounded-full hover:bg-[#F7F5F2]"
-                >
-                  <X size={20} />
-                </button>
+          <motion.div
+            key="filter-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setMobileFilterOpen(false)}
+            className="fixed inset-0 bg-[#1C1C1C]/50 backdrop-blur-sm z-[90] lg:hidden"
+          />
+        )}
+
+        {mobileFilterOpen && (
+          <motion.div
+            key="filter-drawer"
+            ref={drawerRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Filters"
+            tabIndex={-1}
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-x-0 bottom-0 top-[100px] bg-[#FDFDFD] rounded-t-2xl z-[100] flex flex-col lg:hidden shadow-2xl"
+          >
+            <div className="flex items-center justify-between p-5 border-b border-[#E5E2DB]">
+              <div className="flex items-center gap-2">
+                <SlidersHorizontal size={16} aria-hidden="true" />
+                <span className="font-bold text-[16px] text-[#1C1C1C]">Filters &amp; Price</span>
               </div>
+              <button
+                type="button"
+                aria-label="Close filters"
+                onClick={() => setMobileFilterOpen(false)}
+                className="p-2 rounded-full hover:bg-[#F7F5F2]"
+              >
+                <X size={20} />
+              </button>
+            </div>
 
-              {/* Drawer Content (Scrollable) */}
-              <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+            <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+              <CatalogFilters
+                facets={FACETS}
+                state={filterState}
+                onChange={handleFilterChange}
+                variant="drawer"
+              />
+            </div>
 
-                {/* Categories */}
-                <div>
-                  <h3 className="text-[12px] font-bold uppercase tracking-wider text-[#6B6B6B] mb-3">Categories</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {CATEGORIES.map((cat) => {
-                      const isSelected = selectedCategory === cat || (!selectedCategory && cat === 'All Bouquets');
-                      return (
-                        <button
-                          key={cat}
-                          onClick={() => setSelectedCategory(cat === 'All Bouquets' ? null : cat)}
-                          className={`px-4 py-2 rounded-full text-[13px] font-semibold border transition-colors ${
-                            isSelected
-                              ? 'bg-[#1C1C1C] text-[#FDFDFD] border-[#1C1C1C]'
-                              : 'bg-[#FAF8F4] text-[#444] border-[#E5E2DB]'
-                          }`}
-                        >
-                          {cat}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Exact Price */}
-                <div>
-                  <h3 className="text-[12px] font-bold uppercase tracking-wider text-[#6B6B6B] mb-3">Exact Price ($)</h3>
-                  <div className="grid grid-cols-4 gap-2">
-                    {EXACT_PRICES.map((price) => {
-                      const isSelected = selectedExactPrice === price;
-                      return (
-                        <button
-                          key={price}
-                          onClick={() => {
-                            setSelectedExactPrice(isSelected ? null : price);
-                            if (!isSelected) setSelectedTierIndex(0);
-                          }}
-                          className={`py-2 text-[12px] font-bold rounded-md border text-center transition-colors ${
-                            isSelected
-                              ? 'bg-[#C9A96E] text-[#FDFDFD] border-[#C9A96E]'
-                              : 'bg-[#FAF8F4] text-[#444] border-[#E5E2DB]'
-                          }`}
-                        >
-                          ${price}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Color */}
-                <div>
-                  <h3 className="text-[12px] font-bold uppercase tracking-wider text-[#6B6B6B] mb-3">Color Palette</h3>
-                  <div className="flex flex-wrap gap-3">
-                    {COLORS.map((col) => {
-                      const isSelected = selectedColor === col.name;
-                      return (
-                        <button
-                          key={col.name}
-                          onClick={() => setSelectedColor(isSelected ? null : col.name)}
-                          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-[12px] font-semibold ${
-                            isSelected
-                              ? 'bg-[#1C1C1C] text-[#FDFDFD] border-[#1C1C1C]'
-                              : 'bg-[#FAF8F4] text-[#444] border-[#E5E2DB]'
-                          }`}
-                        >
-                          <div
-                            className="w-3 h-3 rounded-full border"
-                            style={{ backgroundColor: col.hex, borderColor: col.border !== 'transparent' ? col.border : col.hex }}
-                          />
-                          {col.name}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Drawer Footer */}
-              <div className="p-5 border-t border-[#E5E2DB] bg-[#FAF8F4] flex gap-3">
-                <button
-                  onClick={resetAllFilters}
-                  className="flex-1 py-3 border border-[#E5E2DB] text-[#1C1C1C] rounded-[3px] text-[12px] font-bold uppercase tracking-wider"
-                >
-                  Reset
-                </button>
-                <button
-                  onClick={() => setMobileFilterOpen(false)}
-                  className="flex-2 py-3 bg-[#1C1C1C] text-[#FDFDFD] rounded-[3px] text-[12px] font-bold uppercase tracking-wider"
-                >
-                  Show Results ({filteredProducts.length})
-                </button>
-              </div>
-            </motion.div>
-          </>
+            <div className="p-5 border-t border-[#E5E2DB] bg-[#FAF8F4] flex gap-3">
+              <button
+                type="button"
+                onClick={resetAllFilters}
+                className="flex-1 py-3 border border-[#E5E2DB] text-[#1C1C1C] rounded-[3px] text-[12px] font-bold uppercase tracking-wider"
+              >
+                Reset
+              </button>
+              <button
+                type="button"
+                onClick={() => setMobileFilterOpen(false)}
+                className="flex-[2] py-3 bg-[#1C1C1C] text-[#FDFDFD] rounded-[3px] text-[12px] font-bold uppercase tracking-wider"
+              >
+                Show Results ({filteredProducts.length})
+              </button>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
 
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
     </div>
   );
 }
 
-type SortKey = 'featured' | 'price-asc' | 'price-desc' | 'name';
-
 export default function CatalogBrowser() {
   return (
-    <Suspense fallback={<div className="w-full min-h-screen bg-[#FAF8F4] pt-32 text-center">Loading collection...</div>}>
+    <Suspense
+      fallback={
+        <div className="w-full min-h-screen bg-[#FAF8F4] pt-32 text-center text-[#6B6B6B]">
+          Loading collection…
+        </div>
+      }
+    >
       <CatalogContent />
     </Suspense>
   );

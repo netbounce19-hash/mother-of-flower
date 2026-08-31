@@ -12,6 +12,13 @@ export interface Product {
   images: string[];
   sizes: SizeOption[];
   boxColors: BoxColor[];
+  /**
+   * Per-product overrides for the global size multipliers in lib/pricing.
+   * Omitted on every product today, so the shared defaults apply.
+   */
+  sizePricing?: Partial<Record<SizeOption, number>>;
+  /** Per-product overrides for the global box surcharges (absolute USD). */
+  boxPricing?: Partial<Record<BoxColor, number>>;
   category?: string;
   color?: string;
   featured?: boolean;

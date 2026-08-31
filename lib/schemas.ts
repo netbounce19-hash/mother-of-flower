@@ -13,11 +13,37 @@ export type SubmissionType = (typeof SUBMISSION_TYPES)[number];
 
 const name = z.string().trim().min(2, 'Please enter a name').max(120);
 const email = z.email('Please enter a valid email address').max(200);
+/**
+ * Phone validation shared by every form. Orders are confirmed by a phone
+ * call, so a value like "abcdef" is a lost order, not a cosmetic issue.
+ * Accepts common US formatting and normalises to E.164 on the way through.
+ */
+export function normalisePhone(raw: string): string | null {
+  const digits = raw.replace(/[^\d+]/g, '');
+  const bare = digits.startsWith('+') ? digits.slice(1) : digits;
+  if (!/^\d+$/.test(bare)) return null;
+  if (bare.length === 10) return `+1${bare}`;            // 725 224 2454
+  if (bare.length === 11 && bare.startsWith('1')) return `+${bare}`;
+  if (bare.length >= 8 && bare.length <= 15) return `+${bare}`; // intl
+  return null;
+}
+
 const phone = z
   .string()
   .trim()
   .min(7, 'Please enter a valid phone number')
-  .max(40);
+  .max(40)
+  .transform((v, ctx) => {
+    const normalised = normalisePhone(v);
+    if (!normalised) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Please enter a valid phone number, e.g. +1 (725) 224-2454',
+      });
+      return z.NEVER;
+    }
+    return normalised;
+  });
 const optionalText = z.string().trim().max(2000).optional().or(z.literal(''));
 
 /**
@@ -36,7 +62,16 @@ export const callRequestSchema = z.object({
 
 export const customRequestSchema = z.object({
   name,
-  contact: z.string().trim().min(5, 'Please enter a phone number or email').max(200),
+  // Accepts either channel, but not free text: the studio replies to this.
+  contact: z
+    .string()
+    .trim()
+    .min(5, 'Please enter a phone number or email')
+    .max(200)
+    .refine(
+      (v) => (v.includes('@') ? /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v) : normalisePhone(v) !== null),
+      'Enter a valid email (name@example.com) or phone number (+1 725 224 2454)'
+    ),
   inquiryType: z.string().trim().max(80).optional().or(z.literal('')),
   eventDate: z.string().trim().max(40).optional().or(z.literal('')),
   budget: z.string().trim().max(40).optional().or(z.literal('')),
@@ -69,9 +104,18 @@ const orderItemSchema = z.object({
   boxColor: z.string().max(60),
   quantity: z.number().int().min(1).max(50),
   unitPrice: z.number().nonnegative(),
+  /** YYYY-MM-DD in shop time. */
+  deliveryDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Invalid delivery date'),
+  deliveryWindow: z.string().max(20).nullable().optional(),
 });
 
 export const orderSchema = z.object({
+  // Who is paying and who we ring to confirm — previously missing entirely,
+  // which left the shop calling the recipient and spoiling the surprise.
+  customerName: name,
+  customerPhone: phone,
+  customerEmail: email,
+  sameAsRecipient: z.coerce.boolean().optional(),
   recipientName: name,
   recipientPhone: phone,
   shippingMethod: z.enum(['delivery', 'pickup']),

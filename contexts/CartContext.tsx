@@ -8,7 +8,12 @@ export interface CartItem {
   product: Product;
   size: SizeOption;
   boxColor: BoxColor;
-  date: 'tomorrow' | 'calendar';
+  /** Delivery date as YYYY-MM-DD in shop time. */
+  deliveryDate: string;
+  /** Key from DELIVERY_WINDOWS, or null for pickup / unspecified. */
+  deliveryWindow: string | null;
+  /** Unit price with the chosen size and box applied. */
+  unitPrice: number;
   quantity: number;
 }
 
@@ -32,7 +37,16 @@ function readStoredCart(): CartItem[] {
   if (typeof window === 'undefined') return [];
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? (JSON.parse(stored) as CartItem[]) : [];
+    if (!stored) return [];
+    const parsed = JSON.parse(stored);
+    if (!Array.isArray(parsed)) return [];
+    // Carts saved before delivery slots and unit pricing existed lack the
+    // fields the checkout now requires. Drop them rather than render a broken
+    // line with a missing date and price.
+    return parsed.filter(
+      (i): i is CartItem =>
+        i && i.product && typeof i.deliveryDate === 'string' && typeof i.unitPrice === 'number'
+    );
   } catch (e) {
     console.error('Failed to parse cart from local storage', e);
     return [];
@@ -75,7 +89,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           i.product.id === newItem.product.id &&
           i.size === newItem.size &&
           i.boxColor === newItem.boxColor &&
-          i.date === newItem.date
+          i.deliveryDate === newItem.deliveryDate &&
+          i.deliveryWindow === newItem.deliveryWindow
       );
 
       if (existing) {
@@ -102,8 +117,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const cartCount = items.reduce((total, item) => total + item.quantity, 0);
   
-  // Note: we might want to add size multipliers to price later, but for now we use base price.
-  const cartTotal = items.reduce((total, item) => total + item.product.price * item.quantity, 0);
+  // Uses the stored unit price so size and box modifiers are reflected. This
+  // is display only — the server re-prices every order from product data.
+  const cartTotal = items.reduce(
+    (total, item) => total + (item.unitPrice ?? item.product.price) * item.quantity,
+    0
+  );
 
   return (
     <CartContext.Provider

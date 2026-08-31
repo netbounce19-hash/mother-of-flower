@@ -130,16 +130,18 @@ export default function ContactHero() {
         </p>
         <div className="flex gap-3">
           <a
-            href="#"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1C1C1C] text-[#FDFDFD] text-[11px] font-bold uppercase tracking-wider rounded-[2px] hover:bg-[#C9A96E] transition-colors duration-300"
+            href={site.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1C1C1C] text-[#FDFDFD] text-[12px] font-bold uppercase tracking-wider rounded-[2px] hover:bg-[#C9A96E] transition-colors duration-300"
           >
-            <MessageCircle size={13} /> WhatsApp
+            <MessageCircle size={13} aria-hidden="true" /> WhatsApp
           </a>
           <a
-            href="#"
-            className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#C9A96E]/40 text-[#1C1C1C] text-[11px] font-bold uppercase tracking-wider rounded-[2px] hover:bg-[#C9A96E]/10 transition-colors duration-300"
+            href={site.phone.href}
+            className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#C9A96E]/60 text-[#1C1C1C] text-[12px] font-bold uppercase tracking-wider rounded-[2px] hover:bg-[#C9A96E]/10 transition-colors duration-300"
           >
-            <MessageCircle size={13} /> Telegram
+            <Phone size={13} aria-hidden="true" /> Call us
           </a>
         </div>
       </motion.div>

@@ -2,6 +2,7 @@
 
 import { motion, Variants } from 'framer-motion';
 import Link from 'next/link';
+import AboutReel from '@/components/about/AboutReel';
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -28,17 +29,7 @@ export default function AboutSection() {
             className="relative bg-[#FDFDFD] shadow-[0_10px_40px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-shadow duration-500 rounded-[2px]"
             style={{ width: '100%', maxWidth: '460px', margin: '0 auto', padding: '6%', paddingBottom: '20%' }}
           >
-            <motion.video
-              src="/videos/about-reel.mov.mov"
-              autoPlay
-              loop
-              muted
-              playsInline
-              initial={{ filter: 'grayscale(100%)' }}
-              whileHover={{ filter: 'grayscale(0%)' }}
-              transition={{ duration: 0.6 }}
-              style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover', cursor: 'pointer', borderRadius: '1px' }}
-            />
+            <AboutReel />
             
             {/* Polaroid caption / button */}
             <div 
@@ -104,9 +95,9 @@ export default function AboutSection() {
 
       {/*
         The full partnerships pitch (intro, hero image, "What our partners
-        get") used to be repeated here verbatim from /sotrud — the same five
+        get") used to be repeated here verbatim from /partnerships — the same five
         bullet points word for word, which Google reads as duplicate content.
-        The canonical version now lives only on /sotrud; this band keeps the
+        The canonical version now lives only on /partnerships; this band keeps the
         route discoverable from the homepage.
       */}
       <div className="w-full text-[#1C1C1C] site-section" style={{ backgroundColor: '#F7F5F2' }}>
@@ -137,7 +128,7 @@ export default function AboutSection() {
 
           <motion.div variants={fadeUp} className="pt-2">
             <Link
-              href="/sotrud"
+              href="/partnerships"
               className="inline-flex items-center justify-center bg-[#1C1C1C] text-[#FDFDFD] text-[13px] font-bold uppercase tracking-[0.04em] px-12 py-[18px] rounded-[2px] no-underline hover:bg-[#C9A96E] focus-visible:bg-[#C9A96E] transition-colors duration-300"
             >
               Become a Partner →

@@ -1,46 +1,47 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Heart, ShoppingBag } from 'lucide-react';
+import Link from 'next/link';
 import { Product } from '@/types';
 import { useWishlist } from '@/contexts/WishlistContext';
+import { productSlug } from '@/lib/catalog';
+import { useCanHover, useMinWidth, usePrefersReducedMotion } from '@/hooks/useMediaPreferences';
 
 interface ProductCardProps {
   product: Product;
   index: number;
-  onClick: (product: Product) => void;
 }
 
-export default function ProductCard({ product, index, onClick }: ProductCardProps) {
+export default function ProductCard({ product, index }: ProductCardProps) {
   const { isSaved, toggle } = useWishlist();
   const liked = isSaved(product.id);
   const [isHovered, setIsHovered] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const cardRef = useRef<HTMLElement>(null);
-  const isInView = useInView(cardRef, { margin: "-30% 0px -30% 0px" });
+
+  const canHover = useCanHover();
+  const wideEnough = useMinWidth(768);
+  const reducedMotion = usePrefersReducedMotion();
+
+  // The 2.9 MB hover clip is only worth downloading on a device that can
+  // actually hover. It used to autoplay on mobile, where there is no hover at
+  // all, and shipped with preload="auto" so it downloaded on every visit.
+  const showHoverVideo = Boolean(product.hoverVideo) && canHover && wideEnough && !reducedMotion;
+
+  // Mount the <video> only after the first hover, so nothing is fetched until
+  // the visitor shows interest.
+  const [videoRequested, setVideoRequested] = useState(false);
+  const shouldPlay = showHoverVideo && isHovered;
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  const shouldPlay = isHovered || (isMobile && isInView);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      if (shouldPlay) {
-        videoRef.current.play().catch(e => console.log('Hover play blocked:', e));
-      } else {
-        videoRef.current.pause();
-        // Don't reset currentTime on pause so it feels more natural on mobile scroll
-      }
-    }
-  }, [shouldPlay]);
+    const el = videoRef.current;
+    if (!el) return;
+    if (shouldPlay) el.play().catch(() => {/* autoplay policy — ignore */});
+    else el.pause();
+  }, [shouldPlay, videoRequested]);
 
   return (
     <motion.article
@@ -50,7 +51,10 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
       viewport={{ once: true, margin: '-60px' }}
       className="group relative bg-[#FDFDFD] flex flex-col shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] focus-within:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-shadow duration-500 rounded-[2px]"
       style={{ padding: '6.5%', paddingBottom: 0 }}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        if (showHoverVideo) setVideoRequested(true);
+      }}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container */}
@@ -63,15 +67,16 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
           className="object-cover"
         />
 
-        {/* Hover Video */}
-        {product.hoverVideo && (
+        {/* Hover Video — mounted on first hover, never on touch devices */}
+        {showHoverVideo && videoRequested && (
           <video
             ref={videoRef}
             src={product.hoverVideo}
             loop
             muted
             playsInline
-            preload="auto"
+            preload="none"
+            aria-hidden="true"
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${shouldPlay ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
           />
         )}
@@ -97,25 +102,23 @@ export default function ProductCard({ product, index, onClick }: ProductCardProp
               real control; its ::after stretches over the whole card so the
               card stays clickable with exactly one stop in the tab order.
             */}
-            <button
-              type="button"
-              onClick={() => onClick(product)}
-              className="text-left after:absolute after:inset-0 after:content-[''] after:rounded-[2px] focus:outline-none focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-[#C9A96E]"
+            <Link
+              href={`/catalog/${productSlug(product)}`}
+              className="text-left no-underline text-inherit after:absolute after:inset-0 after:content-[''] after:rounded-[2px]"
             >
               {product.name}
               <span className="sr-only"> — view details</span>
-            </button>
+            </Link>
           </h3>
           <div className="relative z-10 flex items-center gap-1">
-            <button
-              type="button"
+            <Link
+              href={`/catalog/${productSlug(product)}`}
               aria-label={`Choose options for ${product.name}`}
-              onClick={() => onClick(product)}
-              className="p-2 rounded-full hover:bg-[#F7F5F2] transition-colors duration-200"
+              className="p-2 rounded-full hover:bg-[#F7F5F2] transition-colors duration-200 inline-flex"
               style={{ color: '#6B6B6B' }}
             >
               <ShoppingBag size={15} strokeWidth={1.8} />
-            </button>
+            </Link>
             <button
               type="button"
               aria-label={liked ? `Remove ${product.name} from favourites` : `Save ${product.name} to favourites`}

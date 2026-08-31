@@ -10,10 +10,26 @@ import {
 } from '@/lib/schemas';
 import { recordSubmission } from '@/lib/submissions';
 import { formatUSD, priceOrder } from '@/lib/pricing';
+import { DELIVERY_WINDOWS, formatShopDate } from '@/lib/delivery';
 import type { FormState } from '@/lib/form-state';
 
 const GENERIC_ERROR =
   'Something went wrong on our side. Please call us and we will take it from there.';
+
+/**
+ * Flattens the submitted values so the form can repopulate itself after a
+ * failed validation. Only scalars — never the honeypot or the cart payload.
+ */
+function echoValues(raw: unknown): Record<string, string> {
+  if (!raw || typeof raw !== 'object') return {};
+  const out: Record<string, string> = {};
+  for (const [key, value] of Object.entries(raw as Record<string, unknown>)) {
+    if (key === 'company' || key === 'items') continue;
+    if (typeof value === 'string') out[key] = value;
+    else if (typeof value === 'number' || typeof value === 'boolean') out[key] = String(value);
+  }
+  return out;
+}
 
 /**
  * Shared plumbing: validate, drop bots, deliver.
@@ -32,6 +48,7 @@ async function handle<S extends z.ZodType>(
       status: 'error',
       message: 'Please check the highlighted fields.',
       errors: z.flattenError(parsed.error).fieldErrors as Record<string, string[]>,
+      values: echoValues(raw),
     };
   }
 
@@ -44,7 +61,7 @@ async function handle<S extends z.ZodType>(
     await recordSubmission(run(parsed.data));
   } catch (error) {
     console.error('[actions] submission failed:', error);
-    return { status: 'error', message: GENERIC_ERROR };
+    return { status: 'error', message: GENERIC_ERROR, values: echoValues(raw) };
   }
 
   return { status: 'success' };
@@ -188,11 +205,21 @@ export async function submitOrder(
     return { status: 'error', message: GENERIC_ERROR };
   }
 
+  // "I am the recipient" reuses the buyer's details rather than asking twice,
+  // so the two blocks can never drift apart.
+  const sameAsRecipient = formData.get('sameAsRecipient') === 'on';
+  const customerName = formData.get('customerName');
+  const customerPhone = formData.get('customerPhone');
+
   return handle(
     orderSchema,
     {
-      recipientName: formData.get('recipientName'),
-      recipientPhone: formData.get('recipientPhone'),
+      customerName,
+      customerPhone,
+      customerEmail: formData.get('customerEmail'),
+      sameAsRecipient,
+      recipientName: sameAsRecipient ? customerName : formData.get('recipientName'),
+      recipientPhone: sameAsRecipient ? customerPhone : formData.get('recipientPhone'),
       shippingMethod: formData.get('shippingMethod'),
       address: formData.get('address') ?? '',
       cardMessage: formData.get('cardMessage') ?? '',
@@ -202,21 +229,32 @@ export async function submitOrder(
     (data) => {
       // Never trust prices from the browser — recompute from product data.
       const totals = priceOrder(data.items, data.shippingMethod);
+      const slot = (i: (typeof totals.items)[number]) => {
+        const label = DELIVERY_WINDOWS.find((w) => w.key === i.deliveryWindow)?.label;
+        return `${formatShopDate(i.deliveryDate)}${label ? `, ${label}` : ''}`;
+      };
+
       return {
         type: 'order',
         summary: `New order — ${formatUSD(totals.total)}`,
-        name: data.recipientName,
-        phone: data.recipientPhone,
+        name: data.customerName,
+        email: data.customerEmail,
+        phone: data.customerPhone,
         payload: {
-          Recipient: data.recipientName,
-          Phone: data.recipientPhone,
+          Customer: data.customerName,
+          'Customer phone': data.customerPhone,
+          'Customer email': data.customerEmail,
+          Recipient: data.sameAsRecipient
+            ? `${data.recipientName} (same as customer)`
+            : data.recipientName,
+          'Recipient phone': data.recipientPhone,
           Method: data.shippingMethod,
           Address: data.address,
           'Card message': data.cardMessage,
           Items: totals.items
             .map(
               (i) =>
-                `${i.quantity}× ${i.name} (${i.size}, ${i.boxColor}) — ${formatUSD(i.lineTotal)}`
+                `${i.quantity}× ${i.name} (${i.size}, ${i.boxColor}) — ${formatUSD(i.lineTotal)} — ${slot(i)}`
             )
             .join('\n'),
           Subtotal: formatUSD(totals.subtotal),

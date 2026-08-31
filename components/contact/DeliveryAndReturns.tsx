@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, Variants } from 'framer-motion';
+import Link from 'next/link';
 import { site } from '@/lib/site';
 
 const fadeUp: Variants = {
@@ -61,15 +62,25 @@ export default function DeliveryAndReturns() {
               </h2>
               <div className="w-6 h-[1.5px] bg-[#C9A96E]" />
             </div>
+            {/* Summary only — the full policy lives on /refund-policy. */}
             <div className="flex flex-col gap-5 text-[#444444] text-[14px] leading-[1.85]">
               <p>
-                All Mother of Flower bouquets are handcrafted to order using fresh, natural flowers. Because floral compositions are perishable and individually prepared, returns are only possible in the event of confirmed product quality issues.
+                Every bouquet is handcrafted to order from fresh flowers, so returns are
+                possible only where there is a confirmed quality issue. Report it within
+                24 hours of delivery or pickup and we will replace the arrangement or
+                refund it.
               </p>
               <p>
-                If you receive a bouquet with a manufacturing defect — such as damaged flowers, incorrect composition, or significant quality issues — please notify us within 24 hours of delivery or pickup. Our team will review your request and offer a suitable solution, such as a replacement bouquet or refund.
+                Natural variation in shade, size and shape between fresh blooms is not a
+                defect.
               </p>
               <p>
-                Natural variations in shade, size, and shape of flowers are not considered defects, as they are inherent to fresh botanical materials.
+                <Link
+                  href="/refund-policy"
+                  className="text-[#1C1C1C] font-semibold underline underline-offset-4 hover:text-[#8A6A2E] transition-colors duration-300"
+                >
+                  Read the full Refund &amp; Returns Policy →
+                </Link>
               </p>
               <p className="text-[#6B6B6B] text-[13px] border-t border-[#E5E2DB] pt-4">
                 To report an issue:{' '}

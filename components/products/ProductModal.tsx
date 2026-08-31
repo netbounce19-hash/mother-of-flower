@@ -3,11 +3,19 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { X, ChevronLeft, ChevronRight, Calendar, Check } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Product, SizeOption, BoxColor } from '@/types';
 import DropHintModal from '@/components/modals/DropHintModal';
 import { useCart } from '@/contexts/CartContext';
 import { useOverlay } from '@/hooks/useOverlay';
+import DeliveryScheduler from '@/components/delivery/DeliveryScheduler';
+import { unitPriceFor } from '@/lib/pricing';
+import {
+  DELIVERY_WINDOWS,
+  earliestDeliveryDate,
+  isWindowAvailable,
+  shopNow,
+} from '@/lib/delivery';
 
 interface ProductModalProps {
   product: Product | null;
@@ -20,16 +28,11 @@ const BOX_COLORS: { label: BoxColor; hex: string }[] = [
   { label: 'Black', hex: '#1C1C1C' },
 ];
 
-const getTomorrowLabel = () => {
-  const d = new Date();
-  d.setDate(d.getDate() + 1);
-  return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
-};
-
 export default function ProductModal({ product, onClose }: ProductModalProps) {
   const [selectedSize, setSelectedSize] = useState<SizeOption | null>(null);
   const [selectedBox, setSelectedBox] = useState<BoxColor | null>(null);
-  const [selectedDate, setSelectedDate] = useState<'tomorrow' | 'calendar'>('calendar');
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedWindow, setSelectedWindow] = useState<string | null>(null);
   const [imageIndex, setImageIndex] = useState(0);
   const [hintOpen, setHintOpen] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
@@ -43,7 +46,8 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
     setLastProductId(product.id);
     setSelectedSize(product.sizes[0]);
     setSelectedBox(product.boxColors[0]);
-    setSelectedDate('calendar');
+    setSelectedDate(null);
+    setSelectedWindow(null);
     setImageIndex(0);
     setAddedToCart(false);
   }
@@ -51,6 +55,17 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
   // Fall back to the first option on the very first render for this product.
   const activeSize = selectedSize ?? product?.sizes[0] ?? 'Classic';
   const activeBox = selectedBox ?? product?.boxColors[0] ?? 'Warm White';
+
+  // Dates default to the earliest slot the shop can actually fulfil, computed
+  // in Las Vegas time rather than the visitor's timezone.
+  const now = shopNow();
+  const activeDate = selectedDate ?? earliestDeliveryDate(now);
+  const activeWindow =
+    selectedWindow ??
+    DELIVERY_WINDOWS.find((w) => isWindowAvailable(w.key, activeDate, now))?.key ??
+    null;
+
+  const unitPrice = product ? unitPriceFor(product, activeSize, activeBox) : 0;
 
   const panelRef = useOverlay<HTMLDivElement>(Boolean(product) && !hintOpen, onClose);
 
@@ -61,7 +76,9 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
       product,
       size: activeSize,
       boxColor: activeBox,
-      date: selectedDate,
+      deliveryDate: activeDate,
+      deliveryWindow: activeWindow,
+      unitPrice,
       quantity: 1,
     });
     
@@ -206,7 +223,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
                   {/* Price */}
                   <p style={{ fontSize: 24, fontWeight: 700, color: '#1C1C1C', marginBottom: 24 }}>
-                    {product.currency} {product.price.toLocaleString()}
+                    {product.currency} {unitPrice.toLocaleString()}
                   </p>
 
                   <div style={{ width: '100%', height: 1, backgroundColor: '#E5E2DB', marginBottom: 24 }} />
@@ -214,36 +231,17 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   {/* Description */}
                   <p style={{ fontSize: 14, color: '#333333', fontWeight: 500, lineHeight: 1.7, marginBottom: 28 }}>{product.description}</p>
 
-                  {/* Choose Date */}
-                  <div style={{ marginBottom: 24 }}>
-                    <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#6B6B6B', marginBottom: 12 }}>Delivery Date</p>
-                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                      {(['tomorrow', 'calendar'] as const).map((d) => (
-                        <button
-                          key={d}
-                          onClick={() => setSelectedDate(d)}
-                          style={{
-                            padding: '10px 16px',
-                            borderRadius: 9999,
-                            fontSize: 13,
-                            fontWeight: 600,
-                            letterSpacing: '0.02em',
-                            border: `1px solid ${selectedDate === d ? '#1C1C1C' : '#E5E2DB'}`,
-                            backgroundColor: selectedDate === d ? '#1C1C1C' : 'transparent',
-                            color: selectedDate === d ? '#FDFDFD' : '#1C1C1C',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: 6,
-                            transition: 'all 0.2s',
-                            cursor: 'pointer',
-                          }}
-                        >
-                          {d === 'calendar' && <Calendar size={13} strokeWidth={1.5} />}
-                          {d === 'tomorrow' ? `Tomorrow — ${getTomorrowLabel()}` : 'Full Calendar'}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+                  <DeliveryScheduler
+                    date={activeDate}
+                    onDateChange={(d) => {
+                      setSelectedDate(d);
+                      // A window valid for today may already have passed for
+                      // the newly picked date — let it re-resolve.
+                      setSelectedWindow(null);
+                    }}
+                    window={activeWindow}
+                    onWindowChange={setSelectedWindow}
+                  />
 
                   {/* Size */}
                   <div style={{ marginBottom: 24 }}>

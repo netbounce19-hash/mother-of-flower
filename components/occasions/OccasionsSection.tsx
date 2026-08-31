@@ -2,6 +2,7 @@
 
 import { motion, Variants } from 'framer-motion';
 import Link from 'next/link';
+import { categoryHasProducts } from '@/lib/catalog';
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -134,12 +135,32 @@ function SympathySymbol() {
   );
 }
 
-const occasions = [
+interface Occasion {
+  title: string;
+  subtitle: string;
+  text: string;
+  symbol: React.ReactNode;
+  href: string;
+  /** When set, the card falls back to the full catalogue if empty. */
+  category?: string;
+}
+
+/**
+ * A card must never send someone to a category with nothing in it, so the
+ * href is resolved against the live catalogue at render time.
+ */
+function resolveHref(occasion: Occasion): string {
+  if (occasion.category && !categoryHasProducts(occasion.category)) return '/catalog';
+  return occasion.href;
+}
+
+const occasions: Occasion[] = [
   {
     title: 'Weddings',
     subtitle: 'Ceremony & Bridal',
     text: 'Bridal bouquets, ceremony arches, and reception tables composed to your palette.',
     symbol: <WeddingsSymbol />,
+    category: 'Wedding Bouquets',
     href: '/catalog?category=Wedding+Bouquets',
   },
   {
@@ -154,7 +175,7 @@ const occasions = [
     subtitle: 'Galas & Hotel Styling',
     text: 'Lobby installations, gala styling, and recurring floral arrangements for executive venues.',
     symbol: <CorporateSymbol />,
-    href: '/sotrud',
+    href: '/partnerships',
   },
   {
     title: 'Sympathy',
@@ -199,7 +220,7 @@ export default function OccasionsSection() {
             {occasions.map((occasion) => (
               <Link
                 key={occasion.title}
-                href={occasion.href}
+                href={resolveHref(occasion)}
                 className="group flex flex-col bg-[#FDFDFD] p-8 md:p-9 rounded-[3px] border border-[#E5E2DB] hover:border-[#C9A96E]/50 hover:shadow-[0_16px_40px_rgba(201,169,110,0.12)] transition-all duration-500 no-underline"
               >
                 {/* Large Symbolic Icon Badge */}
@@ -239,12 +260,12 @@ export default function OccasionsSection() {
             >
               Discuss a Bespoke Request
             </a>
-            <a
+            <Link
               href="/catalog"
               className="inline-flex items-center justify-center border border-[#1C1C1C] text-[#1C1C1C] text-[12px] font-bold uppercase tracking-[0.12em] px-8 py-4 rounded-[2px] hover:bg-[#1C1C1C] hover:text-[#FDFDFD] transition-colors duration-300 no-underline"
             >
               View Full Catalog
-            </a>
+            </Link>
           </motion.div>
         </motion.div>
       </div>
