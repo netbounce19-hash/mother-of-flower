@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Pause, Play, Sparkles } from 'lucide-react';
@@ -182,9 +182,6 @@ export default function HeroSection() {
                       <source src="/videos/about-reel.mov" type="video/quicktime" />
                     </video>
 
-                    {/* Subtle Inner Gradient for Contrast */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10 pointer-events-none" />
-
                     {/* Top Floating Video Controls */}
                     <div className="absolute top-3.5 right-3.5 z-20 flex items-center gap-2">
                       <button
@@ -199,23 +196,6 @@ export default function HeroSection() {
                           <Play size={13} strokeWidth={2} className="ml-0.5" />
                         )}
                       </button>
-                    </div>
-
-                    {/* Bottom Floating Badge inside Frame */}
-                    <div className="absolute bottom-4 left-4 right-4 z-20 pointer-events-none">
-                      <div className="bg-[#1C1C1C]/80 backdrop-blur-md text-[#FDFDFD] px-4 py-2.5 rounded-xl border border-white/20 shadow-lg flex items-center justify-between">
-                        <div>
-                          <p className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#C9A96E]">
-                            Signature Story
-                          </p>
-                          <p className="text-[13px] font-serif font-medium text-[#FDFDFD] truncate">
-                            Artisanal Floral Craft
-                          </p>
-                        </div>
-                        <span className="text-[10px] uppercase tracking-widest font-semibold px-2 py-0.5 rounded bg-white/10 text-[#FDFDFD]">
-                          Live
-                        </span>
-                      </div>
                     </div>
 
                   </div>
