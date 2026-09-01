@@ -54,20 +54,20 @@ export default function Navbar() {
           zIndex: 50,
           height: 72,
           transition: 'background-color 0.4s, border-color 0.4s, backdrop-filter 0.4s',
-          backgroundColor: scrolled ? 'rgba(253,253,253,0.96)' : 'rgba(0, 0, 0, 0.2)',
-          borderBottom: scrolled ? '1px solid #E5E2DB' : '1px solid rgba(253,253,253,0.12)',
-          backdropFilter: scrolled ? 'blur(14px)' : 'blur(8px)',
-          WebkitBackdropFilter: scrolled ? 'blur(14px)' : 'blur(8px)',
+          backgroundColor: scrolled ? 'rgba(253,253,253,0.96)' : 'rgba(253,253,253,0.85)',
+          borderBottom: '1px solid #E5E2DB',
+          backdropFilter: 'blur(14px)',
+          WebkitBackdropFilter: 'blur(14px)',
         }}
       >
         <nav style={CONTAINER}>
           {/* Logo */}
           <Link href="/" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1, textDecoration: 'none', flexShrink: 0 }}>
-            <span className="text-[20px] md:text-[24px]" style={{ fontFamily: "var(--font-serif)", fontWeight: 500, letterSpacing: '0.04em', color: scrolled ? '#1C1C1C' : '#FDFDFD', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
+            <span className="text-[20px] md:text-[24px]" style={{ fontFamily: "var(--font-serif)", fontWeight: 500, letterSpacing: '0.04em', color: '#1C1C1C', transition: 'color 0.4s' }}>
               Mother of Flower
             </span>
-            <div style={{ height: '1px', width: '100%', backgroundColor: scrolled ? '#1C1C1C' : '#FDFDFD', margin: '5px 0', opacity: scrolled ? 0.2 : 0.4, transition: 'background-color 0.4s, opacity 0.4s' }} />
-            <span className="text-[12px] md:text-[12px]" style={{ fontFamily: "var(--font-sans)", fontWeight: 600, letterSpacing: '0.3em', color: scrolled ? '#5A5A5A' : '#EAEAEA', textTransform: 'uppercase', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', transition: 'color 0.4s' }}>
+            <div style={{ height: '1px', width: '100%', backgroundColor: '#1C1C1C', margin: '5px 0', opacity: 0.2, transition: 'background-color 0.4s, opacity 0.4s' }} />
+            <span className="text-[12px] md:text-[12px]" style={{ fontFamily: "var(--font-sans)", fontWeight: 600, letterSpacing: '0.3em', color: '#5A5A5A', textTransform: 'uppercase', transition: 'color 0.4s' }}>
               Las Vegas
             </span>
           </Link>
@@ -78,9 +78,9 @@ export default function Navbar() {
               <li key={link.label}>
                 <a
                   href={link.href}
-                  style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: scrolled ? '#2C2C2C' : '#FDFDFD', textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)', textDecoration: 'none', transition: 'color 0.3s' }}
+                  style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#2C2C2C', textDecoration: 'none', transition: 'color 0.3s' }}
                   onMouseEnter={e => (e.currentTarget.style.color = '#C9A96E')}
-                  onMouseLeave={e => (e.currentTarget.style.color = scrolled ? '#2C2C2C' : '#FDFDFD')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#2C2C2C')}
                 >
                   {link.label}
                 </a>
@@ -95,25 +95,20 @@ export default function Navbar() {
               onClick={() => setIsOrderCallOpen(true)}
               className="hidden lg:inline-flex items-center gap-2 px-5 py-2 rounded-full border transition-all duration-300 bg-transparent"
               style={{
-                borderColor: scrolled ? '#1C1C1C' : 'rgba(253,253,253,0.85)',
+                borderColor: '#1C1C1C',
                 fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
-                color: scrolled ? '#1C1C1C' : '#FDFDFD', textDecoration: 'none',
-                textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.3)',
-                boxShadow: scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.1)',
-                backdropFilter: scrolled ? 'none' : 'blur(4px)',
+                color: '#1C1C1C', textDecoration: 'none',
                 cursor: 'pointer',
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.backgroundColor = scrolled ? '#1C1C1C' : '#FDFDFD';
-                e.currentTarget.style.color = scrolled ? '#FDFDFD' : '#1C1C1C';
-                e.currentTarget.style.borderColor = scrolled ? '#1C1C1C' : '#FDFDFD';
-                e.currentTarget.style.textShadow = 'none';
+                e.currentTarget.style.backgroundColor = '#1C1C1C';
+                e.currentTarget.style.color = '#FDFDFD';
+                e.currentTarget.style.borderColor = '#1C1C1C';
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = scrolled ? '#1C1C1C' : '#FDFDFD';
-                e.currentTarget.style.borderColor = scrolled ? '#1C1C1C' : 'rgba(253,253,253,0.85)';
-                e.currentTarget.style.textShadow = scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.3)';
+                e.currentTarget.style.color = '#1C1C1C';
+                e.currentTarget.style.borderColor = '#1C1C1C';
               }}
             >
               <Phone size={13} strokeWidth={1.8} />
@@ -124,9 +119,9 @@ export default function Navbar() {
               aria-label="Shopping bag"
               onClick={() => setIsCartOpen(true)}
               className="tap-target"
-              style={{ position: 'relative', padding: 8, color: scrolled ? '#1C1C1C' : '#FDFDFD', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.4s' }}
+              style={{ position: 'relative', padding: 8, color: '#1C1C1C', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.4s' }}
             >
-              <ShoppingBag size={22} strokeWidth={1.6} style={{ filter: scrolled ? 'none' : 'drop-shadow(0 2px 10px rgba(0,0,0,0.4))' }} />
+              <ShoppingBag size={22} strokeWidth={1.6} />
               {cartCount > 0 && (
                 <span style={{ position: 'absolute', top: 4, right: 4, width: 16, height: 16, borderRadius: '50%', backgroundColor: '#C9A96E', color: '#1C1C1C', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {cartCount}
@@ -137,11 +132,11 @@ export default function Navbar() {
             {/* Mobile hamburger */}
             <button
               aria-label="Open menu"
-              style={{ padding: 8, color: scrolled ? '#1C1C1C' : '#FDFDFD', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.4s' }}
+              style={{ padding: 8, color: '#1C1C1C', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.4s' }}
               className="tap-target lg:hidden"
               onClick={() => setMenuOpen(true)}
             >
-              <Menu size={22} strokeWidth={1.6} style={{ filter: scrolled ? 'none' : 'drop-shadow(0 2px 10px rgba(0,0,0,0.4))' }} />
+              <Menu size={22} strokeWidth={1.6} />
             </button>
           </div>
         </nav>
