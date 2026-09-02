@@ -4,6 +4,7 @@
  */
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
+import { existsSync } from 'node:fs';
 
 const root = process.cwd();
 
@@ -14,8 +15,12 @@ export function resolve(specifier, context, nextResolve) {
   if (specifier.startsWith('@/')) {
     // Extensionless alias imports need the .ts suffix Node cannot infer.
     const target = path.join(root, specifier.slice(2));
-    const withExt = path.extname(target) ? target : `${target}.ts`;
-    return nextResolve(pathToFileURL(withExt).href, context);
+    let resolved = target;
+    if (!path.extname(target)) {
+      // `@/types` may be either types.ts or a types/ directory with index.ts.
+      resolved = existsSync(`${target}.ts`) ? `${target}.ts` : path.join(target, 'index.ts');
+    }
+    return nextResolve(pathToFileURL(resolved).href, context);
   }
   return nextResolve(specifier, context);
 }
