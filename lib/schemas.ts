@@ -122,6 +122,12 @@ export const orderSchema = z.object({
   address: optionalText,
   cardMessage: optionalText,
   items: z.array(orderItemSchema).min(1, 'Your bag is empty'),
+  // Opaque one-use token from the Web Payments SDK. The card itself never
+  // reaches our server — Square's hosted fields keep us out of PCI scope.
+  paymentToken: z.string().min(1).max(1024).optional(),
+  verificationToken: z.string().max(4096).optional(),
+  /** Generated per checkout attempt so a retry cannot charge twice. */
+  idempotencyKey: z.string().min(8).max(128).optional(),
   company: honeypot,
 }).refine(
   (v) => v.shippingMethod !== 'delivery' || (v.address ?? '').trim().length > 5,

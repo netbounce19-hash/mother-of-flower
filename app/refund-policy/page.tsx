@@ -57,9 +57,7 @@ export default function RefundPolicyPage() {
           heading: 'Replacements and refunds',
           body: [
             'Where a claim is confirmed, you choose between a replacement arrangement delivered at our expense, or a refund.',
-            // TODO(payments): update the refund route once a payment provider
-            // is connected; today orders are settled after a phone confirmation.
-            'Refunds are issued to the original payment method once it has been agreed. Because payment is currently arranged after our confirmation call rather than taken on this website, the timing depends on the method used; we will tell you what to expect when we agree the refund.',
+            'Refunds are issued through Square to the card used for the order. Once we release a refund it usually reaches the card within 5–10 business days, depending on your bank. We cannot refund to a different card or method.',
           ],
         },
         {

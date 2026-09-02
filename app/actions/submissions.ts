@@ -12,6 +12,7 @@ import { recordSubmission } from '@/lib/submissions';
 import { formatUSD, priceOrder } from '@/lib/pricing';
 import { DELIVERY_WINDOWS, formatShopDate } from '@/lib/delivery';
 import type { FormState } from '@/lib/form-state';
+import { PaymentError, chargeCard, isSquareConfigured } from '@/lib/square';
 
 const GENERIC_ERROR =
   'Something went wrong on our side. Please call us and we will take it from there.';
@@ -214,59 +215,132 @@ export async function submitOrder(
   const customerName = formData.get('customerName');
   const customerPhone = formData.get('customerPhone');
 
-  return handle(
-    orderSchema,
-    {
-      customerName,
-      customerPhone,
-      customerEmail: formData.get('customerEmail'),
-      sameAsRecipient,
-      recipientName: sameAsRecipient ? customerName : formData.get('recipientName'),
-      recipientPhone: sameAsRecipient ? customerPhone : formData.get('recipientPhone'),
-      shippingMethod: formData.get('shippingMethod'),
-      address: formData.get('address') ?? '',
-      cardMessage: formData.get('cardMessage') ?? '',
-      items,
-      company: formData.get('company') ?? '',
-    },
-    (data) => {
-      // Never trust prices from the browser — recompute from product data.
-      const totals = priceOrder(data.items, data.shippingMethod);
-      const slot = (i: (typeof totals.items)[number]) => {
-        const label = DELIVERY_WINDOWS.find((w) => w.key === i.deliveryWindow)?.label;
-        return `${formatShopDate(i.deliveryDate)}${label ? `, ${label}` : ''}`;
-      };
+  const raw = {
+    customerName,
+    customerPhone,
+    customerEmail: formData.get('customerEmail'),
+    sameAsRecipient,
+    recipientName: sameAsRecipient ? customerName : formData.get('recipientName'),
+    recipientPhone: sameAsRecipient ? customerPhone : formData.get('recipientPhone'),
+    shippingMethod: formData.get('shippingMethod'),
+    address: formData.get('address') ?? '',
+    cardMessage: formData.get('cardMessage') ?? '',
+    items,
+    paymentToken: formData.get('paymentToken') ?? undefined,
+    verificationToken: formData.get('verificationToken') ?? undefined,
+    idempotencyKey: formData.get('idempotencyKey') ?? undefined,
+    company: formData.get('company') ?? '',
+  };
 
+  const parsed = orderSchema.safeParse(raw);
+  if (!parsed.success) {
+    return {
+      status: 'error',
+      message: 'Please check the highlighted fields.',
+      errors: z.flattenError(parsed.error).fieldErrors as Record<string, string[]>,
+      values: echoValues(raw),
+    };
+  }
+  if (parsed.data.company) return { status: 'success' };
+
+  const data = parsed.data;
+
+  // The amount is derived here, never taken from the browser.
+  const totals = priceOrder(data.items, data.shippingMethod);
+  const slot = (i: (typeof totals.items)[number]) => {
+    const label = DELIVERY_WINDOWS.find((w) => w.key === i.deliveryWindow)?.label;
+    return `${formatShopDate(i.deliveryDate)}${label ? `, ${label}` : ''}`;
+  };
+
+  // ── Take the money first ────────────────────────────────────────────────
+  let charge: Awaited<ReturnType<typeof chargeCard>> | null = null;
+
+  if (isSquareConfigured) {
+    if (!data.paymentToken || !data.idempotencyKey) {
       return {
-        type: 'order',
-        summary: `New order — ${formatUSD(totals.total)}`,
-        name: data.customerName,
-        email: data.customerEmail,
-        phone: data.customerPhone,
-        payload: {
-          Customer: data.customerName,
-          'Customer phone': data.customerPhone,
-          'Customer email': data.customerEmail,
-          Recipient: data.sameAsRecipient
-            ? `${data.recipientName} (same as customer)`
-            : data.recipientName,
-          'Recipient phone': data.recipientPhone,
-          Method: data.shippingMethod,
-          Address: data.address,
-          'Card message': data.cardMessage,
-          Items: totals.items
-            .map(
-              (i) =>
-                `${i.quantity}× ${i.name} (${i.size}, ${i.boxColor}) — ${formatUSD(i.lineTotal)} — ${slot(i)}`
-            )
-            .join('\n'),
-          Subtotal: formatUSD(totals.subtotal),
-          Shipping: formatUSD(totals.shipping),
-          Tax: formatUSD(totals.tax),
-          Total: formatUSD(totals.total),
-        },
-        customerSummaryKeys: ['Items', 'Address', 'Subtotal', 'Shipping', 'Tax', 'Total'],
+        status: 'error',
+        message: 'Please enter your card details to complete the order.',
+        values: echoValues(raw),
       };
     }
-  );
+    try {
+      charge = await chargeCard({
+        sourceId: data.paymentToken,
+        amount: totals.total,
+        idempotencyKey: data.idempotencyKey,
+        buyerEmail: data.customerEmail,
+        verificationToken: data.verificationToken,
+        note: `${totals.items.length} item(s) for ${data.recipientName}`,
+      });
+    } catch (error) {
+      const message =
+        error instanceof PaymentError
+          ? error.customerMessage
+          : 'We could not take the payment. Please try again.';
+      console.error('[actions] payment declined:', error);
+      // Nothing was charged, so no order is recorded.
+      return { status: 'error', message, values: echoValues(raw) };
+    }
+  }
+
+  const submission = {
+    type: 'order' as const,
+    summary: `New order — ${formatUSD(totals.total)}${charge ? ' — PAID' : ''}`,
+    name: data.customerName,
+    email: data.customerEmail,
+    phone: data.customerPhone,
+    payload: {
+      Customer: data.customerName,
+      'Customer phone': data.customerPhone,
+      'Customer email': data.customerEmail,
+      Recipient: data.sameAsRecipient
+        ? `${data.recipientName} (same as customer)`
+        : data.recipientName,
+      'Recipient phone': data.recipientPhone,
+      Method: data.shippingMethod,
+      Address: data.address,
+      'Card message': data.cardMessage,
+      Items: totals.items
+        .map(
+          (i) =>
+            `${i.quantity}× ${i.name} (${i.size}, ${i.boxColor}) — ${formatUSD(i.lineTotal)} — ${slot(i)}`
+        )
+        .join('\n'),
+      Subtotal: formatUSD(totals.subtotal),
+      Shipping: formatUSD(totals.shipping),
+      Tax: formatUSD(totals.tax),
+      Total: formatUSD(totals.total),
+      ...(charge
+        ? {
+            Payment: `Paid ${formatUSD(charge.amount)} — ${charge.cardBrand ?? 'card'} ••••${charge.last4 ?? '????'} (${charge.status})`,
+            'Square payment': charge.paymentId,
+            ...(charge.receiptUrl ? { Receipt: charge.receiptUrl } : {}),
+          }
+        : { Payment: 'Not taken — payments are not configured' }),
+    },
+    customerSummaryKeys: [
+      'Items', 'Address', 'Subtotal', 'Shipping', 'Tax', 'Total',
+      ...(charge ? ['Payment', 'Receipt'] : []),
+    ],
+  };
+
+  try {
+    await recordSubmission(submission);
+  } catch (error) {
+    console.error('[actions] submission failed:', error);
+    if (charge) {
+      // The card has already been charged. Telling the buyer it failed would
+      // invite a second payment, so the order is confirmed and the delivery
+      // failure is escalated in the logs instead.
+      console.error(
+        `[actions] ORDER PAID BUT NOT DELIVERED — Square payment ${charge.paymentId}, ` +
+          `${formatUSD(charge.amount)}, customer ${data.customerEmail} / ${data.customerPhone}. ` +
+          `Full order: ${JSON.stringify(submission.payload)}`
+      );
+      return { status: 'success' };
+    }
+    return { status: 'error', message: GENERIC_ERROR, values: echoValues(raw) };
+  }
+
+  return { status: 'success' };
 }

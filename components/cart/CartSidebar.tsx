@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useActionState, useState } from 'react';
+import React, { useActionState, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { X, Minus, Plus, Trash2, ShoppingBag, Check } from 'lucide-react';
@@ -12,6 +12,16 @@ import { DELIVERY_WINDOWS, formatShopDate } from '@/lib/delivery';
 import { FieldError, Honeypot, SubmitButton } from '@/components/forms/FormBits';
 import { formatUsPhone } from '@/components/forms/PhoneField';
 import { useOverlay } from '@/hooks/useOverlay';
+import SquareCardField, { CardHandle } from '@/components/cart/SquareCardField';
+
+// Public Square identifiers. Safe in the browser by design — the access token
+// that can actually move money stays on the server.
+const SQUARE_APP_ID = process.env.NEXT_PUBLIC_SQUARE_APPLICATION_ID;
+const SQUARE_LOCATION_ID = process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID;
+const SQUARE_ENV =
+  process.env.NEXT_PUBLIC_SQUARE_ENVIRONMENT === 'production' ? 'production' : 'sandbox';
+/** With no keys the checkout falls back to the phone-confirmation flow. */
+const paymentsEnabled = Boolean(SQUARE_APP_ID && SQUARE_LOCATION_ID);
 
 interface FieldProps {
   id: string;
@@ -108,6 +118,18 @@ export default function CartSidebar() {
   const [sameAsRecipient, setSameAsRecipient] = useState(false);
   const [state, formAction] = useActionState(submitOrder, initialFormState);
 
+  // Square's card field hands back a tokenizer once its iframes are ready.
+  const cardRef = useRef<CardHandle | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const tokenisedRef = useRef(false);
+  const [tokenising, setTokenising] = useState(false);
+  const [cardError, setCardError] = useState('');
+  // Filled in at tokenisation, not at render: a value generated during SSR
+  // would not match the one the browser generates on hydration.
+  const [idempotencyKey, setIdempotencyKey] = useState('');
+  const [paymentToken, setPaymentToken] = useState('');
+  const [verificationToken, setVerificationToken] = useState('');
+
   const shippingCost = shippingMethod === 'delivery' ? DELIVERY_FEE : 0;
   const taxes = cartTotal * TAX_RATE;
   const total = cartTotal + shippingCost + taxes;
@@ -136,6 +158,48 @@ export default function CartSidebar() {
   };
 
   const panelRef = useOverlay<HTMLDivElement>(isCartOpen, handleClose);
+
+  /**
+   * Turns the card into a one-use token before the form posts. The token, not
+   * the card, is what reaches the server — and the amount is recomputed there,
+   * so nothing about the price is trusted from here.
+   */
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    if (!paymentsEnabled) return; // no card step; let the form post as-is
+
+    // Second pass: the token is in the hidden inputs, so let this one through
+    // to the Server Action instead of tokenising again.
+    if (tokenisedRef.current) {
+      tokenisedRef.current = false;
+      return;
+    }
+
+    event.preventDefault();
+    if (!event.currentTarget.reportValidity()) return;
+
+    if (!cardRef.current) {
+      setCardError('The card form is still loading. Please try again in a moment.');
+      return;
+    }
+
+    setCardError('');
+    setTokenising(true);
+    try {
+      const { token, verificationToken: verification } = await cardRef.current.tokenize();
+      setPaymentToken(token);
+      setVerificationToken(verification ?? '');
+      // Each tokenisation is a distinct attempt; a fresh key keeps a genuine
+      // retry after a decline from colliding with the failed charge.
+      setIdempotencyKey(crypto.randomUUID());
+      tokenisedRef.current = true;
+      // Let React commit the hidden inputs before the action reads FormData.
+      requestAnimationFrame(() => formRef.current?.requestSubmit());
+    } catch (error) {
+      setCardError(error instanceof Error ? error.message : 'Please check the card details.');
+    } finally {
+      setTokenising(false);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -195,9 +259,17 @@ export default function CartSidebar() {
                 </button>
               </div>
             ) : (
-            <form action={formAction} className="flex-1 flex flex-col min-h-0">
+            <form
+              ref={formRef}
+              action={formAction}
+              onSubmit={handleSubmit}
+              className="flex-1 flex flex-col min-h-0"
+            >
             <input type="hidden" name="items" value={JSON.stringify(orderItems)} />
             <input type="hidden" name="shippingMethod" value={shippingMethod} />
+            <input type="hidden" name="paymentToken" value={paymentToken} />
+            <input type="hidden" name="verificationToken" value={verificationToken} />
+            <input type="hidden" name="idempotencyKey" value={idempotencyKey} />
             <Honeypot />
 
             {/* Content (Scrollable) */}
@@ -360,6 +432,18 @@ export default function CartSidebar() {
                       <FloatingInput id="c-message" name="cardMessage" defaultValue={state.values?.cardMessage} label="Card Message (Optional)" isTextArea />
                     </div>
                   </div>
+
+                  {paymentsEnabled && (
+                    <div className="pt-6 border-t" style={{ borderColor: '#E5E2DB' }}>
+                      <SquareCardField
+                        applicationId={SQUARE_APP_ID!}
+                        locationId={SQUARE_LOCATION_ID!}
+                        environment={SQUARE_ENV}
+                        amount={total}
+                        onReady={(handle) => { cardRef.current = handle; }}
+                      />
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -384,22 +468,24 @@ export default function CartSidebar() {
                   <span className="font-serif text-[24px]" style={{ color: '#1C1C1C' }}>${total.toFixed(2)}</span>
                 </div>
 
-                {state.status === 'error' && (
-                  <p role="alert" className="text-[#C0392B] text-[12px] mb-3">{state.message}</p>
+                {(state.status === 'error' || cardError) && (
+                  <p role="alert" className="text-[#C0392B] text-[12px] mb-3">
+                    {cardError || state.message}
+                  </p>
                 )}
 
                 <SubmitButton
-                  pendingLabel="Placing order…"
+                  pendingLabel={tokenising ? 'Checking card…' : 'Taking payment…'}
                   style={{ backgroundColor: '#1C1C1C', color: '#FDFDFD' }}
                   className="w-full py-4 uppercase tracking-[0.18em] text-[12px] hover:opacity-80 transition-opacity rounded-sm border-none flex items-center justify-center font-sans"
                 >
-                  Place Order
+                  {paymentsEnabled ? `Pay $${total.toFixed(2)}` : 'Place Order'}
                 </SubmitButton>
 
                 <p className="text-[12px] mt-3 leading-relaxed text-center" style={{ color: '#6B6B6B' }}>
-                  {/* TODO(payments): swap for the provider's checkout once connected. */}
-                  No payment is taken on this site. We confirm availability by phone,
-                  then agree the payment method with you.
+                  {paymentsEnabled
+                    ? 'Your card is charged when you place the order. We call to confirm the delivery slot, and refund in full if we cannot fulfil it.'
+                    : 'No payment is taken on this site. We confirm availability by phone, then agree the payment method with you.'}
                 </p>
               </div>
             )}

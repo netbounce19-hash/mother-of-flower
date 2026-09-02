@@ -22,12 +22,10 @@ const orderSteps = [
     text: "After receiving your order, our team will get in touch if we need to confirm bouquet availability, make adjustments, or discuss personalization options. If you would like to customize your bouquet, please let us know — we will help you choose flowers, colors, and composition that perfectly match your occasion."
   },
   {
-    // TODO(payments): when a provider (PayPal / Stripe) is connected, this step
-    // becomes "pay online at checkout" and the checkout note in CartSidebar
-    // changes with it. Until then both must describe the same flow: no money is
-    // taken on the site, payment is arranged on the confirmation call.
+    // This step and the note under the Place Order button in CartSidebar must
+    // always describe the same flow.
     num: "3",
-    text: "No payment is taken on the website. Once we have confirmed availability and the delivery details with you by phone, we will agree the payment method and send you a payment link. Your bouquet is then prepared fresh on the day of delivery or pickup."
+    text: "You pay by card at checkout — securely through Square, so your card details never touch our website. We then call to confirm availability and the delivery slot, and if we cannot fulfil the order we refund it in full. Your bouquet is prepared fresh on the day of delivery or pickup."
   },
   {
     num: "4",

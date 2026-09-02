@@ -37,10 +37,8 @@ export default function TermsPage() {
         {
           heading: 'Prices, taxes and payment',
           body: [
-            'Prices are shown in US dollars and exclude sales tax. Clark County combined sales tax is added at checkout, together with the delivery fee where it applies. The total shown before you submit is an estimate; the final amount is the one we confirm with you by phone.',
-            // TODO(payments): replace this paragraph once the payment provider
-            // (PayPal or Stripe) is connected and money is taken on-site.
-            'No money is taken through this website at present. After we confirm the order by phone, we will send you a payment link or agree another method with you. We do not store card details.',
+            'Prices are shown in US dollars and exclude sales tax. Clark County combined sales tax is added at checkout, together with the delivery fee where it applies. The total is calculated on our server from the current catalogue prices, so the amount charged is the amount shown on the checkout button.',
+            'Payment is taken by card on this website when you place the order, through our payment provider, Square. Card details are entered directly into Square\'s secure fields and are never seen or stored by us. If we cannot fulfil an order after it has been paid for, we refund it in full.',
           ],
         },
         {
