@@ -20,12 +20,14 @@ export default function HeroSection() {
 
     if (reducedMotion) {
       video.pause();
+      // Reflecting the real playback state is the point of this effect; the
+      // rule fires on any setState inside one, but there is no render-time
+      // value to derive this from.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsPlaying(false);
     } else {
-      video.play().catch(() => {
-        // Autoplay may be blocked; silent catch
-        setIsPlaying(false);
-      });
+      // Autoplay may be blocked by the browser — keep the button honest.
+      video.play().catch(() => setIsPlaying(false));
     }
   }, [reducedMotion]);
 

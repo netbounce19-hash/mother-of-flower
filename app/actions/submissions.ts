@@ -129,6 +129,7 @@ export async function submitCustomRequest(
         Budget: data.budget,
         Details: data.details,
       },
+      customerSummaryKeys: ['Inquiry type', 'Event date', 'Budget', 'Details'],
     })
   );
 }
@@ -160,6 +161,7 @@ export async function submitPartnership(
         Email: data.email,
         Details: data.details,
       },
+      customerSummaryKeys: ['Company', 'Details'],
     })
   );
 }
@@ -190,6 +192,7 @@ export async function submitDropHint(
         'Sender name': data.senderFirstName,
         'Sender email': data.senderEmail,
       },
+      customerSummaryKeys: ['Product', 'Recipient name'],
     })
   );
 }
@@ -262,6 +265,7 @@ export async function submitOrder(
           Tax: formatUSD(totals.tax),
           Total: formatUSD(totals.total),
         },
+        customerSummaryKeys: ['Items', 'Address', 'Subtotal', 'Shipping', 'Tax', 'Total'],
       };
     }
   );

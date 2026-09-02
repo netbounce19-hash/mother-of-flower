@@ -4,6 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 import { Resend } from 'resend';
 import { site } from '@/lib/site';
 import type { SubmissionType } from '@/lib/schemas';
+import { customerEmail, teamEmail, toPlainText } from '@/lib/emails';
 
 export interface Submission {
   type: SubmissionType;
@@ -13,6 +14,21 @@ export interface Submission {
   email?: string;
   phone?: string;
   payload: Record<string, unknown>;
+  /** Payload keys safe to echo back to the customer. */
+  customerSummaryKeys?: string[];
+}
+
+/**
+ * Environment values pasted through a dashboard routinely arrive wrapped in
+ * the quotes that a .env file needs for values containing spaces, e.g.
+ * `"Mother of Flower <orders@…>"`. Resend then rejects the address as
+ * malformed. Strip surrounding quotes and stray whitespace rather than making
+ * the deploy depend on someone noticing.
+ */
+function cleanEnv(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  const trimmed = value.trim().replace(/^["']|["']$/g, '').trim();
+  return trimmed || undefined;
 }
 
 const {
@@ -21,6 +37,7 @@ const {
   RESEND_API_KEY,
   LEAD_NOTIFICATION_EMAIL,
   LEAD_FROM_EMAIL,
+  LEAD_REPLY_TO,
 } = process.env;
 
 const supabase =
@@ -32,51 +49,30 @@ const supabase =
 
 const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
-const escapeHtml = (value: unknown) =>
-  String(value ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+/** Where studio notifications land. */
+const TEAM_INBOX = cleanEnv(LEAD_NOTIFICATION_EMAIL) ?? site.email;
+/** Must be an address on a domain verified in Resend. */
+const FROM = cleanEnv(LEAD_FROM_EMAIL) ?? `${site.name} <onboarding@resend.dev>`;
+/** Where a customer's reply to the confirmation goes. */
+const REPLY_TO = cleanEnv(LEAD_REPLY_TO) ?? site.email;
 
-function renderEmail(submission: Submission) {
-  const rows = Object.entries(submission.payload)
-    .filter(([, v]) => v !== undefined && v !== null && v !== '')
-    .map(
-      ([key, value]) => `
-        <tr>
-          <td style="padding:6px 16px 6px 0;color:#8A8A8A;font-size:13px;vertical-align:top;white-space:nowrap">${escapeHtml(
-            key
-          )}</td>
-          <td style="padding:6px 0;color:#1C1C1C;font-size:14px">${escapeHtml(
-            typeof value === 'object' ? JSON.stringify(value, null, 2) : value
-          ).replace(/\n/g, '<br>')}</td>
-        </tr>`
-    )
-    .join('');
-
-  return `
-    <div style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:640px">
-      <p style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#C9A96E;margin:0 0 4px">
-        ${escapeHtml(site.name)}
-      </p>
-      <h1 style="font-size:20px;color:#1C1C1C;margin:0 0 20px">${escapeHtml(
-        submission.summary
-      )}</h1>
-      <table style="border-collapse:collapse;width:100%">${rows}</table>
-      <p style="margin-top:24px;font-size:12px;color:#8A8A8A">
-        Submitted ${new Date().toUTCString()}
-      </p>
-    </div>`;
-}
+const SUBJECTS: Record<SubmissionType, string> = {
+  order: `Your order — ${site.name}`,
+  call_request: `We'll call you back — ${site.name}`,
+  custom_request: `Your bespoke request — ${site.name}`,
+  partnership: `Your partnership enquiry — ${site.name}`,
+  drop_hint: `Your hint is on its way — ${site.name}`,
+};
 
 /**
- * Persists a submission and notifies the team.
+ * Persists a submission and sends the two emails it generates.
  *
- * The database write and the email are independent: a failure in one must not
- * swallow the other, or a lead disappears silently. We throw only if *every*
- * configured channel failed, so the customer sees an error exactly when
- * nobody received their request.
+ * The channels are independent on purpose. The studio notification is the one
+ * that must not be lost, so:
+ *   - a database failure never blocks the email, and vice versa;
+ *   - the customer confirmation is best-effort — failing to reassure someone
+ *     is not a reason to tell them their order did not go through;
+ *   - we only throw when nothing at all reached the studio.
  */
 export async function recordSubmission(submission: Submission): Promise<void> {
   const attempted: string[] = [];
@@ -100,17 +96,30 @@ export async function recordSubmission(submission: Submission): Promise<void> {
   if (resend) {
     attempted.push('email');
     try {
-      const { error } = await resend.emails.send({
-        from: LEAD_FROM_EMAIL ?? `${site.name} <onboarding@resend.dev>`,
-        to: LEAD_NOTIFICATION_EMAIL ?? site.email,
+      const html = teamEmail({
+        summary: submission.summary,
+        type: submission.type,
+        payload: submission.payload,
         replyTo: submission.email,
+        phone: submission.phone,
+      });
+
+      const { error } = await resend.emails.send({
+        from: FROM,
+        to: TEAM_INBOX,
+        // Replying in the inbox answers the customer directly.
+        replyTo: submission.email ?? REPLY_TO,
         subject: `${submission.summary} — ${site.name}`,
-        html: renderEmail(submission),
+        html,
+        text: toPlainText(html),
       });
       if (error) throw new Error(error.message);
     } catch (error) {
       failures.push('email');
-      console.error('[submissions] Resend send failed:', error);
+      console.error(
+        `[submissions] studio notification failed (from=${JSON.stringify(FROM)} to=${JSON.stringify(TEAM_INBOX)}):`,
+        error
+      );
     }
   }
 
@@ -129,5 +138,38 @@ export async function recordSubmission(submission: Submission): Promise<void> {
 
   if (failures.length === attempted.length) {
     throw new Error(`All delivery channels failed: ${failures.join(', ')}`);
+  }
+
+  // Best-effort, and deliberately after the throw check above: the customer is
+  // told their request went through only once the studio actually has it.
+  await sendCustomerConfirmation(submission);
+}
+
+async function sendCustomerConfirmation(submission: Submission): Promise<void> {
+  if (!resend || !submission.email) return;
+
+  try {
+    const html = customerEmail({
+      type: submission.type,
+      name: submission.name,
+      payload: submission.payload,
+      summaryKeys: submission.customerSummaryKeys,
+    });
+
+    const { error } = await resend.emails.send({
+      from: FROM,
+      to: submission.email,
+      replyTo: REPLY_TO,
+      subject: SUBJECTS[submission.type],
+      html,
+      text: toPlainText(html),
+    });
+    if (error) throw new Error(error.message);
+  } catch (error) {
+    // Never surfaced to the customer: the studio already has the request.
+    console.error(
+      `[submissions] customer confirmation failed (from=${JSON.stringify(FROM)} to=${JSON.stringify(submission.email)}):`,
+      error
+    );
   }
 }
