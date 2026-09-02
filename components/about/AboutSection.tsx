@@ -109,7 +109,7 @@ export default function AboutSection() {
           className="site-container flex flex-col items-center text-center gap-6"
         >
           <motion.p variants={fadeUp} className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E]">
-            Partnerships
+            Luxury Events &amp; Picnics
           </motion.p>
 
           <motion.h2
@@ -117,21 +117,19 @@ export default function AboutSection() {
             className="font-serif leading-[1.1]"
             style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', fontWeight: 400 }}
           >
-            Partner with Mother of Flower
+            Bespoke Pop-Up Experiences in Las Vegas
           </motion.h2>
 
           <motion.p variants={fadeUp} className="text-[15px] font-medium leading-[1.8] text-[#333333] max-w-[560px]">
-            Hotels, resorts, restaurants, event planners and design studios across
-            Las Vegas work with us on preferred terms, with a dedicated floral
-            concierge and same-day support.
+            From breathtaking lakeside escapes at Lake Mead to sunset golden hour setups overlooking the Las Vegas Strip, we craft unforgettable luxury picnics, proposals, and celebrations with full-service styling and florals.
           </motion.p>
 
           <motion.div variants={fadeUp} className="pt-2">
             <Link
-              href="/partnerships"
+              href="/events"
               className="inline-flex items-center justify-center bg-[#1C1C1C] text-[#FDFDFD] text-[13px] font-bold uppercase tracking-[0.04em] px-12 py-[18px] rounded-[2px] no-underline hover:bg-[#C9A96E] focus-visible:bg-[#C9A96E] transition-colors duration-300"
             >
-              Become a Partner →
+              Explore Event Packages →
             </Link>
           </motion.div>
         </motion.div>

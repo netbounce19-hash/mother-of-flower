@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
     return [
       // The page used to live at a Russian transliteration on an all-English
       // site; the old URL has been shared with hotels and planners.
-      // statusCode 301 rather than `permanent: true`, which emits 308.
-      { source: '/sotrud', destination: '/partnerships', statusCode: 301 },
+      { source: '/sotrud', destination: '/events', statusCode: 301 },
+      { source: '/partnerships', destination: '/events', statusCode: 301 },
     ];
   },
   images: {

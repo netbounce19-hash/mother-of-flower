@@ -33,7 +33,7 @@ export default function Footer() {
             {[
               { label: 'Collections', href: '/catalog' },
               { label: 'Occasions', href: '/#occasions' },
-              { label: 'Partnerships', href: '/partnerships' },
+              { label: 'Events & Picnics', href: '/events' },
               { label: 'How to Order', href: '/contact#how-to-order' },
               { label: 'Delivery & Returns', href: '/contact#delivery' },
             ].map((item) => (

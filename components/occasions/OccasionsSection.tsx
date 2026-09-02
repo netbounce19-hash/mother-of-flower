@@ -171,11 +171,11 @@ const occasions: Occasion[] = [
     href: '/catalog',
   },
   {
-    title: 'Corporate',
-    subtitle: 'Galas & Hotel Styling',
-    text: 'Lobby installations, gala styling, and recurring floral arrangements for executive venues.',
+    title: 'Corporate & Events',
+    subtitle: 'Galas & Pop-Up Styling',
+    text: 'Lobby installations, luxury pop-up picnics, gala styling, and recurring floral arrangements.',
     symbol: <CorporateSymbol />,
-    href: '/partnerships',
+    href: '/events',
   },
   {
     title: 'Sympathy',
