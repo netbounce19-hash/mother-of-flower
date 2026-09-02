@@ -13,7 +13,7 @@ const FAQS: FaqItem[] = [
   {
     question: 'What is included in each picnic package?',
     answer:
-      'Every package comes complete with handcrafted low wooden picnic tables, fine rugs, premium floor cushions, complete luxury tableware, glassware, cloth napkins, candles/lanterns, and fresh floral artistry by Mother of Flower. Delivery, full on-site setup before your arrival, and complete teardown afterward are always included.',
+      'Every package comes complete with handcrafted low wooden picnic tables, fine rugs, premium floor cushions, complete tableware, glassware, cloth napkins, candles/lanterns, and fresh floral artistry by Mother of Flower. Delivery, full on-site setup before your arrival, and complete teardown afterward are always included.',
   },
   {
     question: 'How do location selection & permits work?',

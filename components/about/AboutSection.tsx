@@ -109,7 +109,7 @@ export default function AboutSection() {
           className="site-container flex flex-col items-center text-center gap-6"
         >
           <motion.p variants={fadeUp} className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#8A6A2E]">
-            Luxury Events &amp; Picnics
+            Events &amp; Pop-Up Picnics
           </motion.p>
 
           <motion.h2
@@ -121,7 +121,7 @@ export default function AboutSection() {
           </motion.h2>
 
           <motion.p variants={fadeUp} className="text-[15px] font-medium leading-[1.8] text-[#333333] max-w-[560px]">
-            From breathtaking lakeside escapes at Lake Mead to sunset golden hour setups overlooking the Las Vegas Strip, we craft unforgettable luxury picnics, proposals, and celebrations with full-service styling and florals.
+            From breathtaking lakeside escapes at Lake Mead to sunset golden hour setups overlooking the Las Vegas Strip, we craft unforgettable pop-up picnics, proposals, and celebrations with full-service styling and florals.
           </motion.p>
 
           <motion.div variants={fadeUp} className="pt-2">

@@ -26,15 +26,15 @@ interface EventBookingModalProps {
 const PACKAGES: PackageDetails[] = [
   { id: 'essential', name: 'Essential Picnic', price: 850, guests: 'Up to 4 guests' },
   { id: 'signature', name: 'Signature Picnic', price: 1250, guests: 'Up to 6 guests' },
-  { id: 'luxury', name: 'Luxury Picnic', price: 1650, guests: 'Up to 8 guests' },
+  { id: 'grand', name: 'Grand Picnic', price: 1650, guests: 'Up to 8 guests' },
   { id: 'bespoke', name: 'Custom Bespoke Event', price: 0, guests: '8+ guests / Tailored' },
 ];
 
 const LOCATIONS = [
   'Lakeside Escape (Lake Mead • Boulder City)',
   'Sunset Strip Lawn (Las Vegas • Golden Hour)',
-  'Red Rock Canyon Vista (Scenic Reserve)',
-  'Private Residence / Luxury Suite',
+  'Private Residence / Suite',
+  'Scenic Lookout / Desert Vista',
   'Undecided / Open to Recommendations',
 ];
 
@@ -287,10 +287,10 @@ export default function EventBookingModal({
                 {/* Add-on Badges Quick Note */}
                 <div className="bg-[#FAF8F4] p-3.5 rounded-[2px] border border-[#E5E2DB] text-[12px] text-[#555555] flex flex-col gap-1.5">
                   <div className="font-bold text-[#1C1C1C] flex items-center gap-1.5 uppercase tracking-wide text-[11px]">
-                    <span className="text-[#C9A96E]">✦</span> Available Add-ons:
+                    <span className="text-[#8A6A2E]">✦</span> Available Add-ons:
                   </div>
                   <p className="leading-relaxed">
-                    Custom floral arches · Charcuterie &amp; gourmet food · Artisanal cakes · Custom neon or acrylic signage.
+                    Custom floral arches · Charcuterie &amp; gourmet food · Artisanal cakes · Custom signage &amp; stationery.
                   </p>
                 </div>
 
@@ -304,7 +304,7 @@ export default function EventBookingModal({
                 <div className="pt-2">
                   <SubmitButton
                     pendingLabel="Reserving Experience…"
-                    className="w-full py-4 bg-[#1C1C1C] text-[#FDFDFD] text-[13px] font-bold uppercase tracking-[0.06em] rounded-[2px] hover:bg-[#C9A96E] hover:text-[#1C1C1C] transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full py-4 bg-[#1C1C1C] text-[#FDFDFD] text-[13px] font-bold uppercase tracking-[0.06em] rounded-[2px] hover:bg-[#8A6A2E] transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <Phone size={14} />
                     {mode === 'call' ? 'Request Immediate Callback' : 'Confirm Booking Request'}
@@ -321,14 +321,14 @@ export default function EventBookingModal({
                 animate={{ opacity: 1, scale: 1 }}
                 className="py-12 px-4 flex flex-col items-center text-center gap-4"
               >
-                <div className="w-16 h-16 rounded-full bg-[#FAF8F4] border border-[#C9A96E]/40 flex items-center justify-center text-[26px]">
+                <div className="w-16 h-16 rounded-full bg-[#FAF8F4] border border-[#8A6A2E]/40 flex items-center justify-center text-[26px]">
                   ✨
                 </div>
                 <h4 className="font-serif text-[26px] font-medium text-[#1C1C1C]">
                   Booking Request Received
                 </h4>
                 <p className="text-[14px] text-[#555555] max-w-sm leading-relaxed">
-                  Thank you for choosing Mother of Flower. Our master event stylist will reach out to you shortly to curate every detail of your luxury experience.
+                  Thank you for choosing Mother of Flower. Our master event stylist will reach out to you shortly to curate every detail of your celebration.
                 </p>
                 <div className="w-full max-w-xs bg-[#FAF8F4] border border-[#E5E2DB] p-4 rounded-[2px] text-left text-[12.5px] text-[#444444] mt-2">
                   <div className="font-bold text-[#1C1C1C] mb-1">Selected Package:</div>
@@ -337,7 +337,7 @@ export default function EventBookingModal({
                 </div>
                 <button
                   onClick={onClose}
-                  className="mt-4 px-8 py-3 bg-[#1C1C1C] text-[#FDFDFD] text-[12px] font-bold uppercase tracking-wider rounded-[2px] hover:bg-[#C9A96E] hover:text-[#1C1C1C] transition-colors cursor-pointer"
+                  className="mt-4 px-8 py-3 bg-[#1C1C1C] text-[#FDFDFD] text-[12px] font-bold uppercase tracking-wider rounded-[2px] hover:bg-[#8A6A2E] transition-colors cursor-pointer"
                 >
                   Close Window
                 </button>

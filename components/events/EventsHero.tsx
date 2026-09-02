@@ -11,31 +11,35 @@ interface EventsHeroProps {
 
 export default function EventsHero({ onOpenBooking, onOpenCall }: EventsHeroProps) {
   return (
-    <section className="relative w-full min-h-[75vh] md:min-h-[82vh] flex items-center justify-center bg-[#1C1C1C] overflow-hidden">
-      {/* Background image with cinematic dark overlay */}
-      <div className="absolute inset-0 z-0">
+    <section className="relative w-full min-h-[68vh] md:min-h-[75vh] flex items-center justify-center bg-[#FAF8F4] overflow-hidden border-b border-[#E5E2DB]">
+      {/* Light organic floral texture background */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-20 mix-blend-multiply">
         <Image
-          src="/images/events/hero.jpg"
-          alt="Luxury outdoor picnic event setup in Las Vegas"
+          src="/images/cream_cloud.webp"
+          alt=""
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center transform scale-105 transition-transform duration-10000 hover:scale-100"
+          className="object-cover object-center scale-110 filter blur-[1px]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1C1C1C] via-[#1C1C1C]/60 to-[#1C1C1C]/35" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F4]/80 via-[#FAF8F4]/40 to-[#FAF8F4]" />
       </div>
 
+      {/* Subtle organic floral radial glow */}
+      <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#EAE3D2]/50 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-[#F2ECE1]/60 blur-3xl pointer-events-none" />
+
       {/* Hero Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 py-20 text-center flex flex-col items-center gap-6">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 py-20 text-center flex flex-col items-center gap-6">
         {/* Subtitle Badge */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="flex items-center gap-3"
+          className="flex items-center gap-2"
         >
-          <span className="text-[#C9A96E] text-[12px] md:text-[13px] uppercase tracking-[0.28em] font-semibold flex items-center gap-2">
-            <Sparkles size={14} className="text-[#C9A96E]" />
+          <span className="text-[#8A6A2E] text-[12px] md:text-[13px] uppercase tracking-[0.28em] font-semibold flex items-center gap-2">
+            <Sparkles size={14} className="text-[#8A6A2E]" />
             Mother of Flower · Las Vegas
           </span>
         </motion.div>
@@ -45,9 +49,9 @@ export default function EventsHero({ onOpenBooking, onOpenCall }: EventsHeroProp
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="font-serif text-[#FDFDFD] text-[clamp(2.4rem,5.5vw,4.4rem)] font-normal leading-[1.08] tracking-tight max-w-4xl"
+          className="font-serif text-[#1C1C1C] text-[clamp(2.4rem,5.5vw,4.2rem)] font-normal leading-[1.1] tracking-tight max-w-3xl"
         >
-          Luxury Pop-Up Picnics &amp; Bespoke Events
+          Pop-Up Picnics &amp; Bespoke Events
         </motion.h1>
 
         {/* Description */}
@@ -55,9 +59,9 @@ export default function EventsHero({ onOpenBooking, onOpenCall }: EventsHeroProp
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          className="text-[#E5E2DB] text-[15px] md:text-[17px] font-normal leading-relaxed max-w-2xl text-balance"
+          className="text-[#555555] text-[15px] md:text-[17px] font-normal leading-relaxed max-w-2xl text-balance"
         >
-          Signature luxury picnic setups for proposals, birthdays, anniversaries, and corporate celebrations at iconic scenic locations across Las Vegas &amp; Lake Mead.
+          Curated outdoor picnic experiences for proposals, birthdays, anniversaries, and intimate celebrations across scenic locations in Las Vegas &amp; Lake Mead.
         </motion.p>
 
         {/* Action Buttons */}
@@ -65,18 +69,18 @@ export default function EventsHero({ onOpenBooking, onOpenCall }: EventsHeroProp
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col sm:flex-row items-center gap-4 mt-4 w-full sm:w-auto"
+          className="flex flex-col sm:flex-row items-center gap-4 mt-3 w-full sm:w-auto"
         >
           <a
             href="#packages"
-            className="w-full sm:w-auto px-9 py-4 bg-[#C9A96E] text-[#1C1C1C] text-[13px] font-bold uppercase tracking-[0.1em] rounded-[2px] hover:bg-[#FDFDFD] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg no-underline"
+            className="w-full sm:w-auto px-9 py-4 bg-[#1C1C1C] text-[#FDFDFD] text-[13px] font-bold uppercase tracking-[0.08em] rounded-[2px] hover:bg-[#8A6A2E] transition-all duration-300 flex items-center justify-center gap-2 shadow-sm no-underline"
           >
             <Calendar size={15} />
             Explore Packages
           </a>
           <button
             onClick={onOpenCall}
-            className="w-full sm:w-auto px-8 py-4 bg-transparent border border-[#FDFDFD]/80 text-[#FDFDFD] text-[13px] font-bold uppercase tracking-[0.1em] rounded-[2px] hover:bg-[#FDFDFD] hover:text-[#1C1C1C] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto px-8 py-4 bg-transparent border border-[#1C1C1C] text-[#1C1C1C] text-[13px] font-bold uppercase tracking-[0.08em] rounded-[2px] hover:bg-[#1C1C1C] hover:text-[#FDFDFD] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
           >
             <Phone size={15} />
             Request Callback
@@ -88,19 +92,19 @@ export default function EventsHero({ onOpenBooking, onOpenCall }: EventsHeroProp
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.55 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 pt-10 mt-6 border-t border-white/15 w-full text-left"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 pt-8 mt-6 border-t border-[#E5E2DB] w-full text-left"
         >
           {[
-            { label: 'Iconic Locations', desc: 'Lake Mead, Strip View, Private Suites' },
-            { label: 'Full Luxury Styling', desc: 'Rugs, cushions, glassware & candlelight' },
+            { label: 'Scenic Locations', desc: 'Lake Mead, Sunset Strip & Private Estates' },
+            { label: 'Artisanal Styling', desc: 'Rugs, cushions, glassware & candlelight' },
             { label: 'Signature Florals', desc: 'Handcrafted fresh floral artistry' },
             { label: 'Turnkey Service', desc: 'Delivery, full setup & discreet cleanup' },
           ].map((item, idx) => (
             <div key={idx} className="flex flex-col gap-0.5">
-              <span className="text-[#C9A96E] text-[12px] font-bold uppercase tracking-wider">
+              <span className="text-[#8A6A2E] text-[12px] font-bold uppercase tracking-wider">
                 {item.label}
               </span>
-              <span className="text-[#C5C2BA] text-[12px] leading-snug">
+              <span className="text-[#666666] text-[12px] leading-snug">
                 {item.desc}
               </span>
             </div>

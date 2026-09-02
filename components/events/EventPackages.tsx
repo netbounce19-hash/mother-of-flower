@@ -1,9 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import Image from 'next/image';
-import { Check, Users, Sparkles, Phone, Calendar, MapPin, ArrowRight } from 'lucide-react';
+import { Check, Users, Sparkles, Phone, Calendar, ArrowRight } from 'lucide-react';
 import { PackageDetails } from './EventBookingModal';
 
 interface EventPackagesProps {
@@ -44,7 +43,7 @@ const PACKAGES: PackageCardData[] = [
     features: [
       'Low picnic table setup',
       'Rug + floor cushions styling',
-      'Basic luxury place settings',
+      'Basic place settings',
       'Candles + simple ambient styling',
       'Small seasonal floral accent',
       'Delivery, setup + cleanup included',
@@ -62,55 +61,35 @@ const PACKAGES: PackageCardData[] = [
     features: [
       'Extended low-table setup',
       'Layered rugs + premium cushions',
-      'Full place settings + crystal glassware',
+      'Full place settings + glassware',
       'Candles + elevated tablescape styling',
       'Signature floral centerpiece arrangement',
       'Delivery, setup + cleanup included',
     ],
   },
   {
-    id: 'luxury',
-    name: 'Luxury Picnic',
+    id: 'grand',
+    name: 'Grand Picnic',
     price: 1650,
     guests: 'Up to 8 guests',
     tagline: 'The ultimate grand pop-up experience with statement floral design',
     image: '/images/events/luxury.jpg',
-    idealFor: 'Grand proposals, milestone birthdays, VIP celebrations',
+    idealFor: 'Grand proposals, milestone birthdays, celebrations',
     features: [
-      'Large luxury picnic setup with expanded seating',
-      'Premium designer rugs + abundant cushions',
-      'Full luxury tableware + fine glassware',
-      'Layered candlelight + dramatic styling',
+      'Large picnic setup with expanded seating',
+      'Premium rugs + abundant cushions',
+      'Full tableware + fine glassware',
+      'Layered candlelight + ambient styling',
       'Statement floral design centerpiece & accents',
       'Delivery, setup + cleanup included',
     ],
   },
 ];
 
-const LOCATIONS = [
-  {
-    name: 'Lakeside Escape',
-    area: 'Lake Mead · Boulder City',
-    description: 'Serene shoreline setting with panoramic lake and desert mountain vistas at sunset.',
-  },
-  {
-    name: 'Sunset Strip Lawn',
-    area: 'Las Vegas · Golden Hour',
-    description: 'Overlooking the glowing Las Vegas skyline as the sun sets and the city lights ignite.',
-  },
-  {
-    name: 'Private Location / Residence',
-    area: 'Las Vegas, Henderson & Summerlin',
-    description: 'Bespoke setup at your private backyard, luxury villa, or hotel terrace suite.',
-  },
-];
-
 export default function EventPackages({ onSelectPackage }: EventPackagesProps) {
-  const [selectedLocation, setSelectedLocation] = useState(0);
-
   return (
     <section id="packages" className="w-full bg-[#FAF8F4] site-section">
-      <div className="site-container flex flex-col gap-16">
+      <div className="site-container flex flex-col gap-14">
         
         {/* Section Title Header */}
         <motion.div
@@ -129,54 +108,12 @@ export default function EventPackages({ onSelectPackage }: EventPackagesProps) {
             variants={fadeUp}
             className="font-serif text-[clamp(2.2rem,4vw,3.4rem)] font-normal leading-[1.1] text-[#1C1C1C]"
           >
-            Luxury Picnic Packages
+            Curated Picnic Packages
           </motion.h2>
           <motion.p variants={fadeUp} className="text-[#666666] text-[15px] leading-relaxed font-normal">
-            Choose your signature tier below. Each package is tailored to perfection with bespoke tableware, 
-            luxurious comfort, and handcrafted fresh florals by Mother of Flower.
+            Choose your signature tier below. Each package is tailored with bespoke tableware, 
+            cozy comfort, and handcrafted fresh florals by Mother of Flower.
           </motion.p>
-        </motion.div>
-
-        {/* Location Spotlights Picker */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-          variants={fadeUp}
-          className="bg-[#FDFDFD] border border-[#E5E2DB] p-5 md:p-6 rounded-[3px] shadow-sm flex flex-col md:flex-row items-center justify-between gap-6"
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#FAF8F4] border border-[#E5E2DB] flex items-center justify-center text-[#8A6A2E] flex-shrink-0">
-              <MapPin size={18} />
-            </div>
-            <div>
-              <div className="text-[11px] font-bold uppercase tracking-wider text-[#8A6A2E]">
-                Featured Backdrops
-              </div>
-              <div className="text-[14px] font-bold text-[#1C1C1C]">
-                {LOCATIONS[selectedLocation].name} —{' '}
-                <span className="font-normal text-[#666666]">
-                  {LOCATIONS[selectedLocation].area}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-2 w-full md:w-auto">
-            {LOCATIONS.map((loc, idx) => (
-              <button
-                key={loc.name}
-                onClick={() => setSelectedLocation(idx)}
-                className={`px-3.5 py-2 text-[12px] font-bold tracking-wide rounded-[2px] transition-all cursor-pointer ${
-                  selectedLocation === idx
-                    ? 'bg-[#1C1C1C] text-[#FDFDFD]'
-                    : 'bg-[#FAF8F4] text-[#555555] hover:bg-[#EAE6DF]'
-                }`}
-              >
-                {loc.name}
-              </button>
-            ))}
-          </div>
         </motion.div>
 
         {/* Packages 3-Card Grid */}
@@ -281,8 +218,8 @@ export default function EventPackages({ onSelectPackage }: EventPackagesProps) {
                       onClick={() => onSelectPackage(pkgDetails, 'booking')}
                       className={`w-full py-3.5 text-[12px] font-bold uppercase tracking-[0.1em] rounded-[2px] transition-all flex items-center justify-center gap-2 cursor-pointer ${
                         pkg.popular
-                          ? 'bg-[#1C1C1C] text-[#FDFDFD] hover:bg-[#C9A96E] hover:text-[#1C1C1C]'
-                          : 'bg-[#1C1C1C] text-[#FDFDFD] hover:bg-[#C9A96E]'
+                          ? 'bg-[#1C1C1C] text-[#FDFDFD] hover:bg-[#8A6A2E]'
+                          : 'bg-[#1C1C1C] text-[#FDFDFD] hover:bg-[#8A6A2E]'
                       }`}
                     >
                       <Calendar size={13} />
@@ -314,7 +251,7 @@ export default function EventPackages({ onSelectPackage }: EventPackagesProps) {
         >
           <div className="flex flex-col gap-2 max-w-2xl">
             <div className="flex items-center gap-2">
-              <span className="text-[#C9A96E] font-bold">✦</span>
+              <span className="text-[#8A6A2E] font-bold">✦</span>
               <h4 className="font-sans text-[15px] font-bold uppercase tracking-wider text-[#1C1C1C]">
                 Custom Florals, Food &amp; Bespoke Add-Ons Available
               </h4>
@@ -330,7 +267,7 @@ export default function EventPackages({ onSelectPackage }: EventPackagesProps) {
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto flex-shrink-0">
             <a
               href="#event-inquiry"
-              className="px-8 py-4 bg-[#1C1C1C] text-[#FDFDFD] text-[12px] font-bold uppercase tracking-[0.1em] rounded-[2px] hover:bg-[#C9A96E] hover:text-[#1C1C1C] transition-all text-center no-underline flex items-center justify-center gap-2"
+              className="px-8 py-4 bg-[#1C1C1C] text-[#FDFDFD] text-[12px] font-bold uppercase tracking-[0.1em] rounded-[2px] hover:bg-[#8A6A2E] transition-all text-center no-underline flex items-center justify-center gap-2"
             >
               Custom Event Quote
               <ArrowRight size={13} />

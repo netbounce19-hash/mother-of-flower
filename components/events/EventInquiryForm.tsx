@@ -136,7 +136,7 @@ export default function EventInquiryForm() {
                     >
                       <option value="Essential Picnic ($850)">Essential Picnic ($850)</option>
                       <option value="Signature Picnic ($1,250)">Signature Picnic ($1,250)</option>
-                      <option value="Luxury Picnic ($1,650)">Luxury Picnic ($1,650)</option>
+                      <option value="Grand Picnic ($1,650)">Grand Picnic ($1,650)</option>
                       <option value="Marriage Proposal Package">Marriage Proposal Package</option>
                       <option value="Corporate Event / Hotel Styling">Corporate Event / Hotel Styling</option>
                       <option value="Private Dinner / Bespoke Celebration">Private Dinner / Bespoke Celebration</option>
