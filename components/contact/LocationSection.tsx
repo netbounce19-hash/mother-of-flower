@@ -1,7 +1,58 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { site } from '@/lib/site';
+
+const MAP_SRC =
+  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3226.7905878466657!2d-115.02534572412854!3d36.02517887247781!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c8d11c80f4886f%3A0xcb06526fc1ff725!2s7710%20Eastgate%20Rd%2C%20Henderson%2C%20NV%2089011!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus';
+
+/**
+ * The Google embed pulls roughly 170 KB from four third-party domains. It sits
+ * at the foot of the homepage, so almost nobody has scrolled to it by the time
+ * it loads — `loading="lazy"` alone was not enough, because the browser's own
+ * heuristic starts fetching well before the frame is near the viewport.
+ */
+function LazyMap() {
+  const holderRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const holder = holderRef.current;
+    if (!holder || visible) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      // A little ahead of the fold, so the map is ready as it comes into view.
+      { rootMargin: '200px' }
+    );
+    observer.observe(holder);
+    return () => observer.disconnect();
+  }, [visible]);
+
+  return (
+    <div ref={holderRef} className="absolute inset-0 bg-[#F7F5F2]">
+      {visible && (
+        <iframe
+          src={MAP_SRC}
+          title={`Map showing ${site.name} at ${site.address.full}`}
+          width="100%"
+          height="100%"
+          style={{ border: 0 }}
+          allowFullScreen={false}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          className="absolute inset-0 w-full h-full grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
+        />
+      )}
+    </div>
+  );
+}
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -79,16 +130,7 @@ export default function LocationSection() {
               variants={fadeUp}
               className="w-full h-[320px] lg:h-[400px] relative"
             >
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3226.7905878466657!2d-115.02534572412854!3d36.02517887247781!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c8d11c80f4886f%3A0xcb06526fc1ff725!2s7710%20Eastgate%20Rd%2C%20Henderson%2C%20NV%2089011!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="absolute inset-0 w-full h-full grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
-              />
+              <LazyMap />
             </motion.div>
 
           </div>

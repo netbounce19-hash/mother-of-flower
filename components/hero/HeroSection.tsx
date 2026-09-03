@@ -11,15 +11,37 @@ export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const reducedMotion = usePrefersReducedMotion();
 
+  // Once the visitor works the button, the automatic rules stop overriding
+  // them — otherwise any re-run of the effect below pauses what they started.
+  const userControlled = useRef(false);
+
   const [isPlaying, setIsPlaying] = useState(true);
   const [videoLoaded, setVideoLoaded] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || userControlled.current) return;
 
-    if (reducedMotion) {
+    // Four megabytes is a lot to spend on decoration for someone on a slow
+    // connection or a metered plan. They get the poster and the play button.
+    const connection = (
+      navigator as Navigator & {
+        connection?: { saveData?: boolean; effectiveType?: string; downlink?: number };
+      }
+    ).connection;
+    // `effectiveType` is coarse — Chrome reports "3g" for links that stream this
+    // clip perfectly well — so the estimated bandwidth is the better signal.
+    // Below 2 Mbps a 1.2 Mbps encode buffers, and nobody wants a stuttering
+    // background loop.
+    const frugal =
+      connection?.saveData === true ||
+      ['slow-2g', '2g'].includes(connection?.effectiveType ?? '') ||
+      (typeof connection?.downlink === 'number' && connection.downlink < 2);
+
+    if (reducedMotion || frugal) {
       video.pause();
+      // Nothing beyond the poster gets fetched until the visitor asks for it.
+      video.preload = 'none';
       // Reflecting the real playback state is the point of this effect; the
       // rule fires on any setState inside one, but there is no render-time
       // value to derive this from.
@@ -34,8 +56,12 @@ export default function HeroSection() {
   const togglePlay = () => {
     const video = videoRef.current;
     if (!video) return;
+    userControlled.current = true;
 
     if (video.paused) {
+      // play() starts the fetch on its own; calling load() first would reset
+      // the element and abort the play we are about to request.
+      if (video.preload === 'none') video.preload = 'metadata';
       video.play().then(() => setIsPlaying(true)).catch(() => {});
     } else {
       video.pause();
@@ -175,13 +201,15 @@ export default function HeroSection() {
                       loop
                       muted
                       playsInline
-                      preload="auto"
+                      // The poster carries the first paint; the clip itself is
+                      // decoration, so it must not compete with the page for
+                      // bandwidth. "metadata" lets the browser decide when.
+                      preload="metadata"
                       poster="/images/hero-1.webp"
                       onLoadedData={() => setVideoLoaded(true)}
                       className="absolute inset-0 w-full h-full object-cover"
                     >
-                      <source src="/videos/hero.mp4" type="video/mp4" />
-                      <source src="/videos/about-reel.mov" type="video/quicktime" />
+                      <source src="/videos/hero-720p.mp4" type="video/mp4" />
                     </video>
 
                     {/* Top Floating Video Controls */}

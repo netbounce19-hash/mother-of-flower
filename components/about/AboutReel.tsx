@@ -6,15 +6,14 @@ import { Play } from 'lucide-react';
 import { usePrefersReducedMotion } from '@/hooks/useMediaPreferences';
 
 /*
- * TODO(media): `about-reel.mov` is a 6.7 MB QuickTime file, which Firefox will
- * not play at all. Re-encode to H.264 MP4 (~1.5 MB) plus a WebM track and drop
- * the sources in below:
- *   ffmpeg -i about-reel.mov -vcodec libx264 -crf 26 -preset slow -movflags +faststart -an about-reel.mp4
- *   ffmpeg -i about-reel.mov -c:v libvpx-vp9 -crf 34 -b:v 0 -an about-reel.webm
- * The poster is currently a still from the product photography, not a frame of
- * the video — replace it when re-encoding.
+ * H.264 MP4, which every browser can decode — the original was HEVC in a .mov
+ * container, which Firefox refuses outright and Chrome only plays on some
+ * platforms. Re-encode with `npm run video:compress` after replacing the source.
+ *
+ * TODO(media): the poster is a still from the product photography rather than a
+ * frame of the clip, so there is a visible jump when playback starts.
  */
-const SOURCES = [{ src: '/videos/about-reel.mov', type: 'video/quicktime' }];
+const SOURCES = [{ src: '/videos/about-reel-720p.mp4', type: 'video/mp4' }];
 const POSTER = '/videos/about-reel-poster.webp';
 
 export default function AboutReel() {

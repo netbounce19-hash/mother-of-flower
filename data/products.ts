@@ -38,7 +38,7 @@ export const products: Product[] = [
     boxColors: ['Blush Pink', 'Warm White'],
     featured: true,
     aspectClass: 'standard',
-    hoverVideo: '/videos/vanilla-blush-hover.mp4',
+    hoverVideo: '/videos/vanilla-blush-hover-540p.mp4',
   },
   {
     id: 'p003',

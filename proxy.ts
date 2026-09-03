@@ -21,7 +21,12 @@ export function proxy(request: NextRequest) {
 
   // Long-lived caching for the static video assets in /public, which Next
   // otherwise serves with `max-age=0, must-revalidate` and revalidates on
-  // every visit. They are immutable in practice — a new cut gets a new name.
+  // every visit.
+  //
+  // IMPORTANT: `immutable` means a browser will not re-check the file for a
+  // year, so a new cut MUST get a new filename. Overwriting a video in place
+  // leaves every returning visitor on the old one — that is exactly what
+  // happened when hero.mp4 was re-encoded, hence the -720p suffixes.
   if (request.nextUrl.pathname.startsWith('/videos/')) {
     response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
   }

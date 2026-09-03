@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "email:preview": "node --experimental-strip-types scripts/run-with-resolver.mjs scripts/check-email.mjs",
-    "square:check": "node --experimental-strip-types scripts/run-with-resolver.mjs scripts/check-square.mjs"
+    "square:check": "node --experimental-strip-types scripts/run-with-resolver.mjs scripts/check-square.mjs",
+    "video:compress": "swift scripts/compress-video.swift"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.0",
